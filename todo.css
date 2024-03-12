@@ -1,0 +1,252 @@
+@import url('https://fonts.googleapis.com/css2?family=Croissant+One&display=swap');
+
+body {
+    padding: 10px;
+    background-color: #000014;
+    width: 100%;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    overflow-y:auto;
+    color: #c2c5ff;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: rgba(255, 217, 0, 0.61);
+    font-family: 'Croissant One', cursive;
+    font-size: 5vw;
+}
+
+#inputbox {
+    border-radius: 5px;
+    padding-top: 10px;
+    padding: 25px;
+    text-align: center;
+}
+
+
+#todoList {
+    padding-bottom: 15vw;
+    padding-top: 5px;
+    border-radius: 5px;
+}
+
+.output {
+    margin: auto;
+    width: 90%;
+    max-height: 400px;
+    /* Set a maximum height for scrolling */
+    height: auto;
+    background-color: #00006e;
+    padding: 5px;
+    border-radius: 10px;
+    box-shadow: 1px 1px 5px 1px #1b37b4;
+    overflow-y: auto;
+    /* Enable vertical scrolling */
+}
+
+.taskHeader {
+    text-align: center;
+    color: #75c7f7;
+    font-size: 1.5vw;
+}
+
+#delbtn {
+    color: white;
+    background-color: red;
+    border-radius: 5px;
+}
+
+#delbtn:hover {
+    background-color: blue;
+}
+
+#sLett {
+    color: blue;
+}
+
+.p1 {
+    text-align: center;
+    padding-bottom: 10px;
+    font-weight: 500;
+}
+
+#toDo {
+    border-radius: 10px;
+    border: none;
+    margin: auto;
+    width: 50%;
+    padding: 10px;
+}
+
+#toDo:focus {
+    outline: none;
+    /* This removes the default focus outline, you can customize it further if needed */
+    border: none;
+}
+
+#toDo:hover {
+    background-color: rgb(233, 240, 241);
+    font-weight: 400;
+}
+
+#smbtn {
+    color: white;
+    background-color: #5b5bf7bb;
+    border-radius: 7px;
+    padding: 5px;
+    border: 1px solid #6464f7bb;
+    margin: auto;
+    width: 100px;
+    cursor: pointer;
+}
+
+#smbtn:hover {
+    background-color: #5b5bf7fb;
+}
+
+#clearBox {
+    margin-left: 20px;
+    width: 100px;
+}
+
+#clear {
+    background-color: #5b5bf7bb;
+    border-radius: 7px;
+    border: 1px solid #6464f7bb;
+    text-align: left;
+    margin-left: 20px;
+    padding: 5px;
+    display: none;
+}
+
+
+#clear:hover {
+    background-color: rgb(58, 1, 1);
+}
+
+#probody {
+    text-align: justify;
+    font-size: 17px;
+}
+
+ul>li {
+    list-style: none;
+    padding: 3px;
+    font-size: 17px;
+
+}
+
+#inputs {
+    margin: auto;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    border: 1px solid #5b5bf7bb;
+    width: 95%;
+    text-align: center;
+    background-color: white;
+}
+
+input[type="checkbox"] {
+    cursor: pointer;
+}
+
+input[type="date"] {
+    border-radius: 10px;
+    border: none;
+    margin: auto;
+    padding: 10px;
+    width: fit-content;
+}
+
+input[type="date"]:focus {
+    outline: none;
+    /* This removes the default focus outline, you can customize it further if needed */
+    border: none;
+}
+
+li>button {
+    background-color: #6464faf3;
+    border-radius: 5px;
+    border: 1px solid #7171fcf3;
+    font-size: 15px;
+    color: #e2e4ff;
+    padding: 3px;
+    margin-left: 5px;
+}
+
+li>i {
+    font-size: 17px;
+}
+
+#completedHeader {
+    display: none;
+    text-align: center;
+}
+
+::-webkit-scrollbar {
+    width: 2px;
+}
+
+/* Style the scrollbar thumb (the draggable part) */
+::-webkit-scrollbar-thumb {
+    background: #3551f185;
+    /* Color of the scrollbar thumb */
+    border-radius: 3px;
+    /* Rounded corners of the thumb */
+}
+
+/* Style the scrollbar track when hovering over it */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+#completedList {
+    margin: auto;
+    margin-left: 40px;
+    width: 90%;
+}
+
+#completedList li{
+    list-style:none;
+    padding: 3px;
+}
+
+@media (max-width: 400px) {
+    #toDo {
+        width: 40%;
+    }
+
+    #inputs {
+        width: 98%;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+}
+
+@media only screen and (min-width: 1024px) {
+    .output {
+        min-width: 500px;
+        width: 40%;
+        padding: 50px 20px 50px 20px;
+        min-height: 250px;
+    }
+
+    h1 {
+        font-size: 30px;
+    }
+
+    #toDo {
+        width: 60%;
+    }
+
+    #inputs {
+        width: 40%;
+    }
+}

@@ -1,0 +1,172 @@
+@import url('https://fonts.googleapis.com/css2?family=Croissant+One&display=swap');
+
+body {
+    padding: 0;
+    margin: 0;
+    background-color: #000014;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+h1,
+h2,
+h3,
+h4 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: rgba(255, 217, 0, 0.61);
+    font-family: 'Croissant One', cursive;
+}
+
+h1 {
+    font-size: 5vw;
+}
+
+h4 {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.time-tracker-root {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    color: whitesmoke;
+    margin: auto;
+    width: 85%;
+    min-height: 500px;
+    margin-top: 0px;
+    background-color: #00006e;
+    padding: 5px 20px 10px 20px;
+    border-radius: 10px;
+    box-shadow: 1px 1px 5px 1px #1b37b4;
+}
+
+.container {
+    text-align: center;
+}
+
+
+#logList {
+    padding: 10px;
+}
+
+button {
+    background-color: transparent;
+    padding: 5px;
+    border-radius: 15px;
+    border: 1px solid #1411b6;
+    width: fit-content;
+    margin-bottom: 10px;
+    cursor: pointer;
+    color: #fff;
+    margin-bottom: 10px;
+}
+
+button:hover {
+    background-color: #1411b6;
+}
+
+input[type="text"] {
+    padding: 5px 10px;
+    background-color: #9a9aff;
+    border-radius: 15px;
+    border: 1px solid #9a9aff;
+    width: 90%;
+    margin-bottom: 10px;
+    margin-right: 10px;
+}
+
+input:focus {
+    outline: none;
+}
+
+input::placeholder {
+    color: #070707;
+}
+
+#logging {
+    font-size: 22px;
+}
+
+.log-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#log {
+    display: none;
+}
+
+#restMessage {
+    display: none;
+}
+
+#stop {
+    display: none;
+}
+
+.tracker {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+}
+
+
+.tracker>button {
+    margin-top: 10px;
+}
+
+table {
+    border-radius: 10px;
+    box-shadow: .5px 1px 5px 1px #1b37b4;
+    font-size: 14px;
+    padding: 3px;
+}
+
+thead {
+    box-shadow: .3px .6px .9px .6px #1b37b4;
+    text-align: left;
+    border-radius: 10px 10px 0 0;
+}
+
+th {
+    padding: 5px 3px;
+}
+
+td {
+    padding-right: 5px;
+}
+
+#clear {
+    text-align: center;
+}
+
+.taskId {
+    font-weight: 500;
+}
+
+@media only screen and (min-width: 1024px) {
+    .time-tracker-root {
+        min-width: 500px;
+        width: 60%;
+    }
+
+    h1 {
+        font-size: 30px;
+    }
+
+    input[type="text"] {
+        width: 300px;
+    }
+
+    #logList {
+        padding: 30px;
+    }
+
+    table {
+        font-size: 18px;
+    }
+
+}

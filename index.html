@@ -15,38 +15,20 @@
 <body>
     <h1>WorkStation</h1>
 
-    <div class="time-tracker-root">
+    <div class="workstation">
         <h4>Add a task and track your time to work efficiently</h4>
-        <div class="container">
+        <!-- <div class="container">
             <input type="text" id="taskName" placeholder="Enter task name"><br>
             <button onclick="startTracking()">Start</button>
-        </div>
+        </div> -->
+        
         <div class="tracker">
             <div id="logging"></div>
             <button id="stop" onclick="stopTracking()">Stop</button>
         </div>
-        <div class="log-container">
-            <div id="log">
-                <h2>Time Log</h2>
-                <table id="logTable">
-                    <thead>
-                        <tr>
-                            <th>Task</th>
-                            <th>Time Spent</th>
-                        </tr>
-                    </thead>
-                    <tbody id="logList"></tbody>
-                </table>
-                <p id="clear">
-                    <button onclick="clearLogs()">Clear Logs</button>
-                </p>
-            </div>
-        </div>
+        
         <div id="restMessage"></div>
-    </div>
     <div id="inputbox">
-        <h1 id="tHeader">TASK<span id='sLett'>N</span></h1>
-        <p class="p1">Organize Your Day</p>
         <div>
             <div id="inputs">
                 <input id="toDo" type="text" placeholder="Eg: Learn JavaScript" value="Learn JavaScript" required>
@@ -72,6 +54,25 @@
             <div id="clearBox"><button id="clear">Clear List</button></div>
         </div>
     </div>
+    
+    <div class="log-container">
+        <div id="log">
+            <h2>Time Log</h2>
+            <table id="logTable">
+                <thead>
+                    <tr>
+                        <th>Task</th>
+                        <th>Time Spent</th>
+                    </tr>
+                </thead>
+                <tbody id="logList"></tbody>
+            </table>
+            <p id="clear">
+                <button onclick="clearLogs()">Clear Logs</button>
+            </p>
+        </div>
+    </div>
+</div>
     <script src="./timeTracker.js"></script>
     <script src="./todo.js"></script>
 </body>

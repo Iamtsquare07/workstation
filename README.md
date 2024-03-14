@@ -1,3 +1,3 @@
-# Workstation v1.01
+# Workstation v1.0.1
 
-A workstation app that let users track their task and also organise their work days with a todo list
+A workstation app that lets users track their tasks and also organize their work days with a to-do list.

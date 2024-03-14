@@ -55,6 +55,7 @@ document.addEventListener("DOMContentLoaded", function () {
   
       listItem.innerHTML = `
               <span class="taskText">${taskText}</span>
+              <button class="startTask">Start</button>
               <button class="editToDo"><i class="fas fa-pen-square"></i> Edit</button>
               <button class="deleteToDo"><i class="fas fa-trash-alt"></i> Delete</button>
           `;
@@ -71,6 +72,10 @@ document.addEventListener("DOMContentLoaded", function () {
         message.textContent = "";
       }, 2000);
   
+      listItem.querySelector(".startTask").addEventListener("click", () => {
+        const taskSpan = listItem.querySelector(".taskText");
+        startTracking(taskSpan.textContent)
+      });
       listItem.querySelector(".deleteToDo").addEventListener("click", () => {
         listItem.remove();
       });

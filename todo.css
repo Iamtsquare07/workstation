@@ -98,7 +98,7 @@ h1 {
     color: white;
     background-color: #5b5bf7bb;
     border-radius: 7px;
-    padding: 5px;
+    padding: 10px;
     border: 1px solid #6464f7bb;
     margin: auto;
     width: 100px;
@@ -116,17 +116,18 @@ h1 {
 
 #clear {
     background-color: #5b5bf7bb;
-    border-radius: 7px;
+    border-radius: 10px;
     border: 1px solid #6464f7bb;
     text-align: left;
     margin-left: 20px;
-    padding: 5px;
+    padding: 8px;
     display: none;
+    color:#ffffff;
 }
 
 
 #clear:hover {
-    background-color: rgb(58, 1, 1);
+    background-color: #ff0000;
 }
 
 #probody {
@@ -167,6 +168,10 @@ input[type="date"]:focus {
     outline: none;
     /* This removes the default focus outline, you can customize it further if needed */
     border: none;
+}
+
+button {
+    cursor: pointer;
 }
 
 li>button {

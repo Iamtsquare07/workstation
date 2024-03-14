@@ -19,7 +19,7 @@ let twenty = 30000 * 60;
 const autoSaveData = [];
 const AUTO_SAVE_TIMER = 30000;
 
-function startTracking() {
+function startTracking(taskText) {
   if (!isRunning) {
     isRunning = true;
   } else {
@@ -27,7 +27,7 @@ function startTracking() {
     return;
   }
 
-  taskInput = task.value;
+  taskInput = taskText;
   const taskName = taskInput;
   logging.style.visibility = "visible";
   if (!taskName) {
@@ -35,7 +35,6 @@ function startTracking() {
     return;
   }
 
-  task.value = "";
   startTime = Date.now();
   intervalId = setInterval(updateTimer, 1000);
   restIntervalId = setInterval(startRestTimer, ten);

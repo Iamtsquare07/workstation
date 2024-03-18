@@ -6,7 +6,7 @@ let logged = false;
 let isRunning = false;
 const logField = document.getElementById("log");
 const logList = document.getElementById("logList");
-const task = document.getElementById("taskName");
+// const task = document.getElementById("taskName");
 const restMessage = document.getElementById("restMessage");
 const logging = document.getElementById("logging");
 const stop = document.getElementById("stop");
@@ -27,6 +27,7 @@ function startTracking(taskText) {
     return;
   }
 
+  document.querySelector('.workstation').scrollIntoView();
   taskInput = taskText;
   const taskName = taskInput;
   logging.style.visibility = "visible";
@@ -87,11 +88,11 @@ if (lastAutoSave) {
   localStorage.removeItem("lastAutoSave");
 }
 
-task.addEventListener("keypress", (event) => {
-  if (event.key === "Enter") {
-    startTracking();
-  }
-});
+// task.addEventListener("keypress", (event) => {
+//   if (event.key === "Enter") {
+//     startTracking();
+//   }
+// });
 
 function stopTracking() {
   if (!startTime) {
@@ -99,6 +100,7 @@ function stopTracking() {
     return;
   }
 
+  document.querySelector('#logList').scrollIntoView();
   clearInterval(intervalId);
   clearInterval(restIntervalId);
   const endTime = Date.now();

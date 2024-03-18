@@ -74,8 +74,19 @@ document.addEventListener("DOMContentLoaded", function () {
   
       listItem.querySelector(".startTask").addEventListener("click", () => {
         const taskSpan = listItem.querySelector(".taskText");
-        startTracking(taskSpan.textContent)
+        const startButton = listItem.querySelector(".startTask");
+        if (startButton.textContent === "Start") {
+          startButton.textContent = "Stop";
+          startTracking(taskSpan.textContent);
+        } else {
+          startButton.textContent = "Start";
+          checkbox.checked = true;
+          stopTracking();
+
+          runTaskUpdate()
+        }
       });
+
       listItem.querySelector(".deleteToDo").addEventListener("click", () => {
         listItem.remove();
       });
@@ -87,8 +98,8 @@ document.addEventListener("DOMContentLoaded", function () {
           taskSpan.textContent = editedText;
         }
       });
-  
-      checkbox.addEventListener("change", () => {
+
+      function runTaskUpdate() {
         if (checkbox.checked) {
           listItem.querySelector(".taskText").style.textDecoration =
             "line-through";
@@ -103,6 +114,10 @@ document.addEventListener("DOMContentLoaded", function () {
             completedHeader.style.display = "none";
           }
         }
+      }
+  
+      checkbox.addEventListener("change", () => {
+        runTaskUpdate();
       });
   
       renderDate();

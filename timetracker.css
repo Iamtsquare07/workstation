@@ -117,8 +117,20 @@ td {
     padding-right: 5px;
 }
 
-#clear {
+#clearTimelog {
     text-align: center;
+}
+
+#clearTimelog > button {
+    padding: 7px;
+    background-color:#1b37b4;
+    border: 1px solid #1b37b4;
+    border-radius:7px;
+}
+
+#clearTimelog > button:hover {
+    background-color:#0732ee;
+    border: 1px solid #0732ee;
 }
 
 .taskId {

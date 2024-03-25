@@ -73,14 +73,13 @@ document.addEventListener("DOMContentLoaded", function () {
       }, 2000);
   
       listItem.querySelector(".startTask").addEventListener("click", () => {
-        if (isRunning) {
-          alert("Your current task is still running");
-          return;
-        }
-        
         const taskSpan = listItem.querySelector(".taskText");
         const startButton = listItem.querySelector(".startTask");
         if (startButton.textContent === "Start") {
+          if (isRunning) {
+            alert("Your current task is still running");
+            return;
+          }
           startButton.textContent = "Stop";
           startTracking(taskSpan.textContent);
         } else {

@@ -1,26 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Croissant+One&display=swap');
-
-body {
-    padding: 10px;
-    background-color: #000014;
-    width: 100%;
-    height: 100vh;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    overflow-y:auto;
-    color: #c2c5ff;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-}
-
-h1 {
-    text-align: center;
-    margin-bottom: 20px;
-    color: rgba(255, 217, 0, 0.61);
-    font-family: 'Croissant One', cursive;
-    font-size: 5vw;
-}
-
 #inputbox {
     border-radius: 5px;
     padding-top: 10px;
@@ -39,14 +16,12 @@ h1 {
     margin: auto;
     width: 90%;
     max-height: 400px;
-    /* Set a maximum height for scrolling */
     height: auto;
     background-color: #00006e;
     padding: 5px;
     border-radius: 10px;
     box-shadow: 1px 1px 5px 1px #1b37b4;
     overflow-y: auto;
-    /* Enable vertical scrolling */
 }
 
 .taskHeader {
@@ -85,7 +60,6 @@ h1 {
 
 #toDo:focus {
     outline: none;
-    /* This removes the default focus outline, you can customize it further if needed */
     border: none;
 }
 
@@ -122,7 +96,7 @@ h1 {
     margin-left: 20px;
     padding: 8px;
     display: none;
-    color:#ffffff;
+    color: #ffffff;
 }
 
 
@@ -166,7 +140,6 @@ input[type="date"] {
 
 input[type="date"]:focus {
     outline: none;
-    /* This removes the default focus outline, you can customize it further if needed */
     border: none;
 }
 
@@ -200,9 +173,7 @@ li>i {
 /* Style the scrollbar thumb (the draggable part) */
 ::-webkit-scrollbar-thumb {
     background: #3551f185;
-    /* Color of the scrollbar thumb */
     border-radius: 3px;
-    /* Rounded corners of the thumb */
 }
 
 /* Style the scrollbar track when hovering over it */
@@ -216,8 +187,8 @@ li>i {
     width: 90%;
 }
 
-#completedList li{
-    list-style:none;
+#completedList li {
+    list-style: none;
     padding: 3px;
 }
 
@@ -238,7 +209,7 @@ li>i {
 @media only screen and (min-width: 1024px) {
     .output {
         min-width: 500px;
-        width: 40%;
+        width: 90%;
         padding: 50px 20px 50px 20px;
         min-height: 250px;
     }

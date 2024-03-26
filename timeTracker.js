@@ -26,7 +26,7 @@ function startTracking(taskText) {
     return;
   }
 
-  document.querySelector('.workstation').scrollIntoView();
+  document.querySelector(".workstation").scrollIntoView();
   taskInput = taskText;
   const taskName = taskInput;
   logging.style.visibility = "visible";
@@ -93,7 +93,7 @@ function stopTracking() {
     return;
   }
 
-  document.querySelector('#logList').scrollIntoView();
+  document.querySelector("#logList").scrollIntoView();
   clearInterval(intervalId);
   clearInterval(restIntervalId);
   const endTime = Date.now();

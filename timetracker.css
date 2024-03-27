@@ -55,13 +55,13 @@
 
 table {
     border-radius: 10px;
-    box-shadow: .5px 1px 5px 1px #1b37b4;
+    box-shadow: 1px 2px 4px 3px #d9dde9fb;
     font-size: 14px;
     padding: 3px;
 }
 
 thead {
-    box-shadow: .3px .6px .9px .6px #1b37b4;
+    box-shadow: .2px .4px .8px .6px #d9dde9fb;
     text-align: left;
     border-radius: 10px 10px 0 0;
 }

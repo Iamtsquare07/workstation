@@ -60,6 +60,15 @@ h1 {
     padding-left: 15px;
 }
 
+.workstation-header h1>a {
+    color:white;
+    text-decoration: none;
+}
+
+.workstation-dark-mode .workstation-header h1>a {
+    color:#c3c6e0;
+}
+
 .workstation-header .workstation-nav.workstation-center {
     color: inherit;
     text-align: center;
@@ -85,6 +94,10 @@ h1 {
     font-size: 18px;
 }
 
+.workstation-header i:hover {
+    color:#585d88;
+}
+
 .workstation-nav a:hover {
     background-color: rgba(106, 106, 107, 0.185);
     border-radius: 5px;
@@ -100,10 +113,11 @@ h1 {
 }
 
 #workstation-menu {
-    background-color: rgba(106, 106, 107, 0.096);
+    background-color: rgba(106, 106, 107, 0.267);
     border-radius: 5px;
     padding: 7px 15px 7px 15px;
     cursor: pointer;
+    margin-right: 20px;
 }
 
 #workstation-menu:hover {

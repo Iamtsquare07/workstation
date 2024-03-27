@@ -8,7 +8,6 @@ const logField = document.getElementById("log");
 const logList = document.getElementById("logList");
 const restMessage = document.getElementById("restMessage");
 const logging = document.getElementById("logging");
-const stop = document.getElementById("stop");
 const timeLog = JSON.parse(localStorage.getItem("timeLog")) || [];
 let taskInput;
 let restCounter = 30000 * 60;
@@ -40,7 +39,6 @@ function startTracking(taskText) {
   restIntervalId = setInterval(startRestTimer, ten);
   restMessage.style.display = "block";
   restMessage.innerText = `Break time in 30 minutes`;
-  stop.style.display = "block";
   addAutoSave();
   addBeforeUnloadWarning();
 }
@@ -107,7 +105,6 @@ function stopTracking() {
   startTime = null;
   displayTimeLog();
   logging.style.visibility = "hidden";
-  stop.style.display = "none";
   restMessage.style.display = "none";
   isRunning = false;
   if (lastAutoSave) {

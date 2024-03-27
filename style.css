@@ -82,6 +82,7 @@ h1 {
 
 .workstation-header i {
     color:white;
+    font-size: 18px;
 }
 
 .workstation-nav a:hover {
@@ -190,7 +191,6 @@ aside .workstation-mobile-hidden {
     color: rgb(199, 197, 212);
     box-shadow: 1px 7px 10px #acaad4;
 }
-
 
 .workstation-dark-mode aside {
     background-color: #1d2a35;

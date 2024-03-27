@@ -2,8 +2,18 @@
 <html lang="en">
 
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
+        integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <meta name="description"
+        content="The workstation app facilitates task tracking and daily organization with a customizable to-do list. Users can efficiently manage tasks, set deadlines, and prioritize activities, enhancing productivity. The intuitive interface allows seamless navigation and quick entry of tasks, ensuring a smooth user experience. With features like task completion tracking and date-based organization, users can stay focused and meet deadlines effectively. The app promotes efficient time management and task prioritization, empowering users to optimize their workdays and achieve their goals with ease." />
+    <script src="https://kit.fontawesome.com/9783530849.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="timetracker.css">
     <link rel="stylesheet" href="todo.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
@@ -12,7 +22,29 @@
     <title>Time Tracker</title>
 </head>
 
-<body>
+<body id="workstation-root">
+    <header class="workstation-header">
+        <h1>Workstation</h1>
+        <nav id="workstation-parent" class="workstation-nav workstation-dt workstation-center">
+            <a id="wiki-menu">Social</a>
+            <a id="wiki-menu">About</a>
+            <a id="wiki-menu">Contact</a>
+        </nav>
+        <nav class="workstation-nav">
+            <button class="workstation-mode" onclick="toggleDarkMode()"><span id="workstation-icon"><i
+                        class="fa-regular fa-moon"></i></span></button>
+        </nav>
+        <nav class="workstation-nav workstation-right">
+            <span id="workstation-menu">Menu</span>
+        </nav>
+    </header>
+    <div class="workstation-shadow"></div>
+    <aside id="workstation-menu-items">
+        <button class="workstation-close"><i class="fa fa-times-circle" aria-hidden="true"></i></button>
+        <a id="wiki-menu" class="workstation-mobile">Social</a>
+        <a id="wiki-menu" class="workstation-mobile">About</a>
+        <a id="wiki-menu">Contact</a>
+    </aside>
     <h1>WorkStation</h1>
 
     <div class="workstation">
@@ -20,55 +52,57 @@
         <div class="tracker">
             <div id="logging"></div>
         </div>
-        
+
         <div id="restMessage"></div>
-    <div id="inputbox">
-        <div>
-            <div id="inputs">
-                <input id="toDo" type="text" placeholder="Eg: Learn JavaScript" value="Learn JavaScript" required>
-                <input id="taskDate" type="date" min="" value="" required>
+        <div id="inputbox">
+            <div>
+                <div id="inputs">
+                    <input id="toDo" type="text" placeholder="Eg: Learn JavaScript" value="Learn JavaScript" required>
+                    <input id="taskDate" type="date" min="" value="" required>
+                </div>
+                <button id="smbtn">Submit</button><br>
+                <span id="message"></span>
             </div>
-            <button id="smbtn">Submit</button><br>
-            <span id="message"></span>
         </div>
-    </div>
-    <br>
-    <div id='todoList'>
-        <div class='output'>
-            <h3 class="taskHeader">Add to your tasklist</h3>
-            <ul id="probody"></ul>
-            <div id="lists"></div>
+        <br>
+        <div id='todoList'>
+            <div class='output'>
+                <h3 class="taskHeader">Add to your tasklist</h3>
+                <ul id="probody"></ul>
+                <div id="lists"></div>
 
 
-            <div id='completedList'>
-                <h3 id="completedHeader">Completed</h3>
-                <ul id="completedbody"></ul>
+                <div id='completedList'>
+                    <h3 id="completedHeader">Completed</h3>
+                    <ul id="completedbody"></ul>
+                </div>
+
+                <div id="clearBox"><button id="clear">Clear List</button></div>
             </div>
+        </div>
 
-            <div id="clearBox"><button id="clear">Clear List</button></div>
+        <div class="log-container">
+            <div id="log">
+                <h2>Time Log</h2>
+                <table id="logTable">
+                    <thead>
+                        <tr>
+                            <th>Task</th>
+                            <th>Time Spent</th>
+                        </tr>
+                    </thead>
+                    <tbody id="logList"></tbody>
+                </table>
+                <p id="clearTimelog">
+                    <button onclick="clearLogs()">Clear Logs</button>
+                </p>
+            </div>
         </div>
     </div>
-    
-    <div class="log-container">
-        <div id="log">
-            <h2>Time Log</h2>
-            <table id="logTable">
-                <thead>
-                    <tr>
-                        <th>Task</th>
-                        <th>Time Spent</th>
-                    </tr>
-                </thead>
-                <tbody id="logList"></tbody>
-            </table>
-            <p id="clearTimelog">
-                <button onclick="clearLogs()">Clear Logs</button>
-            </p>
-        </div>
-    </div>
-</div>
     <script src="./timeTracker.js"></script>
     <script src="./todo.js"></script>
+    <script src="./nav.js"></script>
+    <script src="./darkMode.js"></script>
 </body>
 
 </html>

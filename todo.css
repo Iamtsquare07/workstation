@@ -17,10 +17,9 @@
     width: 90%;
     max-height: 400px;
     height: auto;
-    background-color: #00006e;
+    
     padding: 5px;
     border-radius: 10px;
-    box-shadow: 1px 1px 5px 1px #1b37b4;
     overflow-y: auto;
 }
 
@@ -164,6 +163,8 @@ li>i {
 #completedHeader {
     display: none;
     text-align: center;
+    text-align: left;
+    font-size: 24px;
 }
 
 ::-webkit-scrollbar {
@@ -224,5 +225,14 @@ li>i {
 
     #inputs {
         width: 40%;
+    }
+
+    .taskList li, #completedList li {
+        background-color:inherit;
+        border:1px solid inherit;
+        border-radius:10px;
+        padding: 20px 30px;
+        margin-bottom: 10px;
+        box-shadow: 1px 2px 4px 3px #d9dde9fb;
     }
 }

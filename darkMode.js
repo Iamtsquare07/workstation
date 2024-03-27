@@ -11,7 +11,9 @@ function toggleDarkMode() {
   setTimeout(function() {
     icon.innerHTML =
       body.className == "workstation-dark-mode"
-        ? `<i class="fa-regular fa-moon"></i>`
-        : `<i class="fa-regular fa-sun"></i>`;
+        ? `<i class="fa-regular fa-sun"></i>`
+        : `<i class="fa-regular fa-moon"></i>`;
   }, 0);
 }
+
+

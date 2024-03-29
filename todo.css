@@ -8,19 +8,14 @@
 
 #todoList {
     padding-bottom: 50px;
+    padding: 15px;
     padding-top: 5px;
     border-radius: 5px;
 }
 
 .output {
     margin: auto;
-    width: 90%;
-    max-height: 400px;
-    height: auto;
-    
-    padding: 5px;
-    border-radius: 10px;
-    overflow-y: auto;
+    width: 100%;
 }
 
 .taskHeader {
@@ -106,13 +101,29 @@
 #probody {
     text-align: justify;
     font-size: 17px;
+    margin: 0;
+    padding: 0;
+}
+
+ul {
+    padding: 0;
+    margin: 0;
 }
 
 ul>li {
     list-style: none;
-    padding: 3px;
     font-size: 17px;
+    margin: 0;
+}
 
+.taskList li,
+#completedList li {
+    background-color: inherit;
+    border: 1px solid inherit;
+    border-radius: 10px;
+    padding: 20px 30px;
+    margin-bottom: 10px;
+    box-shadow: 1px 2px 4px 3px #d9dde9fb;
 }
 
 #inputs {
@@ -209,10 +220,8 @@ li>i {
 
 @media only screen and (min-width: 1024px) {
     .output {
-        min-width: 500px;
         width: 90%;
         padding: 50px 20px 50px 20px;
-        min-height: 250px;
     }
 
     h1 {
@@ -225,14 +234,5 @@ li>i {
 
     #inputs {
         width: 40%;
-    }
-
-    .taskList li, #completedList li {
-        background-color:inherit;
-        border:1px solid inherit;
-        border-radius:10px;
-        padding: 20px 30px;
-        margin-bottom: 10px;
-        box-shadow: 1px 2px 4px 3px #d9dde9fb;
     }
 }

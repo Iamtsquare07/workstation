@@ -8,6 +8,9 @@ document.addEventListener("DOMContentLoaded", function () {
   const clearBtn = document.getElementById("clear");
   const taskHeader = document.querySelector(".taskHeader");
 
+  // Load tasks from local storage when the page loads
+  loadTasksFromStorage();
+
   submitButton.addEventListener("click", addTask);
   document.getElementById("toDo").addEventListener("keypress", function (e) {
     if (e.key === "Enter") addTask();
@@ -93,6 +96,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     listItem.querySelector(".deleteToDo").addEventListener("click", () => {
       listItem.remove();
+      saveTasksToStorage();
     });
 
     listItem.querySelector(".editToDo").addEventListener("click", () => {
@@ -100,6 +104,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const editedText = prompt("Edit the task:", taskSpan.textContent);
       if (editedText !== null) {
         taskSpan.textContent = editedText;
+        saveTasksToStorage(); // Update local storage after editing
       }
     });
 
@@ -118,6 +123,7 @@ document.addEventListener("DOMContentLoaded", function () {
           completedHeader.style.display = "none";
         }
       }
+      saveTasksToStorage(); // Update local storage after task update
     }
 
     checkbox.addEventListener("change", () => {
@@ -125,6 +131,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     renderDate();
+    saveTasksToStorage(); // Update local storage after adding task
   }
 
   function clearList() {
@@ -133,6 +140,7 @@ document.addEventListener("DOMContentLoaded", function () {
     taskHeader.textContent = "Add to your tasklist";
     completedHeader.style.display = "none";
     clearBtn.style.display = "none";
+    localStorage.removeItem("tasks"); // Clear tasks from local storage
   }
 
   clearBtn.addEventListener("click", clearList);
@@ -183,5 +191,113 @@ document.addEventListener("DOMContentLoaded", function () {
   // Function to remove completed task from the completed list
   function removeFromCompleted(taskItem) {
     completedContainer.removeChild(taskItem);
+  }
+
+  // Function to save tasks to local storage
+  function saveTasksToStorage() {
+    const allTasks = listsContainer.querySelectorAll("li");
+    const tasks = [];
+
+    allTasks.forEach((task) => {
+      const taskText = task.querySelector(".taskText").textContent;
+      const taskDate = task.closest("ul").querySelector("h2").textContent;
+      const isCompleted = task.closest("#completedList") !== null;
+
+      tasks.push({
+        text: taskText,
+        date: taskDate,
+        completed: isCompleted,
+      });
+    });
+
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }
+
+  // Function to load tasks from local storage
+  function loadTasksFromStorage() {
+    const storedTasks = localStorage.getItem("tasks");
+    if (storedTasks) {
+      const tasks = JSON.parse(storedTasks);
+      tasks.forEach((task) => {
+        const listItem = document.createElement("li");
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.className = "taskCheckbox";
+        checkbox.checked = task.completed;
+
+        listItem.innerHTML = `
+                <span class="taskText">${task.text}</span>
+                <button class="startTask">Start</button>
+                <button class="editToDo"><i class="fas fa-pen-square"></i> Edit</button>
+                <button class="deleteToDo"><i class="fas fa-trash-alt"></i> Delete</button>
+            `;
+
+        listItem.insertBefore(checkbox, listItem.firstChild);
+
+        const taskList = getOrCreateTaskList(task.date);
+        taskList.appendChild(listItem);
+
+        listItem.querySelector(".startTask").addEventListener("click", () => {
+          const taskSpan = listItem.querySelector(".taskText");
+          const startButton = listItem.querySelector(".startTask");
+          if (startButton.textContent === "Start") {
+            if (isRunning) {
+              alert("Your current task is still running");
+              return;
+            }
+            startButton.textContent = "Stop";
+            startTracking(taskSpan.textContent);
+          } else {
+            startButton.textContent = "Start";
+            checkbox.checked = true;
+            stopTracking();
+
+            runTaskUpdate();
+          }
+        });
+
+        listItem.querySelector(".deleteToDo").addEventListener("click", () => {
+          listItem.remove();
+          saveTasksToStorage(); // Update local storage after deletion
+        });
+
+        listItem.querySelector(".editToDo").addEventListener("click", () => {
+          const taskSpan = listItem.querySelector(".taskText");
+          const editedText = prompt("Edit the task:", taskSpan.textContent);
+          if (editedText !== null) {
+            taskSpan.textContent = editedText;
+            saveTasksToStorage(); // Update local storage after editing
+          }
+        });
+
+        function runTaskUpdate() {
+          if (checkbox.checked) {
+            listItem.querySelector(".taskText").style.textDecoration =
+              "line-through";
+            taskList.removeChild(listItem);
+            addToCompleted(listItem); // Move to completed list
+            completedHeader.style.display = "block";
+          } else {
+            listItem.querySelector(".taskText").style.textDecoration = "none";
+            removeFromCompleted(listItem); // Move back to main list
+            taskList.appendChild(listItem);
+            if (completedContainer.childElementCount === 0) {
+              completedHeader.style.display = "none";
+            }
+          }
+          saveTasksToStorage(); // Update local storage after task update
+        }
+
+        checkbox.addEventListener("change", () => {
+          runTaskUpdate();
+        });
+
+        renderDate();
+        saveTasksToStorage(); // Update local storage after adding task
+      });
+    } else {
+      taskHeader.textContent = "Add tasks to your task list";
+      console.log(storedTasks);
+    }
   }
 });

@@ -31,6 +31,10 @@
     display: none;
 }
 
+#log > h2 {
+    margin-left: 20px;
+}
+
 #restMessage {
     display: none;
     text-align: center;
@@ -57,7 +61,7 @@ table {
     border-radius: 10px;
     box-shadow: 1px 2px 4px 3px #d9dde9fb;
     font-size: 14px;
-    padding: 3px;
+    padding: 10px;
 }
 
 thead {
@@ -67,11 +71,12 @@ thead {
 }
 
 th {
-    padding: 5px 3px;
+    padding: 10px 20px;
 }
 
+
 td {
-    padding-right: 5px;
+    padding: 5px 10px;
 }
 
 #clearTimelog {
@@ -109,4 +114,12 @@ td {
         font-size: 18px;
     }
 
+    th {
+        padding: 35px 45px;
+    }
+    
+    
+    td {
+        padding: 10px 40px;
+    }
 }

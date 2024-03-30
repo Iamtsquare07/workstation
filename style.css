@@ -227,9 +227,10 @@ aside .workstation-mobile-hidden {
 @media only screen and (min-width: 1000px) {
     .workstation {
         min-width: 500px;
-        width: 90%;
+        width: 85%;
         margin-bottom: 50px;
         padding: 5px 20px 50px 20px;
+        margin: auto;
     }
 
     .workstation-header {

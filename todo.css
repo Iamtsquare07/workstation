@@ -18,6 +18,10 @@
     width: 100%;
 }
 
+h2 {
+    font-size: 20px;
+}
+
 .taskHeader {
     text-align: center;
     color: #75c7f7;
@@ -124,6 +128,12 @@ ul>li {
     padding: 20px 30px;
     margin-bottom: 10px;
     box-shadow: 1px 2px 4px 3px #d9dde9fb;
+    font-size: 3.3vw;
+}
+
+.workstation-dark-mode .taskList li,
+.workstation-dark-mode #completedList li {
+    box-shadow: .5px 1px 2px 1.5px #4c4d52;
 }
 
 #inputs {
@@ -161,7 +171,7 @@ li>button {
     background-color: #6464faf3;
     border-radius: 5px;
     border: 1px solid #7171fcf3;
-    font-size: 15px;
+    font-size: 3vw;
     color: #e2e4ff;
     padding: 3px;
     margin-left: 5px;
@@ -175,7 +185,7 @@ li>i {
     display: none;
     text-align: center;
     text-align: left;
-    font-size: 24px;
+    font-size: 20px;
 }
 
 ::-webkit-scrollbar {
@@ -214,7 +224,7 @@ li>i {
     }
 
     h2 {
-        font-size: 20px;
+        font-size: 18px;
     }
 }
 
@@ -234,5 +244,14 @@ li>i {
 
     #inputs {
         width: 40%;
+    }
+
+    .taskList li,
+    #completedList li {
+        font-size: 18px;
+    }
+
+    li>button {
+        font-size: 16px;
     }
 }

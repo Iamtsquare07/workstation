@@ -31,7 +31,7 @@
     display: none;
 }
 
-#log > h2 {
+#log>h2 {
     margin-left: 20px;
 }
 
@@ -64,10 +64,18 @@ table {
     padding: 10px;
 }
 
+.workstation-dark-mode table {
+    box-shadow: 1px 2px 4px 3px #4c4d52;
+}
+
 thead {
-    box-shadow: .2px .4px .8px .6px #d9dde9fb;
+    box-shadow: .2px .4px 3px .6px #d9dde9fb;
     text-align: left;
     border-radius: 10px 10px 0 0;
+}
+
+.workstation-dark-mode thead {
+    box-shadow: .2px .4px 3px .6px #6f7177;
 }
 
 th {
@@ -77,6 +85,7 @@ th {
 
 td {
     padding: 5px 10px;
+    font-size: 3.3vw;
 }
 
 #clearTimelog {
@@ -117,9 +126,10 @@ td {
     th {
         padding: 35px 45px;
     }
-    
-    
+
+
     td {
         padding: 10px 40px;
+        font-size: 18px;
     }
 }

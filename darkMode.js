@@ -8,12 +8,10 @@ function toggleDarkMode() {
 
   // Update icon after class change
   var icon = document.getElementById("workstation-icon");
-  setTimeout(function() {
+  setTimeout(function () {
     icon.innerHTML =
       body.className == "workstation-dark-mode"
         ? `<i class="fa-regular fa-sun"></i>`
         : `<i class="fa-regular fa-moon"></i>`;
   }, 0);
 }
-
-

@@ -165,6 +165,8 @@ input[type="date"]:focus {
 
 button {
     cursor: pointer;
+    color:#e2e4ff;
+    font-family: "Rubik", sans-serif;
 }
 
 li>button {
@@ -252,6 +254,6 @@ li>i {
     }
 
     li>button {
-        font-size: 16px;
+        font-size: 12px;
     }
 }

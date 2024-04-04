@@ -254,4 +254,13 @@ document.addEventListener("DOMContentLoaded", function () {
       taskHeader.textContent = "Add tasks to your task list";
     }
   }
+
+  function saveProgress() {
+    const storedTasks = localStorage.getItem("tasks");
+
+    console.log(storedTasks)
+    alert("Saved")
+  }
+
+  document.querySelector(".save-progress").onclick = saveProgress;
 });

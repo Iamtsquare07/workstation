@@ -256,6 +256,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function saveProgress() {
+    saveTasksToStorage()
     const storedTasks = localStorage.getItem("tasks");
 
     console.log(storedTasks)

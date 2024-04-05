@@ -97,7 +97,7 @@ document.addEventListener("DOMContentLoaded", function () {
         startButton.textContent = "Start";
         checkbox.checked = true;
         stopTracking();
-        runTaskUpdate();
+        runTaskUpdate(true);
         saveTasksToStorage();
       }
     });
@@ -116,7 +116,21 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
 
-    function runTaskUpdate() {
+    function runTaskUpdate(isStarted) {
+      if (!isStarted) {
+        let askUserForConfirmation;
+        do {
+          askUserForConfirmation = prompt("Task not started yet! Are you sure you want to mark this task as completed? Y/N", "Yes").toLocaleLowerCase();
+        } while (!(askUserForConfirmation === "yes" || askUserForConfirmation === "y" || askUserForConfirmation === "no" || askUserForConfirmation === "n"));
+        
+        if (askUserForConfirmation === "yes" || askUserForConfirmation === "y") {
+          alert("Task moved to completed")
+        } else {
+          alert("Task not moved to completed");
+          return;
+        }
+      }
+    
       if (checkbox.checked) {
         listItem.querySelector(".taskText").style.textDecoration =
           "line-through";
@@ -133,6 +147,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
       saveTasksToStorage(); // Update local storage after task update
     }
+    
 
     checkbox.addEventListener("change", () => {
       runTaskUpdate();
@@ -250,6 +265,7 @@ document.addEventListener("DOMContentLoaded", function () {
           taskList.appendChild(listItem);
         }
       });
+      clearBtn.style.display = "block";
     } else {
       taskHeader.textContent = "Add tasks to your task list";
     }

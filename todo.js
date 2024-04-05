@@ -120,34 +120,46 @@ document.addEventListener("DOMContentLoaded", function () {
       if (!isStarted) {
         let askUserForConfirmation;
         do {
-          askUserForConfirmation = prompt("Task not started yet! Are you sure you want to mark this task as completed? Y/N", "Yes").toLocaleLowerCase();
-        } while (!(askUserForConfirmation === "yes" || askUserForConfirmation === "y" || askUserForConfirmation === "no" || askUserForConfirmation === "n"));
-        
-        if (askUserForConfirmation === "yes" || askUserForConfirmation === "y") {
-          alert("Task moved to completed")
+          askUserForConfirmation = prompt(
+            "Task not started yet! Are you sure you want to mark this task as completed? Y/N",
+            "Yes"
+          ).toLocaleLowerCase();
+        } while (
+          !(
+            askUserForConfirmation === "yes" ||
+            askUserForConfirmation === "y" ||
+            askUserForConfirmation === "no" ||
+            askUserForConfirmation === "n"
+          )
+        );
+
+        if (
+          askUserForConfirmation === "yes" ||
+          askUserForConfirmation === "y"
+        ) {
+          alert("Task moved to completed");
         } else {
           alert("Task not moved to completed");
           return;
         }
       }
-    
+
       if (checkbox.checked) {
         listItem.querySelector(".taskText").style.textDecoration =
           "line-through";
         taskList.removeChild(listItem);
-        addToCompleted(listItem); // Move to completed list
+        addToCompleted(listItem);
         completedHeader.style.display = "block";
       } else {
         listItem.querySelector(".taskText").style.textDecoration = "none";
-        removeFromCompleted(listItem); // Move back to main list
+        removeFromCompleted(listItem);
         taskList.appendChild(listItem);
         if (completedContainer.childElementCount === 0) {
           completedHeader.style.display = "none";
         }
       }
-      saveTasksToStorage(); // Update local storage after task update
+      saveTasksToStorage();
     }
-    
 
     checkbox.addEventListener("change", () => {
       runTaskUpdate();
@@ -272,11 +284,11 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function saveProgress() {
-    saveTasksToStorage()
+    saveTasksToStorage();
     const storedTasks = localStorage.getItem("tasks");
 
-    console.log(storedTasks)
-    alert("Saved")
+    console.log(storedTasks);
+    alert("Saved");
   }
 
   document.querySelector(".save-progress").onclick = saveProgress;

@@ -28,7 +28,6 @@ function startTracking(taskText) {
   document.querySelector(".workstation").scrollIntoView();
   taskInput = taskText;
   const taskName = taskInput;
-  logging.style.visibility = "visible";
   if (!taskName) {
     alert("Please enter a task name.");
     return;
@@ -38,6 +37,8 @@ function startTracking(taskText) {
   intervalId = setInterval(updateTimer, 1000);
   restIntervalId = setInterval(startRestTimer, ten);
   restMessage.style.display = "block";
+  document.getElementById("notracking").style.display = "none";
+  logging.style.visibility = "visible";
   restMessage.innerText = `Break time in 30 minutes`;
   addAutoSave();
   addBeforeUnloadWarning();
@@ -104,6 +105,7 @@ function stopTracking() {
 
   startTime = null;
   displayTimeLog();
+  document.getElementById("notracking").style.display = "block";
   logging.style.visibility = "hidden";
   restMessage.style.display = "none";
   isRunning = false;
@@ -142,7 +144,7 @@ function updateTimer() {
 
   setTimeout(() => {
     logging.innerHTML = capitalizeFirstLetter(
-      `Now tracking <span class="taskId">“${taskInput}”</span>: ${formattedTime}`
+      `Now tracking <span class="taskId">“${taskInput}”</span>:<br /> ${formattedTime}`
     );
   }, 1000);
 }

@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function () {
     taskHeader.textContent = "";
     const taskText = input.value.trim();
 
-    const listItem = createTaskListItem(taskText, taskDate);
+    const listItem = createTaskListItem(taskText, taskDate, true);
     const taskList = getOrCreateTaskList(taskDate); // Get or create the task list
     taskList.appendChild(listItem);
 
@@ -66,7 +66,7 @@ document.addEventListener("DOMContentLoaded", function () {
     saveTasksToStorage();
   }
 
-  function createTaskListItem(taskText, taskDate) {
+  function createTaskListItem(taskText, taskDate, withDate) {
     const listItem = document.createElement("li");
     const checkbox = document.createElement("input");
     checkbox.type = "checkbox";
@@ -81,7 +81,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     listItem.insertBefore(checkbox, listItem.firstChild);
 
-    const taskList = getOrCreateTaskList(taskDate); // Get or create the task list
+    let taskList;
+    if (withDate) {
+      taskList = getOrCreateTaskList(taskDate);
+    }
 
     listItem.querySelector(".startTask").addEventListener("click", () => {
       const taskSpan = listItem.querySelector(".taskText");
@@ -221,6 +224,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Function to add completed task to the completed list
   function addToCompleted(taskItem) {
     completedContainer.appendChild(taskItem);
+    saveTasksToStorage();
   }
 
   // Function to remove completed task from the completed list
@@ -249,12 +253,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     allCompletedTasks.forEach((task) => {
       const taskText = task.querySelector(".taskText").textContent;
-      const taskDate = task.closest("ul").querySelector("h2").textContent;
       const isCompleted = task.closest("#completedList") !== null;
 
       tasks.push({
         text: taskText,
-        date: taskDate,
         completed: isCompleted,
       });
     });
@@ -269,9 +271,12 @@ document.addEventListener("DOMContentLoaded", function () {
     if (storedTasks) {
       const tasks = JSON.parse(storedTasks);
       tasks.forEach((task) => {
-        const listItem = createTaskListItem(task.text, task.date);
+        const listItem = createTaskListItem(task.text, task.date, false);
         if (task.completed) {
+          listItem.querySelector(".taskText").style.textDecoration =
+            "line-through";
           addToCompleted(listItem);
+          completedHeader.style.display = "block";
         } else {
           const taskList = getOrCreateTaskList(task.date);
           taskList.appendChild(listItem);

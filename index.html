@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
@@ -46,11 +47,7 @@
 
     <div class="workstation">
         <h4>Add a task and track your time to work efficiently</h4>
-        <div class="tracker">
-            <div id="logging"></div>
-        </div>
 
-        <div id="restMessage"></div>
         <div id="inputbox">
             <div>
                 <div id="inputs">
@@ -59,6 +56,36 @@
                 </div>
                 <button id="smbtn">Submit</button><br>
                 <span id="message"></span>
+            </div>
+            <div class="progress">
+                <div class="progress-goal">
+                    <div class="progress-boxes">
+                        <div id="progress-text">Yesterday</div>
+                        <div id="progress-time">0</div>
+                        <div id="progress-time-box">minutes</div>
+                    </div>
+                    <div class="progress-boxes">
+                        <div class="circle">
+                            <div id="progress-text">Daily goal</div>
+                            <div id="progress-time">0</div>
+                            <div id="progress-time-box">hours</div>
+                        </div>
+                        <div>Completed: <span class="time-completed"> minutes</span></div>
+                    </div>
+                    <div class="progress-boxes">
+                        <div id="progress-text">Streak</div>
+                        <div id="progress-time">0</div>
+                        <div id="progress-time-box">days</div>
+                    </div>
+                </div>
+                <div class="progress-box">
+                    <div class="tracker">
+                        <div id="notracking">No task is currently running</div>
+                        <div id="logging"></div>
+                    </div>
+
+                    <div id="restMessage">t</div>
+                </div>
             </div>
         </div>
         <br>
@@ -101,4 +128,5 @@
     <script src="./nav.js"></script>
     <script src="./darkMode.js"></script>
 </body>
+
 </html>

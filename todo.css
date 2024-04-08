@@ -5,17 +5,14 @@
     text-align: center;
 }
 
-
 #todoList {
-    padding-bottom: 50px;
-    padding: 15px;
-    padding-top: 5px;
     border-radius: 5px;
 }
 
 .output {
     margin: auto;
     width: 100%;
+    margin-bottom: 50px;
 }
 
 h2 {
@@ -97,7 +94,6 @@ h2 {
     color: #ffffff;
 }
 
-
 #clear:hover {
     background-color: #ff0000;
 }
@@ -165,7 +161,7 @@ input[type="date"]:focus {
 
 button {
     cursor: pointer;
-    color:#e2e4ff;
+    color: #e2e4ff;
     font-family: "Rubik", sans-serif;
 }
 
@@ -194,13 +190,11 @@ li>i {
     width: 2px;
 }
 
-/* Style the scrollbar thumb (the draggable part) */
 ::-webkit-scrollbar-thumb {
     background: #3551f185;
     border-radius: 3px;
 }
 
-/* Style the scrollbar track when hovering over it */
 ::-webkit-scrollbar-thumb:hover {
     background: #555;
 }
@@ -209,6 +203,7 @@ li>i {
     margin: auto;
     margin-left: 40px;
     width: 90%;
+    margin-top: 40px;
 }
 
 #completedList li {
@@ -233,7 +228,7 @@ li>i {
 @media only screen and (min-width: 1024px) {
     .output {
         width: 90%;
-        padding: 50px 20px 50px 20px;
+        padding: 10px;
     }
 
     h1 {

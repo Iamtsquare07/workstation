@@ -108,12 +108,113 @@ td {
     font-weight: 500;
 }
 
+.progress {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: auto;
+    margin-top: 40px;
+    padding: 0;
+}
+
+.progress-box,
+.progress-goal {
+    box-shadow: 1px 2px 4px 3px #d9dde9fb;
+    width: 100%;
+    height: auto;
+    min-height: 250px;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.workstation-dark-mode .progress-box,
+.workstation-dark-mode .progress-goal {
+    box-shadow: .5px 1px 2px 1.5px #4c4d52;
+}
+
+.progress-goal {
+    margin-right: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.circle {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    border: 12px solid #d9dde9fb;
+    margin-bottom: 5px;
+    font-size: 13px;
+}
+
+#progress-text,
+#progress-time,
+#progress-time-box {
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+#progress-time {
+    font-size: 25px;
+}
+
+.workstation-dark-mode .circle {
+    border: 12px solid #4c4d52;
+}
+
+.progress-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
 @media only screen and (min-width: 1024px) {
 
     h1 {
         font-size: 30px;
     }
 
+    .progress {
+        width: 93%;
+        flex-direction: row;
+    }
+
+    .progress-box,
+    .progress-goal {
+        height: 280px;
+    }
+
+    .circle {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+        border: 12px solid #d9dde9fb;
+        margin-bottom: 5px;
+        font-size: 18px;
+    }
+
+    #progress-text,
+    #progress-time,
+    #progress-time-box {
+        font-size: 17px;
+    }
+
+    #progress-time {
+        font-size: 30px;
+    }
 
     #logList {
         padding: 30px;
@@ -127,9 +228,9 @@ td {
         padding: 35px 45px;
     }
 
-
     td {
         padding: 10px 40px;
         font-size: 18px;
     }
+
 }

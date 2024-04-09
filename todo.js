@@ -150,9 +150,9 @@ document.addEventListener("DOMContentLoaded", function () {
       if (checkbox.checked) {
         listItem.querySelector(".taskText").style.textDecoration =
           "line-through";
-        taskList.removeChild(listItem);
         addToCompleted(listItem);
         completedHeader.style.display = "block";
+        taskList.removeChild(listItem);
       } else {
         listItem.querySelector(".taskText").style.textDecoration = "none";
         removeFromCompleted(listItem);
@@ -267,6 +267,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Function to load tasks from local storage
   function loadTasksFromStorage() {
+    printDailyGoalHours();
     const storedTasks = localStorage.getItem("tasks");
     if (storedTasks) {
       const tasks = JSON.parse(storedTasks);

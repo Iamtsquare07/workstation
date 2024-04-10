@@ -148,7 +148,7 @@ function retrieveTrackedTime() {
   yesterdayTrackedTime.forEach(startTime => {
     totalYesterdayMilliseconds += currentTime - startTime;
   });
-  const totalYesterdayHours = totalYesterdayMilliseconds / (1000 * 60 * 60);
+  const totalYesterdayHours = totalYesterdayMilliseconds / (1000 * 60);
 
   console.log("Total time tracked for yesterday: ", totalYesterdayHours.toFixed(2), "hours");
   document.getElementById("yesterday-tracked-time").textContent = totalYesterdayHours.toFixed(0);
@@ -159,7 +159,7 @@ function retrieveTrackedTime() {
     document.getElementById("completed-goal-time").textContent = totalTrackedTime.toFixed(0) + " minutes";
     console.log("Total time tracked for today: ", totalTrackedTime.toFixed(0), "minutes");
   } else { // Equal to or more than an hour
-    totalTrackedTime = trackedTime / (1000 * 60 * 60); // Convert milliseconds to hours
+    totalTrackedTime = trackedTime / (1000 * 60); // Convert milliseconds to hours
     document.getElementById("completed-goal-time").textContent = totalTrackedTime.toFixed(2) + " hours";
     console.log("Total time tracked for today: ", totalTrackedTime.toFixed(2), "hours");
   }

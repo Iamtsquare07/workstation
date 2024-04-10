@@ -135,7 +135,7 @@ document.addEventListener("DOMContentLoaded", function () {
             askUserForConfirmation === "n"
           )
         );
-
+    
         if (
           askUserForConfirmation === "yes" ||
           askUserForConfirmation === "y"
@@ -146,23 +146,36 @@ document.addEventListener("DOMContentLoaded", function () {
           return;
         }
       }
-
+    
+      // Retrieve the task list associated with the task's date
+      let taskList;
+      if (withDate) {
+        taskList = getOrCreateTaskList(taskDate);
+      }
+    
       if (checkbox.checked) {
         listItem.querySelector(".taskText").style.textDecoration =
           "line-through";
+        // Check if taskList is defined before attempting to remove listItem
+        if (taskList) {
+          taskList.removeChild(listItem);
+        }
         addToCompleted(listItem);
         completedHeader.style.display = "block";
-        taskList.removeChild(listItem);
       } else {
         listItem.querySelector(".taskText").style.textDecoration = "none";
         removeFromCompleted(listItem);
-        taskList.appendChild(listItem);
+        // Check if taskList is defined before attempting to append listItem
+        if (taskList) {
+          taskList.appendChild(listItem);
+        }
         if (completedContainer.childElementCount === 0) {
           completedHeader.style.display = "none";
         }
       }
       saveTasksToStorage();
     }
+    
 
     checkbox.addEventListener("change", () => {
       runTaskUpdate();

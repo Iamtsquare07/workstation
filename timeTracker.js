@@ -67,7 +67,7 @@ function startTracking(taskText) {
 }
 
 let goalStartTime = 0;
-let totalTime = 0;
+let totalTime = JSON.parse(localStorage.getItem("totalTrackedTime")) || 0;
 
 function trackTime() {
   const currentTime = Date.now();
@@ -146,7 +146,7 @@ function retrieveTrackedTime() {
   // Calculate total tracked time for yesterday
   let totalYesterdayMilliseconds = 0;
   yesterdayTrackedTime.forEach(startTime => {
-    totalYesterdayMilliseconds += Date.now() - startTime;
+    totalYesterdayMilliseconds += currentTime - startTime;
   });
   const totalYesterdayHours = totalYesterdayMilliseconds / (1000 * 60 * 60);
 
@@ -156,15 +156,14 @@ function retrieveTrackedTime() {
   let totalTrackedTime;
   if (trackedTime < 3600000) { // Less than an hour
     totalTrackedTime = trackedTime / (1000 * 60); // Convert milliseconds to minutes
-    document.getElementById("completed-goal-time").textContent = new Intl.NumberFormat('en-US', { maximumFractionDigits: 2 }).format(totalTrackedTime) + " minutes";
+    document.getElementById("completed-goal-time").textContent = totalTrackedTime.toFixed(0) + " minutes";
     console.log("Total time tracked for today: ", totalTrackedTime.toFixed(0), "minutes");
   } else { // Equal to or more than an hour
     totalTrackedTime = trackedTime / (1000 * 60 * 60); // Convert milliseconds to hours
-    document.getElementById("completed-goal-time").textContent = new Intl.NumberFormat('en-US', { maximumFractionDigits: 2 }).format(totalTrackedTime) + " hours";
+    document.getElementById("completed-goal-time").textContent = totalTrackedTime.toFixed(2) + " hours";
     console.log("Total time tracked for today: ", totalTrackedTime.toFixed(2), "hours");
   }
 }
-
 
 // localStorage.removeItem("totalTrackedTime")
 retrieveTrackedTime()

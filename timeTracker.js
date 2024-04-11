@@ -63,110 +63,114 @@ function startTracking(taskText) {
   restMessage.innerText = `Break time in 30 minutes`;
   addAutoSave();
   addBeforeUnloadWarning();
-  trackTime()
+  trackTime();
 }
 
 let goalStartTime = 0;
 let totalTime = JSON.parse(localStorage.getItem("totalTrackedTime")) || 0;
+let yesterdayTotalTime =
+  JSON.parse(localStorage.getItem("yesterdayTotalTrackedTime")) || 0;
 
 function trackTime() {
   const currentTime = Date.now();
-
-  // If it's a new day, reset start time
   const today = new Date().toISOString().slice(0, 10);
   const lastTrackedDate = JSON.parse(localStorage.getItem("lastTrackedDate"));
+
+  goalStartTime = currentTime;
+
   if (!lastTrackedDate || lastTrackedDate !== today) {
-    goalStartTime = currentTime;
+    // If it's a new day, update yesterdayTotalTime and reset it
+    yesterdayTotalTime = totalTime;
+    localStorage.setItem(
+      "yesterdayTotalTrackedTime",
+      JSON.stringify(yesterdayTotalTime)
+    );
     localStorage.setItem("lastTrackedDate", JSON.stringify(today));
   }
-
-  // Calculate elapsed time since last call
-  const elapsedTime = currentTime - goalStartTime;
-  totalTime += elapsedTime; // Add elapsed time to total tracked time
-
-  // Save total time to localStorage
-  localStorage.setItem("totalTrackedTime", JSON.stringify(totalTime));
-
-  console.log("Time tracked:", elapsedTime, "milliseconds");
 }
 
 function stopTimeTracking() {
   const currentTime = Date.now();
-
-  // Calculate elapsed time since tracking started
   const elapsedTime = currentTime - goalStartTime;
-  totalTime += elapsedTime; // Add elapsed time to total tracked time
+  goalStartTime = currentTime; // Update goalStartTime for the next session
 
-  // Reset startTime for next tracking session
-  goalStartTime = currentTime;
+  // Reset totalTime if it's a new day
+  const today = new Date().toISOString().slice(0, 10);
+  const lastTrackedDate = JSON.parse(localStorage.getItem("lastTrackedDate"));
+  if (!lastTrackedDate || lastTrackedDate !== today) {
+    totalTime = 0; // Reset totalTime for the new day
+    localStorage.setItem("lastTrackedDate", JSON.stringify(today)); // Update lastTrackedDate
+  }
+
+  // Add the elapsed time to totalTime
+  totalTime += elapsedTime;
 
   // Save total time to localStorage
   localStorage.setItem("totalTrackedTime", JSON.stringify(totalTime));
 
-  console.log("Time stopped:", elapsedTime, "milliseconds");
+  retrieveTrackedTime();
 }
 
 function retrieveTrackedTime() {
-  const today = new Date().toISOString().slice(0, 10);
-  const lastTrackedDate = JSON.parse(localStorage.getItem("lastTrackedDate"));
   const trackedTime = JSON.parse(localStorage.getItem("totalTrackedTime")) || 0;
+  const yesterdayTrackedTime =
+    JSON.parse(localStorage.getItem("yesterdayTotalTrackedTime")) || 0;
   let streak = parseInt(localStorage.getItem("streak")) || 0;
 
-  // Check if there was tracked time on the previous two days
-  const yesterday = new Date();
-  yesterday.setDate(yesterday.getDate() - 1);
-  const yesterdayKey = yesterday.toISOString().slice(0, 10);
-  const dayBeforeYesterday = new Date();
-  dayBeforeYesterday.setDate(dayBeforeYesterday.getDate() - 2);
-  const dayBeforeYesterdayKey = dayBeforeYesterday.toISOString().slice(0, 10);
-
-  const yesterdayTrackedTime = JSON.parse(localStorage.getItem(yesterdayKey)) || [];
-  const dayBeforeYesterdayTrackedTime = JSON.parse(localStorage.getItem(dayBeforeYesterdayKey)) || [];
-
-  if (lastTrackedDate === today) {
-    if (yesterdayTrackedTime.length > 0 && dayBeforeYesterdayTrackedTime.length > 0) {
-      streak++;
-    } else {
-      streak = 0;
-    }
-  } else {
-    if (yesterdayTrackedTime.length > 0 && dayBeforeYesterdayTrackedTime.length > 0) {
-      streak++;
-    } else {
-      streak = 0;
-    }
-  }
-
-  console.log("Current streak: ", streak);
   document.getElementById("streak-days").textContent = streak;
 
   // Save streak to local storage
   localStorage.setItem("streak", streak);
 
-  // Calculate total tracked time for yesterday
-  let totalYesterdayMilliseconds = 0;
-  yesterdayTrackedTime.forEach(startTime => {
-    totalYesterdayMilliseconds += currentTime - startTime;
-  });
-  const totalYesterdayHours = totalYesterdayMilliseconds / (1000 * 60);
-
-  console.log("Total time tracked for yesterday: ", totalYesterdayHours.toFixed(2), "hours");
-  document.getElementById("yesterday-tracked-time").textContent = totalYesterdayHours.toFixed(0);
-
   let totalTrackedTime;
-  if (trackedTime < 3600000) { // Less than an hour
-    totalTrackedTime = trackedTime / (1000 * 60); // Convert milliseconds to minutes
-    document.getElementById("completed-goal-time").textContent = totalTrackedTime.toFixed(0) + " minutes";
-    console.log("Total time tracked for today: ", totalTrackedTime.toFixed(0), "minutes");
-  } else { // Equal to or more than an hour
-    totalTrackedTime = trackedTime / (1000 * 60); // Convert milliseconds to hours
-    document.getElementById("completed-goal-time").textContent = totalTrackedTime.toFixed(2) + " hours";
-    console.log("Total time tracked for today: ", totalTrackedTime.toFixed(2), "hours");
+  if (trackedTime < 3600000) {
+    totalTrackedTime = trackedTime / (1000 * 60);
+    if (totalTrackedTime < 2) {
+      document.getElementById("completed-goal-time").textContent =
+        totalTrackedTime.toFixed(0) + " minute";
+    } else {
+      document.getElementById("completed-goal-time").textContent =
+        totalTrackedTime.toFixed(0) + " minutes";
+    }
+  } else {
+    totalTrackedTime = trackedTime / (1000 * 60);
+    if (totalTrackedTime < 2) {
+      document.getElementById("completed-goal-time").textContent =
+        totalTrackedTime.toFixed(0) + " hour";
+    } else {
+      document.getElementById("completed-goal-time").textContent =
+        totalTrackedTime.toFixed(0) + " hours";
+    }
+  }
+
+  let yesterdayTotalTrackedTime;
+  if (yesterdayTrackedTime < 3600000) {
+    yesterdayTotalTrackedTime = yesterdayTrackedTime / (1000 * 60);
+    if (yesterdayTotalTrackedTime < 2) {
+      document.getElementById("yesterday-tracked-time").textContent =
+        yesterdayTotalTrackedTime.toFixed(0);
+      document.getElementById("yesterday-time").textContent = "minute";
+    } else {
+      document.getElementById("yesterday-tracked-time").textContent =
+        yesterdayTotalTrackedTime.toFixed(0);
+      document.getElementById("yesterday-time").textContent = "minutes";
+    }
+  } else {
+    yesterdayTotalTrackedTime = yesterdayTrackedTime / (1000 * 60);
+    if (yesterdayTotalTrackedTime < 2) {
+      document.getElementById("yesterday-tracked-time").textContent =
+        yesterdayTotalTrackedTime.toFixed(0);
+      document.getElementById("yesterday-time").textContent = "hour";
+    } else {
+      document.getElementById("yesterday-tracked-time").textContent =
+        yesterdayTotalTrackedTime.toFixed(0);
+      document.getElementById("yesterday-time").textContent = "hours";
+    }
   }
 }
 
 // localStorage.removeItem("totalTrackedTime")
-retrieveTrackedTime()
+retrieveTrackedTime();
 
 function getFormattedTime(milliseconds) {
   const seconds = Math.floor(milliseconds / 1000);
@@ -251,7 +255,7 @@ function stopTracking() {
   taskInput = "";
   removeBeforeUnloadWarning();
   clearInterval(autoIntervalId);
-  stopTimeTracking()
+  stopTimeTracking();
 }
 
 function updateTimer() {

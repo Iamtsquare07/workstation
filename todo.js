@@ -275,7 +275,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     localStorage.setItem("tasks", JSON.stringify(tasks));
-    console.log("Tasks saved to localStorage");
   }
 
   // Function to load tasks from local storage

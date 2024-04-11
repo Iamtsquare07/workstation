@@ -100,6 +100,12 @@ function stopTimeTracking() {
   if (!lastTrackedDate || lastTrackedDate !== today) {
     totalTime = 0; // Reset totalTime for the new day
     localStorage.setItem("lastTrackedDate", JSON.stringify(today)); // Update lastTrackedDate
+
+    // Increment streak
+    let streak = parseInt(localStorage.getItem("streak")) || 0;
+    streak++;
+    localStorage.setItem("streak", streak);
+    document.getElementById("streak-days").textContent = streak;
   }
 
   // Add the elapsed time to totalTime
@@ -118,6 +124,10 @@ function retrieveTrackedTime() {
   let streak = parseInt(localStorage.getItem("streak")) || 0;
 
   document.getElementById("streak-days").textContent = streak;
+
+  streak == 1
+    ? (document.getElementById("streak").textContent = "day")
+    : (document.getElementById("streak").textContent = "days");
 
   // Save streak to local storage
   localStorage.setItem("streak", streak);

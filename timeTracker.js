@@ -136,7 +136,7 @@ function retrieveTrackedTime() {
         totalTrackedTime.toFixed(0) + " minutes";
     }
   } else {
-    totalTrackedTime = trackedTime / (1000 * 60);
+    totalTrackedTime = trackedTime / (1000 * 60 * 60);
     if (totalTrackedTime < 2) {
       document.getElementById("completed-goal-time").textContent =
         totalTrackedTime.toFixed(0) + " hour";
@@ -159,7 +159,7 @@ function retrieveTrackedTime() {
       document.getElementById("yesterday-time").textContent = "minutes";
     }
   } else {
-    yesterdayTotalTrackedTime = yesterdayTrackedTime / (1000 * 60);
+    yesterdayTotalTrackedTime = yesterdayTrackedTime / (1000 * 60 * 60);
     if (yesterdayTotalTrackedTime < 2) {
       document.getElementById("yesterday-tracked-time").textContent =
         yesterdayTotalTrackedTime.toFixed(0);

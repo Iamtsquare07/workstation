@@ -288,6 +288,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (task.completed) {
           listItem.querySelector(".taskText").style.textDecoration =
             "line-through";
+          listItem.querySelector(".taskCheckbox").checked = true;
           addToCompleted(listItem);
           completedHeader.style.display = "block";
         } else {

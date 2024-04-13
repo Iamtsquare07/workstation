@@ -259,6 +259,7 @@ function stopTracking() {
   removeBeforeUnloadWarning();
   clearInterval(autoIntervalId);
   stopTimeTracking();
+  restCounter = 30000 * 60;
 }
 
 function updateTimer() {
@@ -365,7 +366,7 @@ function startRestTimer() {
   if (restCounter === 0) {
     restMessage.style.display = "block";
     restMessage.textContent = "Time to rest. Please take a 5 minutes break";
-
+    restCounter = 30000 * 60;
     setTimeout(() => {
       restMessage.textContent = "Resting time remaining: 2 minutes";
     }, 3000 * 60);
@@ -376,7 +377,6 @@ function startRestTimer() {
 
     setTimeout(() => {
       // Reset restCounter to the initial value
-      restCounter = 30000 * 60;
       restMessage.innerText = `Break time in 30 minutes`;
     }, 5000 * 60);
 

@@ -366,19 +366,18 @@ function startRestTimer() {
   if (restCounter === 0) {
     restMessage.style.display = "block";
     restMessage.textContent = "Time to rest. Please take a 5 minutes break";
-    restCounter = 30000 * 60;
     setTimeout(() => {
       restMessage.textContent = "Resting time remaining: 2 minutes";
-    }, 3000 * 60);
+    }, 3 * 60 * 1000); // 3 minutes in milliseconds
 
     setTimeout(() => {
       restMessage.textContent = "You are now refreshed.";
-    }, 4000 * 60);
+    }, 4 * 60 * 1000); // 4 minutes in milliseconds
 
     setTimeout(() => {
-      // Reset restCounter to the initial value
       restMessage.innerText = `Break time in 30 minutes`;
-    }, 5000 * 60);
+      restCounter = 30 * 60 * 1000; // 30 minutes in milliseconds
+    }, 5 * 60 * 1000); // 5 minutes in milliseconds
 
     return;
   } else if (restCounter <= ten) {
@@ -387,6 +386,7 @@ function startRestTimer() {
     restMessage.innerText = `Break time is in ${restCounter / 60000} minutes`;
   }
 }
+
 
 function capitalizeFirstLetter(text) {
   // Split the string into words

@@ -115,6 +115,7 @@ td {
     margin: auto;
     margin-top: 40px;
     padding: 0;
+    margin-left: -18px;
 }
 
 .progress-box,
@@ -129,7 +130,7 @@ td {
 
 .workstation-dark-mode .progress-box,
 .workstation-dark-mode .progress-goal {
-    box-shadow: .5px 1px 2px 1.5px #4c4d52;
+    box-shadow: .5px 1px 2px 3px #4c4d52;
 }
 
 .progress-goal {
@@ -138,6 +139,7 @@ td {
     flex-direction: row;
     align-items: center;
     justify-content: space-around;
+    margin-bottom: 20px;
 }
 
 .circle {
@@ -190,11 +192,17 @@ td {
     .progress {
         width: 93%;
         flex-direction: row;
+        margin: auto;
+        margin-top: 50px;
     }
 
     .progress-box,
     .progress-goal {
         height: 280px;
+    }
+
+    .progress-goal {
+        margin-bottom: 0;
     }
 
     .circle {

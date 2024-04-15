@@ -135,7 +135,7 @@ document.addEventListener("DOMContentLoaded", function () {
             askUserForConfirmation === "n"
           )
         );
-    
+
         if (
           askUserForConfirmation === "yes" ||
           askUserForConfirmation === "y"
@@ -146,13 +146,13 @@ document.addEventListener("DOMContentLoaded", function () {
           return;
         }
       }
-    
+
       // Retrieve the task list associated with the task's date
       let taskList;
       if (withDate) {
         taskList = getOrCreateTaskList(taskDate);
       }
-    
+
       if (checkbox.checked) {
         listItem.querySelector(".taskText").style.textDecoration =
           "line-through";
@@ -175,7 +175,6 @@ document.addEventListener("DOMContentLoaded", function () {
       }
       saveTasksToStorage();
     }
-    
 
     checkbox.addEventListener("change", () => {
       runTaskUpdate();
@@ -280,6 +279,12 @@ document.addEventListener("DOMContentLoaded", function () {
   // Function to load tasks from local storage
   function loadTasksFromStorage() {
     printDailyGoalHours();
+    document.getElementById("username").textContent = wsUser + "'s";
+    document.getElementById("userLocation").textContent = `${
+      userWorkLocation.length > 3
+        ? capitalizeFirstLetter(userWorkLocation)
+        : "Work"
+    }`;
     const storedTasks = localStorage.getItem("tasks");
     if (storedTasks) {
       const tasks = JSON.parse(storedTasks);

@@ -1,5 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Croissant+One&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Croissant+One&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap");
 
 body {
     padding: 0;
@@ -11,7 +11,6 @@ body {
     background-color: #fafbfe;
 }
 
-
 h1 {
     font-size: 5vw;
 }
@@ -22,6 +21,7 @@ h1 {
     background-color: inherit;
     border-radius: 10px;
     margin-top: 100px;
+    overflow-x: hidden;
 }
 
 .workstation h4 {
@@ -111,7 +111,7 @@ a {
 .workstation-nav a:hover {
     background-color: rgba(106, 106, 107, 0.185);
     border-radius: 5px;
-    transition: .5s;
+    transition: 0.5s;
 }
 
 .workstation-nav .workstation-mode {
@@ -143,7 +143,7 @@ aside {
     z-index: 999 !important;
     padding: 85px 45px;
     height: 100vh;
-    transition: .5s;
+    transition: 0.5s;
     max-height: 100%;
     overflow-y: scroll;
 }
@@ -175,13 +175,13 @@ aside.workstation-active {
 aside a:hover {
     background-color: rgba(106, 106, 107, 0.185);
     border-radius: 5px;
-    transition: .5s;
+    transition: 0.5s;
 }
 
 .workstation-shadow {
     position: fixed;
     inset: 0;
-    background-color: rgba(0, 0, 0, .35);
+    background-color: rgba(0, 0, 0, 0.35);
     backdrop-filter: blur(5px);
     z-index: 999;
     display: none;
@@ -198,7 +198,6 @@ aside .workstation-mobile-hidden {
 .workstation-shadow.workstation-active {
     display: block;
 }
-
 
 .workstation-dark-mode {
     background-color: #000000;
@@ -229,7 +228,6 @@ aside .workstation-mobile-hidden {
 .workstation-dark-mode aside a:hover {
     background-color: #758da1;
 }
-
 
 @media only screen and (min-width: 1000px) {
     .workstation {

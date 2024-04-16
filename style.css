@@ -229,6 +229,38 @@ aside .workstation-mobile-hidden {
     background-color: #758da1;
 }
 
+.share {
+    box-shadow: .2px .4px 3px .6px #d9dde9fb;
+    width: fit-content;
+    padding: 10px;
+    border-radius: 10px;
+    margin: auto;
+}
+
+.workstation-dark-mode .share {
+    box-shadow: .2px .4px 3px .6px #4c4d52;
+}
+
+.share a, .share a:visited {
+    color: blue;
+}
+
+.share:hover {
+    background-color: #d9dde9fb;
+}
+
+.workstation-dark-mode .share:hover {
+    background-color:#4c4d52;
+}
+
+.workstation-dark-mode .share:hover a {
+    color:#fafbfe;
+}
+
+.share>a {
+    text-decoration: none;
+}
+
 @media only screen and (min-width: 1000px) {
     .workstation {
         min-width: 500px;

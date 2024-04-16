@@ -332,9 +332,9 @@ function generateMotivationalMessages(userName) {
 
 setTimeout(() => {
   if (isNewDay() && wsUser.length > 2) {
-    if (wsUser.toLowerCase === "victor") {
+    if (wsUser.toLowerCase() === "victor") {
       alert(`Hello inventor ${generateMotivationalMessages(wsUser)}`);
-    } else if (wsUser.toLowerCase === "lilian") {
+    } else if (wsUser.toLowerCase() === "lilian") {
       alert(`Hello my ${generateMotivationalMessages(wsUser)}`);
     } else {
       alert(`${generateMotivationalMessages(wsUser)}`);
@@ -698,7 +698,7 @@ function startRestTimer() {
 
   if (restCounter === 0) {
     restMessage.style.display = "block";
-    restMessage.textContent = "Time to rest! Please take a 5 minutes break";
+    restMessage.textContent = "Time to rest! Please take a 5 minutes break.";
 
     playAlarm("");
     setTimeout(() => {
@@ -706,28 +706,35 @@ function startRestTimer() {
     }, 10000);
 
     setTimeout(() => {
-      restMessage.textContent = "Resting time remaining: 4 minutes";
-      stopAlarm();
-    }, 60 * 1000); // 2 minutes in milliseconds
+      restMessage.textContent = "Resting time remaining: 4 minutes.";
+    }, 60 * 1000);
 
     setTimeout(() => {
-      restMessage.textContent = "You are now refreshed.";
-    }, 4 * 60 * 1000); // 4 minutes in milliseconds
+      restMessage.textContent = "Resting time remaining: 3 minutes.";
+    }, 2 * 60 * 1000);
 
     setTimeout(() => {
-      restMessage.innerText = `Break time in 30 minutes`;
-      restCounter = 30 * 60 * 1000; // 30 minutes in milliseconds
+      restMessage.textContent = "Resting time remaining: 2 minutes.";
+    }, 3 * 60 * 1000);
+
+    setTimeout(() => {
+      restMessage.textContent = "Get ready! You are now refreshed.";
+    }, 4 * 60 * 1000);
+
+    setTimeout(() => {
+      restMessage.innerText = `Break time in 30 minutes.`;
+      restCounter = 30 * 60 * 1000;
       playAlarm("2");
       setTimeout(() => {
         stopAlarm("2");
       }, 10000);
-    }, 5 * 60 * 1000); // 5 minutes in milliseconds
+    }, 5 * 60 * 1000);
 
     return;
   } else if (restCounter <= ten) {
-    restMessage.innerText = `Break time is in ${restCounter / 60000} minutes`;
+    restMessage.innerText = `Break time is in ${restCounter / 60000} minutes.`;
   } else if (restCounter <= twenty) {
-    restMessage.innerText = `Break time is in ${restCounter / 60000} minutes`;
+    restMessage.innerText = `Break time is in ${restCounter / 60000} minutes.`;
   }
 }
 

@@ -19,10 +19,11 @@
         type="image/x-icon">
     <link rel="stylesheet" href="timetracker.css">
     <link rel="stylesheet" href="todo.css">
-    <title>Time Tracker</title>
+    <title>Workstation</title>
 </head>
 
 <body id="workstation-root">
+    <div id="top"></div>
     <header class="workstation-header">
         <h1><a href="#"><span id="userLocation">Work</span>station</a></h1>
         <nav id="workstation-parent" class="workstation-nav workstation-dt workstation-center">
@@ -54,7 +55,7 @@
         <div id="inputbox">
             <div>
                 <div id="inputs">
-                    <input id="toDo" type="text" placeholder="Eg: Learn JavaScript" value="Learn JavaScript" required>
+                    <input id="toDo" type="text" placeholder="Eg: Reading for 30 minutes" value="" required>
                     <input id="taskDate" type="date" min="" value="" required>
                 </div>
                 <button id="smbtn">Submit</button><br>
@@ -135,6 +136,7 @@
         <div class="share"><a href="https://www.facebook.com/sharer/sharer.php?u=https://shootoutnow.com/workstation/"
                 target="_blank"><i class="fa fa-share-alt"></i> SHARE</a></div>
     </div>
+    <div class="back-to-top"><i class="fa-solid fa-arrow-up"></i></div>
     <script src="./timeTracker.js"></script>
     <script src="./todo.js"></script>
     <script src="./nav.js"></script>

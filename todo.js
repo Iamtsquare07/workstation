@@ -279,6 +279,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Function to load tasks from local storage
   function loadTasksFromStorage() {
     printDailyGoalHours();
+    retrieveTrackedTime();
     document.getElementById("username").textContent = wsUser + "'s";
     document.getElementById("userLocation").textContent = `${
       userWorkLocation.length > 3

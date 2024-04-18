@@ -15,10 +15,28 @@ let restInterval = 20000 * 60;
 let ten = 10000 * 60;
 let twenty = 30000 * 60;
 const autoSaveData = [];
-const AUTO_SAVE_TIMER = 30000;
+const AUTO_SAVE_TIMER = 10000;
 let goalHour = localStorage.getItem("goalHour") || 0;
 let wsUser = localStorage.getItem("wsUser") || "";
 let userWorkLocation = localStorage.getItem("userWorkLocation") || "";
+
+document.querySelector(".back-to-top").addEventListener("click", () => {
+  document.getElementById("top").scrollIntoView();
+});
+
+//  Checking the document for an intersection
+let observer = new IntersectionObserver((entries, observer) => {
+  entries.forEach((entry) => {
+    const badge = document.querySelector(".back-to-top");
+    if (entry.isIntersecting) {
+      badge.classList.add("fadein");
+    } else {
+      badge.classList.remove("fadein");
+    }
+  });
+});
+
+observer.observe(document.querySelector("#top"));
 
 if (wsUser.length < 2) {
   setTimeout(() => {
@@ -505,9 +523,6 @@ function retrieveTrackedTime() {
   }
 }
 
-// localStorage.removeItem("totalTrackedTime")
-retrieveTrackedTime();
-
 function getFormattedTime(milliseconds) {
   const seconds = Math.floor(milliseconds / 1000);
   const minutes = Math.floor(seconds / 60);
@@ -537,6 +552,15 @@ function addAutoSave() {
         "lastAutoSave",
         JSON.stringify({ taskName, elapsedTime })
       );
+
+      const elapsedTaskTime = currentTime - goalStartTime;
+      goalStartTime = currentTime;
+
+      // Add the elapsed time to totalTime
+      totalTime += elapsedTaskTime;
+
+      // Save total time to localStorage
+      localStorage.setItem("totalTrackedTime", JSON.stringify(totalTime));
       // Clear the temporary array for the next round of auto-saving
       autoSaveData.length = 0;
     }

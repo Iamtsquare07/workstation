@@ -1,0 +1,135 @@
+.login-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: #04041fb7;
+    display: none;
+}
+
+.login-screen {
+    background-color: #fafbfe;
+    width: 100%;
+    min-height: 100vh;
+    margin: auto;
+    margin-top: 0;
+    border-radius:10px;
+    padding: 10px;
+}
+
+.workstation-dark-mode .login-screen {
+    background-color: #000000;
+}
+
+.close-modal {
+    float: right;
+    display: flex;
+    align-items:center;
+    justify-content: center;
+    border-radius:50%;
+    width: 15px;
+    height: 15px;
+    padding: 8px;
+    box-shadow: .2px .4px 3px .6px #d9dde9fb;
+    cursor: pointer;
+}
+
+.close-modal:hover {
+    background-color:#d9dde9fb;
+}
+
+.workstation-dark-mode .close-modal:hover {
+    background-color:#4c4d52;
+}
+
+.workstation-dark-mode .close-modal {
+    box-shadow: .2px .4px 3px .6px #4c4d52;
+}
+
+.login-body {
+    font-family: "Rubik", sans-serif;
+    display: flex;
+    align-items:center;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 25px;
+}
+
+.login-screen {
+    width: 100%;
+}
+
+.login-inputs {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items:center;
+    width: 100%;
+    margin-top: 25px;
+}
+
+.login-inputs .inputs {
+    padding: 15px 10px;
+    border-radius:10px;
+    border: 1px solid #d9dde9fb;
+    box-shadow: .2px .4px 3px .6px #d9dde9fb;
+    margin-bottom: 5px;
+    display: flex;
+    align-items:center;
+    margin-top: 5px;;
+}
+
+.workstation-dark-mode .inputs {
+    border: 1px solid #4c4d52;
+    box-shadow: .2px .4px 3px .6px #4c4d52;
+}
+
+.login-inputs label {
+    width: 90%;
+}
+
+.login-inputs input {
+    border:none;
+    outline: none;
+    cursor: pointer;
+    background-color: #fafbfe;
+    margin-left: 5px;
+}
+
+.workstation-dark-mode .login-inputs input {
+    background-color: #000000;
+    color:#fafbfed3;
+}
+
+.login-inputs button {
+    padding: 10px 5px;
+    border-radius:20px;
+    background-color: #00006e;
+    background-image: linear-gradient(to right, #0f31f3, #00006e);
+    border:none;
+    width: 85%;
+    margin-top: 30px;
+}
+
+.workstation-dark-mode .login-inputs button {
+    background-image: linear-gradient(to right, #00006e, #0f31f3);
+}
+
+.h2 h2{
+    font-size: 28px;
+}
+
+.reset-password {
+    float: left;
+    cursor: pointer;
+    margin-top: 5px;
+}
+
+@media only screen and (min-width: 1024px) {
+    .login-screen {
+        width: 400px;
+        min-height: 540px;
+        margin-top: 70px;
+    }
+}

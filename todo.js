@@ -280,6 +280,7 @@ document.addEventListener("DOMContentLoaded", function () {
   function loadTasksFromStorage() {
     printDailyGoalHours();
     retrieveTrackedTime();
+    checkYesterdayStreak(JSON.parse(localStorage.getItem("lastTrackedDate")));
     document.getElementById("username").textContent = wsUser + "'s";
     document.getElementById("userLocation").textContent = `${
       userWorkLocation.length > 3

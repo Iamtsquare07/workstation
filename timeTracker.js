@@ -9,6 +9,7 @@ const logList = document.getElementById("logList");
 const restMessage = document.getElementById("restMessage");
 const logging = document.getElementById("logging");
 const timeLog = JSON.parse(localStorage.getItem("timeLog")) || [];
+const loginModal = document.querySelector(".login-modal");
 let taskInput;
 let restCounter = 30000 * 60;
 let restInterval = 20000 * 60;
@@ -19,6 +20,7 @@ const AUTO_SAVE_TIMER = 10000;
 let goalHour = localStorage.getItem("goalHour") || 0;
 let wsUser = localStorage.getItem("wsUser") || "";
 let userWorkLocation = localStorage.getItem("userWorkLocation") || "";
+let firstInitialization = false;
 
 document.querySelector(".back-to-top").addEventListener("click", () => {
   document.getElementById("top").scrollIntoView();
@@ -37,6 +39,25 @@ let observer = new IntersectionObserver((entries, observer) => {
 });
 
 observer.observe(document.querySelector("#top"));
+
+const loginScreen = document.querySelector(".login-screen");
+
+document.body.addEventListener("click", function (event) {
+  if (!loginScreen.contains(event.target)) {
+    loginModal.style.display = "none";
+  }
+});
+loginModal.style.display = "block";
+document
+  .querySelector(".user-login")
+  .addEventListener("click", function (event) {
+    event.preventDefault();
+    loginModal.style.display = "block";
+  });
+
+document
+  .querySelector(".close-modal")
+  .addEventListener("click", () => (loginModal.style.display = "none"));
 
 if (wsUser.length < 2) {
   setTimeout(() => {
@@ -437,13 +458,29 @@ function trackTime() {
       JSON.stringify(yesterdayTotalTime)
     );
     localStorage.setItem("lastTrackedDate", JSON.stringify(today));
-    totalTime = 0; // Reset totalTime for the new day
+
+    checkYesterdayStreak(lastTrackedDate);
+    // Reset totalTime for the new day
+    totalTime = 0;
     localStorage.setItem("totalTrackedTime", JSON.stringify(totalTime));
-    // Increment streak
+  }
+}
+
+function checkYesterdayStreak(lastTrackedDate) {
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+  const yesterdayDateString = yesterday.toISOString().slice(0, 10);
+
+  if (lastTrackedDate === yesterdayDateString) {
+    // Increment streak only if last tracked date was yesterday
     let streak = parseInt(localStorage.getItem("streak")) || 0;
     streak++;
     localStorage.setItem("streak", streak);
     document.getElementById("streak-days").textContent = streak;
+  } else {
+    // Reset streak to 0 if last tracked date was not yesterday
+    localStorage.setItem("streak", 0);
+    document.getElementById("streak-days").textContent = 0;
   }
 }
 

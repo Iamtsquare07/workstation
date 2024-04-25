@@ -459,14 +459,14 @@ function trackTime() {
     );
     localStorage.setItem("lastTrackedDate", JSON.stringify(today));
 
-    checkYesterdayStreak(lastTrackedDate);
+    checkYesterdayStreak(lastTrackedDate, true);
     // Reset totalTime for the new day
     totalTime = 0;
     localStorage.setItem("totalTrackedTime", JSON.stringify(totalTime));
   }
 }
 
-function checkYesterdayStreak(lastTrackedDate) {
+function checkYesterdayStreak(lastTrackedDate, incrementDays) {
   const yesterday = new Date();
   yesterday.setDate(yesterday.getDate() - 1);
   const yesterdayDateString = yesterday.toISOString().slice(0, 10);
@@ -474,7 +474,7 @@ function checkYesterdayStreak(lastTrackedDate) {
   if (lastTrackedDate === yesterdayDateString) {
     // Increment streak only if last tracked date was yesterday
     let streak = parseInt(localStorage.getItem("streak")) || 0;
-    streak++;
+    incrementDays ? streak++ : console.log("Increment not specified");
     localStorage.setItem("streak", streak);
     document.getElementById("streak-days").textContent = streak;
   } else {

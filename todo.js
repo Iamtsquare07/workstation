@@ -10,7 +10,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Load tasks from local storage when the page loads
   loadTasksFromStorage();
-
+  checkYesterdayStreak(
+    JSON.parse(localStorage.getItem("lastTrackedDate")),
+    false
+  );
   submitButton.addEventListener("click", addTask);
   document.getElementById("toDo").addEventListener("keypress", function (e) {
     if (e.key === "Enter") addTask();
@@ -280,7 +283,7 @@ document.addEventListener("DOMContentLoaded", function () {
   function loadTasksFromStorage() {
     printDailyGoalHours();
     retrieveTrackedTime();
-    checkYesterdayStreak(JSON.parse(localStorage.getItem("lastTrackedDate")));
+
     document.getElementById("username").textContent = wsUser + "'s";
     document.getElementById("userLocation").textContent = `${
       userWorkLocation.length > 3

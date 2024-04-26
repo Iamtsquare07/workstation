@@ -47,14 +47,15 @@ document.body.addEventListener("click", function (event) {
     loginModal.style.display = "none";
   }
 });
-loginModal.style.display = "block";
+
 document
   .querySelector(".user-login")
-  .addEventListener("click", function (event) {
-    event.preventDefault();
-    loginModal.style.display = "block";
-  });
+  .addEventListener("click", showLoginModal);
 
+  function showLoginModal (event) {
+    // event.preventDefault();
+    loginModal.style.display = "block";
+  }
 document
   .querySelector(".close-modal")
   .addEventListener("click", () => (loginModal.style.display = "none"));
@@ -458,7 +459,7 @@ function trackTime() {
       JSON.stringify(yesterdayTotalTime)
     );
     localStorage.setItem("lastTrackedDate", JSON.stringify(today));
-
+    document.getElementById("completed-goal-time").textContent = "0 minute";
     checkYesterdayStreak(lastTrackedDate, true);
     // Reset totalTime for the new day
     totalTime = 0;
@@ -481,6 +482,7 @@ function checkYesterdayStreak(lastTrackedDate, incrementDays) {
     // Reset streak to 0 if last tracked date was not yesterday
     localStorage.setItem("streak", 0);
     document.getElementById("streak-days").textContent = 0;
+    document.getElementById("completed-goal-time").textContent = "0 minute";
   }
 }
 

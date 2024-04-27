@@ -31,7 +31,7 @@
             <a id="wiki-menu" href="/">Home</a>
             <a id="wiki-menu" href="#log">Logs</a>
             <a href="https://www.github.com/iamtsquare07" id="wiki-menu">Projects</a>
-            <a class="user-login" onclick="showLoginModal()" id="wiki-menu" href="#">Login</a>
+            <a class="user-login" id="wiki-menu" href="#">Login</a>
         </nav>
         <nav class="workstation-nav">
             <button class="workstation-mode" onclick="toggleDarkMode()"><span id="workstation-icon"><i
@@ -47,7 +47,7 @@
         <a id="wiki-menu" class="workstation-mobile" href="/">Home</a>
         <a id="wiki-menu" class="workstation-mobile" href="#log">Logs</a>
         <a id="wiki-menu" href="https://www.github.com/iamtsquare07">Projects</a>
-        <a id="wiki-menu" href="#">Login</a>
+        <a id="wiki-menu" class="user-login-mobile" href="#">Login</a>
         <a id="wiki-menu" class="save-progress">Save</a>
     </aside>
     <h1>WorkStation</h1>
@@ -142,34 +142,74 @@
     <div class="login-modal">
         <div class="login-screen">
             <div class="close-modal"><i class="fa-solid fa-x"></i></div>
-            <div class="login-body">
-                <div class="h2">
-                    <h2>Login</h2>
-                </div>
-                <div class="login-inputs">
-                    <label for="email">Email
-                        <div class="inputs">
-                            <i class="fa-regular fa-envelope"></i><input type="email" id="email"
-                                placeholder="Type your email">
-                        </div>
-                    </label>
+            <div class="login-container">
+                <div class="login-body">
+                    <div class="h2">
+                        <h2>Login</h2>
+                    </div>
+                    <div class="login-inputs">
+                        <label for="email">Email
+                            <div class="inputs">
+                                <i class="fa-regular fa-envelope"></i><input type="email" id="email"
+                                    placeholder="Type your email">
+                            </div>
+                        </label>
 
-                    <label for="password">Password
-                        <div class="inputs">
-                            <i class="fa-solid fa-lock"></i><input type="password" placeholder="Type your password">
-                        </div>
-                    </label>
-                    <div class="reset-password">Forgot password?</div>
-                    <button>Login</button>
+                        <label for="password">Password
+                            <div class="inputs">
+                                <i class="fa-solid fa-lock"></i><input type="password" placeholder="Type your password">
+                            </div>
+                        </label>
+                        <div class="reset-password">Forgot password?</div>
+                        <button>LOGIN</button>
+                    </div>
+                    <div class="new-user">
+                        Do not have an account? <br>
+                        <a id="sign-up" class="sign-up" href="#">SIGN UP</a>
+                    </div>
+                </div>
+            </div>
+            <div class="signup-container">
+                <div class="signup-body">
+                    <div class="h2">
+                        <h2>Create Account</h2>
+                    </div>
+                    <div class="signup-inputs">
+                        <label for="name">Name
+                            <div class="inputs">
+                                <i class="fa-regular fa-id-card"></i><input type="text" id="name"
+                                    placeholder="What's your name?">
+                            </div>
+                        </label>
+                        <label for="new-user-email">Email
+                            <div class="inputs">
+                                <i class="fa-regular fa-envelope"></i><input type="email" id="new-user-email"
+                                    placeholder="Type your email">
+                            </div>
+                        </label>
+
+                        <label for="password">Password
+                            <div class="inputs">
+                                <i class="fa-solid fa-lock"></i><input type="password"
+                                    placeholder="Enter a strong password">
+                            </div>
+                        </label>
+                        <button>SIGN UP</button>
+                    </div>
+                    <div class="new-user">
+                        Already have an account? <br>
+                        <a id="login" class="login" href="#">LOGIN</a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
     <div class="back-to-top"><i class="fa-solid fa-arrow-up"></i></div>
-    <script src="./timeTracker.js"></script>
-    <script src="./todo.js"></script>
     <script src="./nav.js"></script>
     <script src="./darkMode.js"></script>
+    <script src="./login.js"></script>
+    <script src="./timeTracker.js"></script>
+    <script src="./todo.js"></script>
     <script type="module" src="./saveData.js"></script>
 </body>
 

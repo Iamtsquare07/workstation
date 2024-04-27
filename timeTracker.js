@@ -9,7 +9,6 @@ const logList = document.getElementById("logList");
 const restMessage = document.getElementById("restMessage");
 const logging = document.getElementById("logging");
 const timeLog = JSON.parse(localStorage.getItem("timeLog")) || [];
-const loginModal = document.querySelector(".login-modal");
 let taskInput;
 let restCounter = 30000 * 60;
 let restInterval = 20000 * 60;
@@ -39,26 +38,6 @@ let observer = new IntersectionObserver((entries, observer) => {
 });
 
 observer.observe(document.querySelector("#top"));
-
-const loginScreen = document.querySelector(".login-screen");
-
-document.body.addEventListener("click", function (event) {
-  if (!loginScreen.contains(event.target)) {
-    loginModal.style.display = "none";
-  }
-});
-
-document
-  .querySelector(".user-login")
-  .addEventListener("click", showLoginModal);
-
-  function showLoginModal (event) {
-    // event.preventDefault();
-    loginModal.style.display = "block";
-  }
-document
-  .querySelector(".close-modal")
-  .addEventListener("click", () => (loginModal.style.display = "none"));
 
 if (wsUser.length < 2) {
   setTimeout(() => {

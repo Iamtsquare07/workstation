@@ -33,7 +33,9 @@ h1 {
 
 a {
     font-family: "Rubik", sans-serif;
+    color:#000025;
 }
+
 
 .workstation-header {
     display: flex;
@@ -155,7 +157,12 @@ aside a {
     padding: 5px 5px;
     text-decoration: none;
     font-size: 14.7px;
-    font-weight: 100;
+    font-weight: 400;
+    color:#000025;
+}
+
+aside a:visited {
+    color:#000025;
 }
 
 aside button.workstation-close {

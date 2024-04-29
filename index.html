@@ -47,8 +47,8 @@
         <a id="wiki-menu" class="workstation-mobile" href="/">Home</a>
         <a id="wiki-menu" class="workstation-mobile" href="#log">Logs</a>
         <a id="wiki-menu" href="https://www.github.com/iamtsquare07">Projects</a>
+        <a id="wiki-menu" href="#" class="save-progress">Save</a>
         <a id="wiki-menu" class="user-login-mobile" href="#">Login</a>
-        <a id="wiki-menu" class="save-progress">Save</a>
     </aside>
     <h1>WorkStation</h1>
 
@@ -151,17 +151,18 @@
                         <label for="email">Email
                             <div class="inputs">
                                 <i class="fa-regular fa-envelope"></i><input type="email" id="email"
-                                    placeholder="Type your email">
+                                    placeholder="Type your email" required>
                             </div>
                         </label>
 
                         <label for="password">Password
                             <div class="inputs">
-                                <i class="fa-solid fa-lock"></i><input type="password" placeholder="Type your password">
+                                <i class="fa-solid fa-lock"></i><input id="login-password" type="password"
+                                    placeholder="Type your password" required>
                             </div>
                         </label>
                         <div class="reset-password">Forgot password?</div>
-                        <button>LOGIN</button>
+                        <button id="login-btn">LOGIN</button>
                     </div>
                     <div class="new-user">
                         Do not have an account? <br>
@@ -178,23 +179,23 @@
                         <label for="name">Name
                             <div class="inputs">
                                 <i class="fa-regular fa-id-card"></i><input type="text" id="name"
-                                    placeholder="What's your name?">
+                                    placeholder="What's your name?" required>
                             </div>
                         </label>
                         <label for="new-user-email">Email
                             <div class="inputs">
                                 <i class="fa-regular fa-envelope"></i><input type="email" id="new-user-email"
-                                    placeholder="Type your email">
+                                    placeholder="Type your email" required>
                             </div>
                         </label>
 
                         <label for="password">Password
                             <div class="inputs">
-                                <i class="fa-solid fa-lock"></i><input type="password"
-                                    placeholder="Enter a strong password">
+                                <i class="fa-solid fa-lock"></i><input id="password" type="password"
+                                    placeholder="Enter a strong password" required>
                             </div>
                         </label>
-                        <button>SIGN UP</button>
+                        <button id="signup-btn">SIGN UP</button>
                     </div>
                     <div class="new-user">
                         Already have an account? <br>

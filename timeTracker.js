@@ -443,6 +443,7 @@ function trackTime() {
     // Reset totalTime for the new day
     totalTime = 0;
     localStorage.setItem("totalTrackedTime", JSON.stringify(totalTime));
+    document.getElementById("completed-goal-time").textContent = "0 minute";
   }
 }
 
@@ -461,7 +462,8 @@ function checkYesterdayStreak(lastTrackedDate, incrementDays) {
     // Reset streak to 0 if last tracked date was not yesterday
     localStorage.setItem("streak", 0);
     document.getElementById("streak-days").textContent = 0;
-    document.getElementById("completed-goal-time").textContent = "0 minute";
+    localStorage.setItem("yesterdayTotalTrackedTime", 0);
+    retrieveTrackedTime();
   }
 }
 

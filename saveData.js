@@ -5,6 +5,7 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  signOut,
 } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-auth.js";
 import {
   getDatabase,
@@ -38,7 +39,6 @@ function signup() {
 
   createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
-      // Signed up
       const user = userCredential.user;
       console.log(user);
     })
@@ -64,7 +64,6 @@ function login() {
 
   signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
-      // Signed in
       const user = userCredential.user;
       console.log(user);
     })
@@ -77,6 +76,16 @@ function login() {
   alert("Login successful");
 }
 document.getElementById("login-btn").addEventListener("click", login);
+
+function logOut() {
+  signOut(auth)
+    .then(() => {
+      alert("Sign-out successful");
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
 
 async function setData(email) {
   const id = email.replace(/[.]/g, "");

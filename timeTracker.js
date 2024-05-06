@@ -20,6 +20,7 @@ let goalHour = localStorage.getItem("goalHour") || 0;
 let wsUser = localStorage.getItem("wsUser") || "";
 let userWorkLocation = localStorage.getItem("userWorkLocation") || "";
 let firstInitialization = false;
+let goalReached = false;
 
 document.querySelector(".back-to-top").addEventListener("click", () => {
   document.getElementById("top").scrollIntoView();
@@ -479,6 +480,16 @@ function stopTimeTracking() {
   localStorage.setItem("totalTrackedTime", JSON.stringify(totalTime));
 
   retrieveTrackedTime();
+  const trackedTime = totalTime / (1000 * 60 * 60);
+
+  if (trackedTime >= goalHour) {
+    if (!goalReached) {
+      alert(
+        `Congratulations ${wsUser}, you have smashed your goal for today. ${goalHour} hours of serious work. WOW!`
+      );
+      goalReached = true;
+    }
+  }
 }
 
 function retrieveTrackedTime() {

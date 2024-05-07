@@ -441,10 +441,10 @@ function trackTime() {
     localStorage.setItem("lastTrackedDate", JSON.stringify(today));
     document.getElementById("completed-goal-time").textContent = "0 minute";
     checkYesterdayStreak(lastTrackedDate, true);
-    // Reset totalTime for the new day
     totalTime = 0;
     localStorage.setItem("totalTrackedTime", JSON.stringify(totalTime));
     document.getElementById("completed-goal-time").textContent = "0 minute";
+    let goalReached = false;
   }
 }
 
@@ -471,12 +471,10 @@ function checkYesterdayStreak(lastTrackedDate, incrementDays) {
 function stopTimeTracking() {
   const currentTime = Date.now();
   const elapsedTime = currentTime - goalStartTime;
-  goalStartTime = currentTime; // Update goalStartTime for the next session
+  goalStartTime = currentTime;
 
-  // Add the elapsed time to totalTime
   totalTime += elapsedTime;
 
-  // Save total time to localStorage
   localStorage.setItem("totalTrackedTime", JSON.stringify(totalTime));
 
   retrieveTrackedTime();

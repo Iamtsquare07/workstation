@@ -70,8 +70,8 @@ function login() {
     .catch((error) => {
       const errorCode = error.code;
       const errorMessage = error.message;
-      console.log(email, password);
-      console.log(password.length);
+      console.log(errorCode);
+      console.log(errorMessage);
     });
   alert("Login successful");
 }
@@ -108,7 +108,7 @@ async function setData(email) {
   const yesterdayTotalTrackedTime =
     JSON.parse(localStorage.getItem("yesterdayTotalTrackedTime")) || null;
   if (isValidEmail(email)) {
-    set(ref(db, "workstation/" + id), {
+    set(ref(db, "workstation/user/" + id), {
       user: email,
       user: user,
       userWorkLocation: userWorkLocation,
@@ -149,8 +149,6 @@ async function sendData(email) {
   }
 }
 
-// sendData(localStorage.getItem('email'));
-
 function isValidEmail(email) {
   // Regular expression for a simple email validation
   const emailInspector = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -174,15 +172,11 @@ function isValidPassword(password) {
 }
 
 async function retriveDataFromDatabase(email) {
-  // if (!isValidEmail(email)) {
-  //   email = '';
-  // }
-
   let data;
   const id = email.replace(/[.]/g, "");
   const dbref = ref(db);
 
-  get(child(dbref, "financeBuddy/" + id))
+  get(child(dbref, "workstation/user/" + id))
     .then((snapshot) => {
       if (snapshot.exists()) {
         data = snapshot.val();

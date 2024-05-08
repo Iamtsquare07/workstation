@@ -40,6 +40,7 @@ function signup() {
   createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       const user = userCredential.user;
+      localStorage.setItem("wsUser", name);
       console.log(user);
     })
     .catch((error) => {
@@ -57,8 +58,13 @@ function login() {
   console.log(email, password);
   console.log(password.length);
 
-  if (!isValidPassword(password) || !isValidEmail(email)) {
+  if (!isValidEmail(email)) {
     alert("Please enter a valid email and password");
+    return;
+  }
+
+  if (JSON.parse(localStorage.getItem("userLoggedIn")) === true) {
+    alert(`You are already logged in as ${wsUser}`);
     return;
   }
 
@@ -66,14 +72,27 @@ function login() {
     .then((userCredential) => {
       const user = userCredential.user;
       console.log(user);
+      localStorage.setItem("userLoggedIn", JSON.stringify(true));
+      localStorage.setItem("currentUser", user);
+      localStorage.setItem("currentUserEmail", email);
+      alert("Login successful");
     })
     .catch((error) => {
       const errorCode = error.code;
       const errorMessage = error.message;
+      let errorText;
+      if (errorCode == "auth/invalid-login-credentials") {
+        errorText = "Invalid login credentials";
+      } else if (errorCode == "auth/invalid-password-credentials") {
+        errorText = "Invalid password";
+      } else {
+        errorText = errorCode;
+      }
+
+      alert(`${errorText}, please check your login details and try again.`);
       console.log(errorCode);
       console.log(errorMessage);
     });
-  alert("Login successful");
 }
 document.getElementById("login-btn").addEventListener("click", login);
 

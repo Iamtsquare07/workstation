@@ -22,6 +22,7 @@ let userWorkLocation = localStorage.getItem("userWorkLocation") || "";
 let firstInitialization = false;
 let goalReached = false;
 
+
 document.querySelector(".back-to-top").addEventListener("click", () => {
   document.getElementById("top").scrollIntoView();
 });

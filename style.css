@@ -33,7 +33,7 @@ h1 {
 
 a {
     font-family: "Rubik", sans-serif;
-    color:#000025;
+    color: #000025;
 }
 
 
@@ -94,6 +94,45 @@ a {
     font-weight: 600;
 }
 
+.workstation-nav ul {
+    display: inline-block;
+    font-family: "Rubik", sans-serif;
+}
+
+.account-menu {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+}
+
+.account-menu li {
+    position: relative;
+}
+
+.account-menu li:hover .submenu {
+    display: block;
+}
+
+.submenu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #00006e;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+#account-btn {
+    display: none;
+}
+
+.account-menu:hover #account-btn {
+    display: block;
+}
+
+
 .workstation-header .workstation-nav.workstation-right {
     text-align: right;
 }
@@ -131,6 +170,7 @@ a {
     padding: 7px 15px 7px 15px;
     cursor: pointer;
     margin-right: 20px;
+    font-family: "Rubik", sans-serif;
 }
 
 #workstation-menu:hover {
@@ -158,11 +198,11 @@ aside a {
     text-decoration: none;
     font-size: 14.7px;
     font-weight: 400;
-    color:#000025;
+    color: #000025;
 }
 
 aside a:visited {
-    color:#000025;
+    color: #000025;
 }
 
 aside button.workstation-close {

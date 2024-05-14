@@ -26,10 +26,10 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 const auth = getAuth();
 
-function signup() {
-  const name = document.getElementById("name").value;
-  const email = document.getElementById("new-user-email").value;
-  const password = document.getElementById("password").value;
+function signUp() {
+  let name = document.getElementById("name").value;
+  let email = document.getElementById("new-user-email").value;
+  let password = document.getElementById("password").value;
   console.log(name, email, password);
 
   if (!isValidPassword(password) || !isValidEmail(email)) {
@@ -42,21 +42,34 @@ function signup() {
       const user = userCredential.user;
       localStorage.setItem("wsUser", name);
       console.log(user);
+      alert("Signed up successfully");
+      switchToLogin(email, password);
+      name = "";
+      email = "";
+      password = "";
     })
     .catch((error) => {
       const errorCode = error.code;
       const errorMessage = error.message;
       console.log(errorCode, errorMessage);
     });
-  alert("Signed up successfully");
 }
-document.getElementById("signup-btn").addEventListener("click", signup);
+document.getElementById("signup-btn").addEventListener("click", signUp);
+document.getElementById("password").addEventListener("keypress", function (e) {
+  if (e.key === "Enter") signUp();
+});
 
-function login() {
+function switchToLogin(email, password) {
+  document.querySelector(".login-container").style.display = "block";
+  document.querySelector(".signup-container").style.display = "none";
+
+  document.getElementById("email").value = email;
+  document.getElementById("login-password").value = password;
+}
+
+function logIn() {
   const email = document.getElementById("email").value;
   const password = document.getElementById("login-password").value;
-  console.log(email, password);
-  console.log(password.length);
 
   if (!isValidEmail(email)) {
     alert("Please enter a valid email and password");
@@ -76,6 +89,7 @@ function login() {
       localStorage.setItem("currentUser", user);
       localStorage.setItem("currentUserEmail", email);
       alert("Login successful");
+      location.reload(true);
     })
     .catch((error) => {
       const errorCode = error.code;
@@ -94,21 +108,51 @@ function login() {
       console.log(errorMessage);
     });
 }
-document.getElementById("login-btn").addEventListener("click", login);
+document.getElementById("login-btn").addEventListener("click", logIn);
+document
+  .getElementById("login-password")
+  .addEventListener("keypress", function (e) {
+    if (e.key === "Enter") logIn();
+  });
 
 function logOut() {
   signOut(auth)
     .then(() => {
-      alert("Sign-out successful");
+      localStorage.setItem("userLoggedIn", JSON.stringify(false));
+      localStorage.setItem("currentUserEmail", "");
+      document.querySelectorAll(".logout").forEach((element) => {
+        element.innerText = "Login";
+        element.classList.add("user-login");
+        element.classList.remove("logout");
+      });
+
+      alert("Logged out successfully");
+      location.reload(true);
     })
     .catch((error) => {
       console.log(error);
     });
 }
 
-async function setData(email) {
-  const id = email.replace(/[.]/g, "");
+window.onload = () => {
+  if (JSON.parse(localStorage.getItem("userLoggedIn")) === true) {
+    let loginBtn = document.querySelector(".user-login");
+    let mobileLoginBtn = document.querySelector(".user-login-mobile");
 
+    loginBtn.removeEventListener("click", showLoginModal);
+    mobileLoginBtn.removeEventListener("click", showLoginModal);
+    loginBtn.classList.add("logout");
+    loginBtn.classList.remove("user-login");
+    mobileLoginBtn.classList.add("logout");
+    mobileLoginBtn.classList.remove("user-login-mobile");
+
+    document.querySelectorAll(".logout").forEach((element) => {
+      element.addEventListener("click", logOut);
+    });
+  }
+};
+
+async function setData(email, id) {
   const user = localStorage.getItem("wsUser") || null;
   const userWorkLocation = localStorage.getItem("userWorkLocation") || null;
   const lastVisitDate = localStorage.getItem("lastVisitDate") || null;
@@ -128,8 +172,9 @@ async function setData(email) {
     JSON.parse(localStorage.getItem("yesterdayTotalTrackedTime")) || null;
   if (isValidEmail(email)) {
     set(ref(db, "workstation/user/" + id), {
-      user: email,
-      user: user,
+      userEmail: email,
+      userName: user,
+      userId: id,
       userWorkLocation: userWorkLocation,
       lastVisitDate: lastVisitDate,
       goalHour: goalHour,

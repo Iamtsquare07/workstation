@@ -1,6 +1,6 @@
 const body = document.getElementById("workstation-root");
 const icon = document.getElementById("workstation-icon");
-
+localStorage.setItem("mode", "light");
 function toggleDarkMode() {
   const currentClass = body.className;
   body.className =
@@ -20,10 +20,10 @@ function toggleDarkMode() {
   localStorage.setItem("mode", mode);
 }
 
-window.onload = function() {
+window.onload = function () {
   const mode = localStorage.getItem("mode");
   if (mode === "dark") {
     body.className = "workstation-dark-mode";
-    icon.innerHTML = `<i class="fa-regular fa-sun"></i>`
+    icon.innerHTML = `<i class="fa-regular fa-sun"></i>`;
   }
 };

@@ -22,7 +22,6 @@ let userWorkLocation = localStorage.getItem("userWorkLocation") || "";
 let firstInitialization = false;
 let goalReached = false;
 
-
 document.querySelector(".back-to-top").addEventListener("click", () => {
   document.getElementById("top").scrollIntoView();
 });
@@ -41,7 +40,7 @@ let observer = new IntersectionObserver((entries, observer) => {
 
 observer.observe(document.querySelector("#top"));
 
-if (wsUser.length < 2) {
+if (wsUser.length < 1) {
   setTimeout(() => {
     do {
       wsUser = prompt("What is your name, beloved?", "");
@@ -598,22 +597,24 @@ function addAutoSave() {
 }
 
 // Retrieve the most recent entry from localStorage
-const lastAutoSave = JSON.parse(localStorage.getItem("lastAutoSave"));
+if (typeof localStorage.getItem("lastAutoSave") === "object") {
+  const lastAutoSave = JSON.parse(localStorage.getItem("lastAutoSave"));
 
-if (lastAutoSave) {
-  // Check if the entry already exists in timeLog
-  const existingEntryIndex = timeLog.findIndex(
-    (entry) => entry.taskName === lastAutoSave.taskName
-  );
+  if (lastAutoSave) {
+    // Check if the entry already exists in timeLog
+    const existingEntryIndex = timeLog.findIndex(
+      (entry) => entry.taskName === lastAutoSave.taskName
+    );
 
-  if (existingEntryIndex === -1) {
-    // If the entry doesn't exist, push it to timeLog
-    timeLog.push(lastAutoSave);
-    localStorage.setItem("timeLog", JSON.stringify(timeLog));
+    if (existingEntryIndex === -1) {
+      // If the entry doesn't exist, push it to timeLog
+      timeLog.push(lastAutoSave);
+      localStorage.setItem("timeLog", JSON.stringify(timeLog));
+    }
+
+    // Clear the localStorage entry for the next round
+    localStorage.removeItem("lastAutoSave");
   }
-
-  // Clear the localStorage entry for the next round
-  localStorage.removeItem("lastAutoSave");
 }
 
 function stopTracking() {
@@ -639,6 +640,7 @@ function stopTracking() {
   logging.style.visibility = "hidden";
   restMessage.style.display = "none";
   isRunning = false;
+  const lastAutoSave = JSON.parse(localStorage.getItem("lastAutoSave"));
   if (lastAutoSave) {
     localStorage.removeItem("lastAutoSave");
   }
@@ -741,6 +743,7 @@ function clearLogs() {
   logList.innerHTML = "";
   timeLog.length = 0;
   localStorage.removeItem("timeLog");
+  const lastAutoSave = JSON.parse(localStorage.getItem("lastAutoSave"));
   if (lastAutoSave) {
     localStorage.removeItem("lastAutoSave");
   }

@@ -33,7 +33,6 @@ function signUp() {
   let name = document.getElementById("name").value;
   let email = document.getElementById("new-user-email").value;
   let password = document.getElementById("password").value;
-  console.log(name, email, password);
 
   if (!isValidPassword(password) || !isValidEmail(email)) {
     alert("Please enter a valid email and password");
@@ -45,7 +44,6 @@ function signUp() {
     .then((userCredential) => {
       const user = userCredential.user;
       localStorage.setItem("wsUser", name);
-      console.log(user);
       sendEmailVerification(auth.currentUser);
 
       setTimeout(() => {

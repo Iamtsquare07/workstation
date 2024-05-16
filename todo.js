@@ -188,12 +188,12 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function clearList() {
-    listsContainer.innerHTML = ""; // Clear all lists
-    completedContainer.innerHTML = ""; // Clear completed tasks
+    listsContainer.innerHTML = "";
+    completedContainer.innerHTML = "";
     taskHeader.textContent = "Add to your tasklist";
     completedHeader.style.display = "none";
     clearBtn.style.display = "none";
-    localStorage.removeItem("tasks"); // Clear tasks from local storage
+    localStorage.removeItem("tasks");
   }
 
   clearBtn.addEventListener("click", clearList);
@@ -311,14 +311,4 @@ document.addEventListener("DOMContentLoaded", function () {
       taskHeader.textContent = "Add tasks to your task list";
     }
   }
-
-  function saveProgress() {
-    saveTasksToStorage();
-    const storedTasks = localStorage.getItem("tasks");
-
-    console.log(storedTasks);
-    alert("Saved");
-  }
-
-  document.querySelector(".save-progress").onclick = saveProgress;
 });

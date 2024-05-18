@@ -10,10 +10,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Load tasks from local storage when the page loads
   loadTasksFromStorage();
-  checkYesterdayStreak(
-    JSON.parse(localStorage.getItem("lastTrackedDate")),
-    false
-  );
   submitButton.addEventListener("click", addTask);
   document.getElementById("toDo").addEventListener("keypress", function (e) {
     if (e.key === "Enter") addTask();
@@ -111,6 +107,7 @@ document.addEventListener("DOMContentLoaded", function () {
     listItem.querySelector(".deleteToDo").addEventListener("click", () => {
       listItem.remove();
       saveTasksToStorage();
+      location.reload();
     });
 
     listItem.querySelector(".editToDo").addEventListener("click", () => {
@@ -197,7 +194,9 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   clearBtn.addEventListener("click", clearList);
-
+  if (listsContainer.textContent == "") {
+    clearList();
+  }
   // Get or create a task list based on the date
   function getOrCreateTaskList(dateString) {
     const formattedDate = formatDate(dateString);
@@ -312,3 +311,4 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 });
+

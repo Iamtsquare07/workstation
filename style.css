@@ -36,6 +36,20 @@ a {
     color: #000025;
 }
 
+button {
+    cursor: pointer;
+    padding: 15px 25px;
+    background-color: #1b37b4;
+    border: 1px solid #1b37b4;
+    border-radius: 25px;
+    color: #ffffff;
+    font-family: "Rubik", sans-serif;
+}
+
+button:hover {
+    border: 1px solid #0530f1;
+    background-color: #0530f1;
+}
 
 .workstation-header {
     display: flex;

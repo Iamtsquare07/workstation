@@ -27,7 +27,7 @@
 <body id="workstation-root">
     <div id="top"></div>
     <header class="workstation-header">
-        <h1><a href="#"><span id="userLocation">Work</span>station</a></h1>
+        <h1><a href="/"><span id="userLocation">Work</span>station</a></h1>
         <nav id="workstation-parent" class="workstation-nav workstation-dt workstation-center">
             <a id="wiki-menu" href="/">Home</a>
             <a id="wiki-menu" href="#log">Logs</a>
@@ -57,9 +57,9 @@
         <a id="wiki-menu" class="workstation-mobile" href="#log">Logs</a>
         <a id="wiki-menu" href="https://www.github.com/iamtsquare07">Projects</a>
         <a id="wiki-menu" href="#" class="save-progress">Save</a>
+        <a id="wiki-menu" href="#" class="load-progress">Load</a>
         <a id="wiki-menu" class="user-login-mobile" href="#"></a>
     </aside>
-    <h1>WorkStation</h1>
 
     <div class="workstation">
         <h4>Add a task and track your time to work efficiently</h4>
@@ -145,6 +145,9 @@
         <audio id="alarmSound2"
             src="https://www.shootoutnow.com/wp-content/uploads/2024/04/ambient-flute-notification-3-185275.mp3"
             preload="auto"></audio>
+        <audio id="alarmSound3"
+            src="https://www.shootoutnow.com/wp-content/uploads/2024/05/drinking-fountain_nature.mp3"
+            preload="auto"></audio>
         <div class="share"><a href="https://www.facebook.com/sharer/sharer.php?u=https://shootoutnow.com/workstation/"
                 target="_blank"><i class="fa fa-share-alt"></i> SHARE</a></div>
     </div>
@@ -224,7 +227,7 @@
     <script src="./darkMode.js"></script>
     <script src="./login.js"></script>
     <script src="./timeTracker.js"></script>
-    <script src="./todo.js"></script>
+    <script type="module" src="./todo.js"></script>
     <script type="module" src="./saveData.js"></script>
 </body>
 

@@ -1,4 +1,3 @@
-// import { updateBudget, updateTableFromLocalStorage } from "./index.js";
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js";
 import {
@@ -44,6 +43,7 @@ function signUp() {
     .then((userCredential) => {
       const user = userCredential.user;
       localStorage.setItem("wsUser", name);
+      localStorage.setItem("currentUser", JSON.stringify(user));
       sendEmailVerification(auth.currentUser);
 
       setTimeout(() => {
@@ -61,6 +61,7 @@ function signUp() {
       const errorCode = error.code;
       const errorMessage = error.message;
       console.log(errorCode, errorMessage);
+      hideLoader();
     });
 }
 document.getElementById("signup-btn").addEventListener("click", signUp);
@@ -68,15 +69,7 @@ document.getElementById("password").addEventListener("keypress", function (e) {
   if (e.key === "Enter") signUp();
 });
 
-function switchToLogin(email, password) {
-  document.querySelector(".login-container").style.display = "block";
-  document.querySelector(".signup-container").style.display = "none";
-
-  document.getElementById("email").value = email;
-  document.getElementById("login-password").value = password;
-}
-
-function logIn() {
+async function logIn() {
   showLoader();
 
   const email = document.getElementById("email").value;
@@ -94,45 +87,51 @@ function logIn() {
     return;
   }
 
-  signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      const user = userCredential.user;
-      if (!user.emailVerified) {
-        alert(
-          "Please check your email and click the verify link we sent to continue."
-        );
-        hideLoader();
-        return;
-      }
-      validateUser(user.uid, user.email);
-      localStorage.setItem("userLoggedIn", JSON.stringify(true));
-      localStorage.setItem("currentUser", user);
-      localStorage.setItem("currentUserEmail", user.email);
-      localStorage.setItem("currentUserId", user.uid);
+  try {
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    const user = userCredential.user;
 
-      setTimeout(() => {
-        hideLoader();
-        location.reload(true);
-      }, 2000);
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      let errorText;
+    if (!user.emailVerified) {
+      alert(
+        "Please check your email and click the verify link we sent to continue."
+      );
       hideLoader();
-      if (errorCode == "auth/invalid-login-credentials") {
-        errorText = "Invalid login credentials";
-      } else if (errorCode == "auth/invalid-password-credentials") {
-        errorText = "Invalid password";
-      } else {
-        errorText = errorCode;
-      }
+      return;
+    }
 
-      alert(`${errorText}, please check your login details and try again.`);
-      console.log(errorCode);
-      console.log(errorMessage);
-    });
+    await validateUser(user.uid, user.email, true);
+
+    localStorage.setItem("userLoggedIn", JSON.stringify(true));
+    localStorage.setItem("currentUser", JSON.stringify(user));
+    localStorage.setItem("currentUserEmail", user.email);
+    localStorage.setItem("currentUserId", user.uid);
+
+    location.reload(true);
+  } catch (error) {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    let errorText;
+    hideLoader();
+    if (errorCode === "auth/invalid-login-credentials") {
+      errorText = "Invalid login credentials";
+    } else if (errorCode === "auth/invalid-password-credentials") {
+      errorText = "Invalid password";
+    } else {
+      errorText = errorCode;
+    }
+
+    alert(`${errorText}, please check your login details and try again.`);
+    console.error(errorCode);
+    console.error(errorMessage);
+  } finally {
+    hideLoader();
+  }
 }
+
 document.getElementById("login-btn").addEventListener("click", logIn);
 document
   .getElementById("login-password")
@@ -140,48 +139,72 @@ document
     if (e.key === "Enter") logIn();
   });
 
-function logOut() {
+async function logOut() {
   showLoader();
-  signOut(auth)
-    .then(() => {
-      localStorage.setItem("userLoggedIn", JSON.stringify(false));
-      localStorage.removeItem("currentUserEmail");
-      localStorage.removeItem("currentUserId");
-      document.querySelectorAll(".logout").forEach((element) => {
-        element.innerText = "Login";
-        element.classList.add("user-login");
-        element.classList.remove("logout");
-      });
-      clearLocalStorage();
-      setTimeout(() => {
-        hideLoader();
-        location.reload(true);
-      }, 1000);
-    })
-    .catch((error) => {
-      console.log(error);
+  let userChoice = await askUserForConfirmation(
+    "Are you sure you want to log out? Y/N",
+    "Y"
+  );
+  if (userChoice.toLowerCase() === "n" || userChoice.toLowerCase() === "no") {
+    alert("Aborted");
+    hideLoader();
+    return;
+  }
+  try {
+    await signOut(auth);
+    localStorage.setItem("userLoggedIn", JSON.stringify(false));
+    document.querySelectorAll(".logout").forEach((element) => {
+      element.innerText = "Login";
+      element.classList.add("user-login");
+      element.classList.remove("logout");
     });
+    clearLocalStorage();
+    location.reload(true);
+  } catch (error) {
+    console.error("Failed to log out:", error);
+    alert("Failed to log out. Please try again.");
+  } finally {
+    hideLoader();
+  }
 }
 
-function clearLocalStorage() {
-  localStorage.removeItem("wsUser");
-  localStorage.removeItem("currentUserEmail");
-  localStorage.removeItem("userWorkLocation");
-  localStorage.removeItem("lastVisitDate");
-  localStorage.removeItem("lastLogin");
-  localStorage.removeItem("goalHour");
-  localStorage.removeItem("streak");
-  localStorage.removeItem("mode");
-  localStorage.removeItem("tasks");
-  localStorage.removeItem("timeLog");
-  localStorage.removeItem("lastAutoSave");
-  localStorage.removeItem("totalTrackedTime");
-  localStorage.removeItem("lastTrackedDate");
-  localStorage.removeItem("motivationalMessages");
-  localStorage.removeItem("yesterdayTotalTrackedTime");
+async function validateUser(id, email, retrieve) {
+  const dbref = ref(db);
+  let data;
+  try {
+    const snapshot = await get(child(dbref, "workstation/users/" + id));
+    if (snapshot.exists()) {
+      data = snapshot.val();
+      retrieve ? retriveDataFromDatabase(data) : null;
+    } else {
+      await setData(email, id);
+    }
+    return data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
 }
 
 async function setData(email, id) {
+  let userdata = await validateUser(id, email, false);
+
+  if (
+    userdata.totalTrackedTime >
+    JSON.parse(localStorage.getItem("totalTrackedTime"))
+  ) {
+    let userChoice = await askUserForConfirmation(
+      "Warning: The data in your database seem to be more updated than this version you want to save. Do you want to continue? Y/N",
+      "Y"
+    );
+
+    if (userChoice.toLowerCase() === "n" || userChoice.toLowerCase() === "no") {
+      alert("Aborted");
+      hideLoader();
+      return;
+    }
+  }
+
   const user = localStorage.getItem("wsUser") || "";
   const userWorkLocation = localStorage.getItem("userWorkLocation") || "";
   const lastVisitDate = localStorage.getItem("lastVisitDate") || 0;
@@ -225,7 +248,6 @@ async function setData(email, id) {
   if (isValidEmail(email)) {
     update(ref(db, "workstation/users/" + id), userData)
       .then(() => {
-        console.log("Data saved successfully");
         alert(`Your tasks have been saved successfully`);
         hideLoader();
       })
@@ -237,45 +259,6 @@ async function setData(email, id) {
     console.log("Something went wrong");
     alert("We are having trouble with your email address");
   }
-}
-
-function isValidEmail(email) {
-  // Regular expression for a simple email validation
-  const emailInspector = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-  return emailInspector.test(email);
-}
-
-function isValidPassword(password) {
-  const passwordRegex = /(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{8,}/;
-
-  if (passwordRegex.test(password)) {
-    console.log("Password is valid.");
-  } else {
-    alert("Password must contain an uppercase/lowercase letter and a number.");
-    return;
-  }
-
-  if (password.length > 5) {
-    return true;
-  }
-}
-
-async function validateUser(id, email) {
-  const dbref = ref(db);
-  let data;
-  get(child(dbref, "workstation/users/" + id))
-    .then((snapshot) => {
-      if (snapshot.exists()) {
-        data = snapshot.val();
-        retriveDataFromDatabase(data);
-      } else {
-        setData(email, id);
-      }
-    })
-    .catch((err) => {
-      console.log(err);
-    });
 }
 
 function retriveDataFromDatabase(data) {
@@ -307,6 +290,26 @@ function retriveDataFromDatabase(data) {
   }
 }
 
+function clearLocalStorage() {
+  localStorage.removeItem("wsUser");
+  localStorage.removeItem("currentUser");
+  localStorage.removeItem("currentUserEmail");
+  localStorage.removeItem("currentUserId");
+  localStorage.removeItem("userWorkLocation");
+  localStorage.removeItem("lastVisitDate");
+  localStorage.removeItem("lastLogin");
+  localStorage.removeItem("goalHour");
+  localStorage.removeItem("streak");
+  localStorage.removeItem("mode");
+  localStorage.removeItem("tasks");
+  localStorage.removeItem("timeLog");
+  localStorage.removeItem("lastAutoSave");
+  localStorage.removeItem("totalTrackedTime");
+  localStorage.removeItem("lastTrackedDate");
+  localStorage.removeItem("motivationalMessages");
+  localStorage.removeItem("yesterdayTotalTrackedTime");
+}
+
 function saveDataToDB() {
   showLoader();
   const email = localStorage.getItem("currentUserEmail");
@@ -321,8 +324,99 @@ function saveDataToDB() {
     setData(email, id);
   }, 1000);
 }
-
 document.querySelector(".save-progress").onclick = saveDataToDB;
+
+async function loadDataFromDB() {
+  showLoader();
+  const email = localStorage.getItem("currentUserEmail");
+  const id = localStorage.getItem("currentUserId");
+  let message =
+    "This action will replace your current data with your last saved data. Continue? Y/N";
+  let userChoice = await askUserForConfirmation(message, "Y");
+  if (!id) {
+    alert("You are not logged in. Login and try again");
+    hideLoader();
+    return;
+  }
+
+  if (
+    userChoice.toLowerCase() !== "y" &&
+    userChoice.toLowerCase() !== "n" &&
+    userChoice.toLowerCase() !== "yes" &&
+    userChoice.toLowerCase() !== "no"
+  ) {
+    alert("Aborted");
+    hideLoader();
+    return;
+  }
+
+  if (userChoice.toLowerCase() === "n" || userChoice.toLowerCase() === "no") {
+    alert("Aborted");
+    hideLoader();
+    return;
+  }
+
+  try {
+    await validateUser(id, email, true);
+    hideLoader();
+    location.reload();
+  } catch (error) {
+    console.error("Failed to validate user:", error);
+    alert("Failed to validate user. Please try again.");
+    hideLoader();
+  }
+}
+
+document.querySelector(".load-progress").onclick = loadDataFromDB;
+
+async function askUserForConfirmation(message, placeholder) {
+  let val;
+  if (!message.length > 0) {
+    console.log("Error: Provide a message to askUserForConfirmation");
+    return;
+  }
+
+  do {
+    val = prompt(message, placeholder);
+  } while (
+    val.toLowerCase() !== "y" &&
+    val.toLowerCase() !== "n" &&
+    val.toLowerCase() !== "yes" &&
+    val.toLowerCase() !== "no"
+  );
+
+  return val;
+}
+
+function switchToLogin(email, password) {
+  document.querySelector(".login-container").style.display = "block";
+  document.querySelector(".signup-container").style.display = "none";
+
+  document.getElementById("email").value = email;
+  document.getElementById("login-password").value = password;
+}
+
+function isValidEmail(email) {
+  // Regular expression for a simple email validation
+  const emailInspector = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  return emailInspector.test(email);
+}
+
+function isValidPassword(password) {
+  const passwordRegex = /(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{8,}/;
+
+  if (passwordRegex.test(password)) {
+    null;
+  } else {
+    alert("Password must contain an uppercase/lowercase letter and a number.");
+    return;
+  }
+
+  if (password.length > 5) {
+    return true;
+  }
+}
 
 window.onload = () => {
   if (JSON.parse(localStorage.getItem("userLoggedIn")) === true) {
@@ -341,5 +435,3 @@ window.onload = () => {
     });
   }
 };
-
-export { setData, retriveDataFromDatabase, isValidEmail };

@@ -11,8 +11,8 @@
 
 .output {
     margin: auto;
-    width: 100%;
     margin-bottom: 50px;
+    padding: 10px;
 }
 
 h2 {
@@ -63,38 +63,20 @@ h2 {
     font-weight: 400;
 }
 
-#smbtn {
-    color: white;
-    background-color: #5b5bf7bb;
-    border-radius: 7px;
-    padding: 10px;
-    border: 1px solid #6464f7bb;
-    margin: auto;
-    width: 100px;
-    cursor: pointer;
-}
-
-#smbtn:hover {
-    background-color: #5b5bf7fb;
-}
 
 #clearBox {
-    margin-left: 20px;
-    width: 100px;
+    width: 250px;
+    margin: auto;
+    margin-top: 25px;
+    text-align: center;
 }
 
 #clear {
-    background-color: #5b5bf7bb;
-    border-radius: 10px;
-    border: 1px solid #6464f7bb;
-    text-align: left;
-    margin-left: 20px;
-    padding: 8px;
     display: none;
-    color: #ffffff;
 }
 
 #clear:hover {
+    border: 1px solid #ff0000;
     background-color: #ff0000;
 }
 
@@ -121,7 +103,7 @@ ul>li {
     background-color: inherit;
     border: 1px solid inherit;
     border-radius: 10px;
-    padding: 20px 30px;
+    padding: 10px 15px;
     margin-bottom: 10px;
     box-shadow: 1px 2px 4px 3px #d9dde9fb;
     font-size: 3.3vw;
@@ -159,16 +141,10 @@ input[type="date"]:focus {
     border: none;
 }
 
-button {
-    cursor: pointer;
-    color: #e2e4ff;
-    font-family: "Rubik", sans-serif;
-}
-
 li>button {
-    background-color: #6464faf3;
+    background-color: #1b37b4;
     border-radius: 5px;
-    border: 1px solid #7171fcf3;
+    border: 1px solid #1b37b4;
     font-size: 3vw;
     color: #e2e4ff;
     padding: 3px;
@@ -201,8 +177,6 @@ li>i {
 
 #completedList {
     margin: auto;
-    margin-left: 40px;
-    width: 90%;
     margin-top: 40px;
 }
 
@@ -246,6 +220,14 @@ li>i {
     .taskList li,
     #completedList li {
         font-size: 18px;
+    }
+
+    .taskList li {
+        padding: 20px 30px;
+    }
+
+    #completedList li {
+        padding: 10px 30px;
     }
 
     li>button {

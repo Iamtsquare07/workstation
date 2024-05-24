@@ -10,6 +10,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Load tasks from local storage when the page loads
   loadTasksFromStorage();
+  if (listsContainer.textContent == "") {
+    clearList();
+  }
   submitButton.addEventListener("click", addTask);
   document.getElementById("toDo").addEventListener("keypress", function (e) {
     if (e.key === "Enter") addTask();
@@ -80,10 +83,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     listItem.insertBefore(checkbox, listItem.firstChild);
 
-    let taskList;
-    if (withDate) {
-      taskList = getOrCreateTaskList(taskDate);
-    }
+    // let taskList;
+    // if (withDate) {
+    //   taskList = getOrCreateTaskList(taskDate);
+    // }
 
     listItem.querySelector(".startTask").addEventListener("click", () => {
       const taskSpan = listItem.querySelector(".taskText");
@@ -98,7 +101,7 @@ document.addEventListener("DOMContentLoaded", function () {
       } else {
         startButton.textContent = "Start";
         checkbox.checked = true;
-        stopTracking();
+        stopTracking(taskSpan.textContent);
         runTaskUpdate(true);
         saveTasksToStorage();
       }
@@ -194,9 +197,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   clearBtn.addEventListener("click", clearList);
-  if (listsContainer.textContent == "") {
-    clearList();
-  }
+
   // Get or create a task list based on the date
   function getOrCreateTaskList(dateString) {
     const formattedDate = formatDate(dateString);
@@ -282,6 +283,7 @@ document.addEventListener("DOMContentLoaded", function () {
   function loadTasksFromStorage() {
     printDailyGoalHours();
     retrieveTrackedTime();
+    checkLastVisitedDate(false);
 
     document.getElementById("username").textContent = wsUser + "'s";
     document.getElementById("userLocation").textContent = `${
@@ -311,4 +313,3 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 });
-

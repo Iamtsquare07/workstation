@@ -9,7 +9,6 @@ const logList = document.getElementById("logList");
 const restMessage = document.getElementById("restMessage");
 const logging = document.getElementById("logging");
 const timeLog = JSON.parse(localStorage.getItem("timeLog")) || [];
-let taskInput;
 let restCounter = 30000 * 60;
 let restInterval = 20000 * 60;
 let ten = 10000 * 60;
@@ -19,8 +18,9 @@ const AUTO_SAVE_TIMER = 10000;
 let goalHour = localStorage.getItem("goalHour") || 0;
 let wsUser = localStorage.getItem("wsUser") || "";
 let userWorkLocation = localStorage.getItem("userWorkLocation") || "";
-let firstInitialization = false;
+let firstInitialization = localStorage.getItem("firstInitialization") || false;
 let goalReached = false;
+let alarmTimeoutId;
 
 document.querySelector(".back-to-top").addEventListener("click", () => {
   document.getElementById("top").scrollIntoView();
@@ -56,7 +56,7 @@ if (
   setTimeout(() => {
     do {
       userWorkLocation = prompt(
-        `Where are you now ${wsUser}? Enter Home or Work`,
+        `Where are you working today ${wsUser}? Enter Home or Work`,
         "Work"
       );
     } while (
@@ -399,38 +399,121 @@ function startTracking(taskText) {
     return;
   }
 
+  document.getElementById("notracking").style.display = "none";
   document.querySelector(".workstation").scrollIntoView();
-  taskInput = taskText;
-  const taskName = taskInput;
-  if (!taskName) {
+  if (!taskText) {
     alert("Please enter a task name.");
     return;
   }
 
   startTime = Date.now();
-  intervalId = setInterval(updateTimer, 1000);
+  intervalId = setInterval(() => {
+    updateTimer(taskText);
+  }, 1000);
   restIntervalId = setInterval(startRestTimer, ten);
-  restMessage.style.display = "block";
-  document.getElementById("notracking").style.display = "none";
   logging.style.visibility = "visible";
   restMessage.innerText = `Break time in 30 minutes`;
-  addAutoSave();
+  addAutoSave(taskText);
   addBeforeUnloadWarning();
   trackTime();
+  restMessage.style.display = "block";
 }
+
+function stopTracking(taskText) {
+  if (!startTime) {
+    alert("No task is currently being tracked.");
+    return;
+  }
+
+  document.querySelector("#logList").scrollIntoView();
+  clearInterval(intervalId);
+  clearInterval(restIntervalId);
+  const endTime = Date.now();
+  const elapsedTime = (endTime - startTime) / 1000;
+  let taskName = taskText;
+
+  // Save the task in localStorage
+  timeLog.push({ taskName, elapsedTime });
+  localStorage.setItem("timeLog", JSON.stringify(timeLog));
+
+  startTime = null;
+  displayTimeLog();
+  document.getElementById("notracking").style.display = "block";
+  logging.style.visibility = "hidden";
+  restMessage.style.display = "none";
+  isRunning = false;
+  const lastAutoSave = JSON.parse(localStorage.getItem("lastAutoSave"));
+  if (lastAutoSave) {
+    localStorage.removeItem("lastAutoSave");
+  }
+  logging.innerHTML = "";
+  removeBeforeUnloadWarning();
+  clearInterval(autoIntervalId);
+  stopTimeTracking();
+  restCounter = 30000 * 60;
+  clearTimeout(alarmTimeoutId);
+}
+
+let hydrationTimeoutId;
+let hydrationStartTime;
+
+function setupHydrationReminder() {
+  // Initialize or update the start time
+  if (!hydrationStartTime) {
+    hydrationStartTime = Date.now();
+  }
+
+  // Function to calculate the time difference in hours
+  function getElapsedHours(startTime) {
+    const now = Date.now();
+    return Math.floor((now - startTime) / (1000 * 60 * 60));
+  }
+
+  // Function to display the reminder
+  function remindToDrinkWater() {
+    playAlarm("3");
+    const elapsedHours = getElapsedHours(hydrationStartTime);
+
+    // Schedule the next reminder for the start of the next 2-hour period
+    const nextReminderInMs =
+      1000 * 60 * 60 * 2 * (Math.floor(elapsedHours / 2) + 1) -
+      (Date.now() - hydrationStartTime);
+    hydrationTimeoutId = setTimeout(remindToDrinkWater, nextReminderInMs);
+    alert("Woohoo! It's time to drink some water.");
+  }
+
+  // Cancel any existing timeout
+  if (hydrationTimeoutId) {
+    clearTimeout(hydrationTimeoutId);
+  }
+
+  // Schedule the first reminder for the start of the next 2-hour period
+  const elapsedHours = getElapsedHours(hydrationStartTime);
+  const firstReminderInMs =
+    1000 * 60 * 60 * 2 * (Math.floor(elapsedHours / 2) + 1) -
+    (Date.now() - hydrationStartTime);
+  hydrationTimeoutId = setTimeout(remindToDrinkWater, firstReminderInMs);
+}
+
+if (!firstInitialization) {
+  setupHydrationReminder();
+  localStorage.setItem("firstInitialization", true);
+}
+// localStorage.removeItem('firstInitialization')
 
 let goalStartTime = 0;
 let totalTime = JSON.parse(localStorage.getItem("totalTrackedTime")) || 0;
 let yesterdayTotalTime =
   JSON.parse(localStorage.getItem("yesterdayTotalTrackedTime")) || 0;
 
-function trackTime() {
-  const currentTime = Date.now();
-  const today = new Date().toISOString().slice(0, 10);
+// const testDateToday = "2024-05-25";
+// const testDateYesterday = "2024-05-23";
+const dateToday = new Date().toISOString().slice(0, 10);
+
+function checkLastVisitedDate(incrementDays) {
+  const today = dateToday;
+
   const lastTrackedDate = JSON.parse(localStorage.getItem("lastTrackedDate"));
-
-  goalStartTime = currentTime;
-
   if (!lastTrackedDate || lastTrackedDate !== today) {
     // If it's a new day, update yesterdayTotalTime and reset it
     yesterdayTotalTime = totalTime;
@@ -438,14 +521,23 @@ function trackTime() {
       "yesterdayTotalTrackedTime",
       JSON.stringify(yesterdayTotalTime)
     );
-    localStorage.setItem("lastTrackedDate", JSON.stringify(today));
-    document.getElementById("completed-goal-time").textContent = "0 minute";
-    checkYesterdayStreak(lastTrackedDate, true);
-    totalTime = 0;
+
+    if (incrementDays) {
+      localStorage.setItem("lastTrackedDate", JSON.stringify(today));
+      totalTime = 0;
+    }
     localStorage.setItem("totalTrackedTime", JSON.stringify(totalTime));
-    document.getElementById("completed-goal-time").textContent = "0 minute";
-    let goalReached = false;
+    goalReached = false;
+    checkYesterdayStreak(lastTrackedDate, incrementDays);
+    setupHydrationReminder();
   }
+}
+
+function trackTime() {
+  const currentTime = Date.now();
+
+  checkLastVisitedDate(true);
+  goalStartTime = currentTime;
 }
 
 function checkYesterdayStreak(lastTrackedDate, incrementDays) {
@@ -456,15 +548,22 @@ function checkYesterdayStreak(lastTrackedDate, incrementDays) {
   if (lastTrackedDate === yesterdayDateString) {
     // Increment streak only if last tracked date was yesterday
     let streak = parseInt(localStorage.getItem("streak")) || 0;
-    incrementDays ? streak++ : console.log("Increment not specified");
-    localStorage.setItem("streak", streak);
-    document.getElementById("streak-days").textContent = streak;
+    if (incrementDays) {
+      streak++;
+      localStorage.setItem("streak", streak);
+      retrieveTrackedTime();
+    }
+
+    document.getElementById("completed-goal-time").textContent = "0 minute";
+    const yesterdayTrackedTime =
+      JSON.parse(localStorage.getItem("yesterdayTotalTrackedTime")) || 0;
+    displayYesterdayTime(yesterdayTrackedTime);
   } else {
     // Reset streak to 0 if last tracked date was not yesterday
     localStorage.setItem("streak", 0);
-    document.getElementById("streak-days").textContent = 0;
     localStorage.setItem("yesterdayTotalTrackedTime", 0);
     retrieveTrackedTime();
+    document.getElementById("completed-goal-time").textContent = "0 minute";
   }
 }
 
@@ -504,7 +603,11 @@ function retrieveTrackedTime() {
 
   // Save streak to local storage
   localStorage.setItem("streak", streak);
+  displayTotalTime(trackedTime);
+  displayYesterdayTime(yesterdayTrackedTime);
+}
 
+function displayTotalTime(trackedTime) {
   let totalTrackedTime;
   if (trackedTime < 3600000) {
     totalTrackedTime = trackedTime / (1000 * 60);
@@ -525,7 +628,9 @@ function retrieveTrackedTime() {
         totalTrackedTime.toFixed(0) + " hours";
     }
   }
+}
 
+function displayYesterdayTime(yesterdayTrackedTime) {
   let yesterdayTotalTrackedTime;
   if (yesterdayTrackedTime < 3600000) {
     yesterdayTotalTrackedTime = yesterdayTrackedTime / (1000 * 60);
@@ -564,14 +669,14 @@ function getFormattedTime(milliseconds) {
   }
 }
 
-function addAutoSave() {
+function addAutoSave(taskText) {
   // Set up an interval to periodically save the state
   autoIntervalId = setInterval(() => {
     if (isRunning) {
       const currentTime = Date.now();
       const elapsedMilliseconds = currentTime - startTime;
       const elapsedTime = elapsedMilliseconds / 1000; // in seconds
-      const taskName = taskInput;
+      const taskName = taskText;
 
       // Push the data to the temporary array
       autoSaveData.push({ taskName, elapsedTime });
@@ -617,41 +722,7 @@ if (typeof localStorage.getItem("lastAutoSave") === "object") {
   }
 }
 
-function stopTracking() {
-  if (!startTime) {
-    alert("No task is currently being tracked.");
-    return;
-  }
-
-  document.querySelector("#logList").scrollIntoView();
-  clearInterval(intervalId);
-  clearInterval(restIntervalId);
-  const endTime = Date.now();
-  const elapsedTime = (endTime - startTime) / 1000; // in seconds
-  const taskName = taskInput;
-
-  // Save the task in localStorage
-  timeLog.push({ taskName, elapsedTime });
-  localStorage.setItem("timeLog", JSON.stringify(timeLog));
-
-  startTime = null;
-  displayTimeLog();
-  document.getElementById("notracking").style.display = "block";
-  logging.style.visibility = "hidden";
-  restMessage.style.display = "none";
-  isRunning = false;
-  const lastAutoSave = JSON.parse(localStorage.getItem("lastAutoSave"));
-  if (lastAutoSave) {
-    localStorage.removeItem("lastAutoSave");
-  }
-  taskInput = "";
-  removeBeforeUnloadWarning();
-  clearInterval(autoIntervalId);
-  stopTimeTracking();
-  restCounter = 30000 * 60;
-}
-
-function updateTimer() {
+function updateTimer(taskText) {
   const currentTime = Date.now();
   const elapsedMilliseconds = currentTime - startTime;
   const hours = Math.floor(elapsedMilliseconds / 3600000);
@@ -676,11 +747,9 @@ function updateTimer() {
     )} seconds`;
   }
 
-  setTimeout(() => {
-    logging.innerHTML = capitalizeFirstLetter(
-      `You're tracking <span class="taskId">“${taskInput}”</span>:<br /> ${formattedTime}`
-    );
-  }, 1000);
+  logging.innerHTML = capitalizeFirstLetter(
+    `You're tracking <span class="taskId">“${taskText}”</span>:<br /> ${formattedTime}`
+  );
 }
 
 function displayTimeLog() {
@@ -782,7 +851,7 @@ function startRestTimer() {
       restMessage.innerText = `Break time in 30 minutes.`;
       restCounter = 30 * 60 * 1000;
       playAlarm("2");
-      setTimeout(() => {
+      alarmTimeoutId = setTimeout(() => {
         stopAlarm("2");
       }, 10000);
     }, 5 * 60 * 1000);

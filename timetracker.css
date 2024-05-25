@@ -22,9 +22,12 @@
 }
 
 .log-container {
+    width: 95%;
+    min-width: 95%;
     display: flex;
     align-items: center;
     justify-content: center;
+    margin: auto;
 }
 
 #log {
@@ -90,18 +93,13 @@ td {
 
 #clearTimelog {
     text-align: center;
+    margin-top: 25px;
 }
 
-#clearTimelog>button {
-    padding: 7px;
-    background-color: #1b37b4;
-    border: 1px solid #1b37b4;
-    border-radius: 7px;
-}
 
 #clearTimelog>button:hover {
-    background-color: #0732ee;
-    border: 1px solid #0732ee;
+    background-color: #ff0000;
+    border: 1px solid #ff0000;
 }
 
 .taskId {
@@ -111,18 +109,18 @@ td {
 .progress {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: 96%;
     margin: auto;
     margin-top: 40px;
-    padding: 0;
+    padding: 5px;
     margin-left: -18px;
 }
 
 .progress-box,
 .progress-goal {
     box-shadow: 1px 2px 4px 3px #d9dde9fb;
-    width: 100%;
     height: auto;
+    width: 100%;
     min-height: 250px;
     border-radius: 10px;
     padding: 20px;
@@ -134,12 +132,18 @@ td {
 }
 
 .progress-goal {
-    margin-right: 20px;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-around;
     margin-bottom: 20px;
+}
+
+.progress-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .circle {
@@ -171,12 +175,6 @@ td {
     border: 12px solid #4c4d52;
 }
 
-.progress-box {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
 
 .edit-goal {
     margin-top: 50px;
@@ -199,10 +197,12 @@ td {
     .progress-box,
     .progress-goal {
         height: 280px;
+        width: 100%;
     }
 
     .progress-goal {
         margin-bottom: 0;
+        margin-right: 20px;
     }
 
     .circle {
@@ -227,6 +227,11 @@ td {
 
     .progress-time {
         font-size: 30px;
+    }
+
+    .log-container {
+        width: 90%;
+        min-width: 90%;
     }
 
     #logList {

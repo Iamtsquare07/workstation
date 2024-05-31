@@ -312,4 +312,30 @@ document.addEventListener("DOMContentLoaded", function () {
       taskHeader.textContent = "Add tasks to your task list";
     }
   }
+
+  let wakeLock = null;
+
+  async function requestWakeLock() {
+    try {
+      wakeLock = await navigator.wakeLock.request("screen");
+      console.log("Wake Lock is active");
+    } catch (err) {
+      console.error(`${err.name}, ${err.message}`);
+    }
+  }
+
+  // To release the wake lock
+  async function releaseWakeLock() {
+    if (wakeLock !== null) {
+      await wakeLock.release();
+      wakeLock = null;
+      console.log("Wake Lock is released");
+    }
+  }
+
+  // Request a wake lock when the page is loaded
+  document.addEventListener("DOMContentLoaded", requestWakeLock);
+
+  // Optionally, release the wake lock when the page is unloaded
+  window.addEventListener("unload", releaseWakeLock);
 });

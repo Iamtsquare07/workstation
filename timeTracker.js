@@ -391,6 +391,29 @@ function printDailyGoalHours() {
   document.getElementById("daily-goal-hours").textContent = dailyGoalHours;
 }
 
+let wakeLock = null;
+
+async function requestWakeLock() {
+  try {
+    wakeLock = await navigator.wakeLock.request("screen");
+    console.log("Wake Lock is active");
+  } catch (err) {
+    console.error(`${err.name}, ${err.message}`);
+  }
+}
+
+// To release the wake lock
+async function releaseWakeLock() {
+  if (wakeLock !== null) {
+    await wakeLock.release();
+    wakeLock = null;
+    console.log("Wake Lock is released");
+  }
+}
+
+// Optionally, release the wake lock when the page is unloaded
+window.addEventListener("unload", releaseWakeLock);
+
 function startTracking(taskText) {
   if (!isRunning) {
     isRunning = true;
@@ -417,6 +440,7 @@ function startTracking(taskText) {
   addBeforeUnloadWarning();
   trackTime();
   restMessage.style.display = "block";
+  requestWakeLock();
 }
 
 function stopTracking(taskText) {
@@ -452,6 +476,7 @@ function stopTracking(taskText) {
   stopTimeTracking();
   restCounter = 30000 * 60;
   clearTimeout(alarmTimeoutId);
+  releaseWakeLock();
 }
 
 let hydrationTimeoutId;
@@ -582,7 +607,7 @@ function stopTimeTracking() {
   if (trackedTime >= goalHour) {
     if (!goalReached) {
       alert(
-        `Congratulations ${wsUser}, you have smashed your goal for today. ${goalHour} hours of serious work. WOW!`
+        `Congratulations ${wsUser}, you have smashed your goal for today. ${trackedTime} hours of serious work. WOW!`
       );
       goalReached = true;
     }
@@ -892,3 +917,41 @@ function beforeUnloadHandler(e) {
   e.returnValue =
     "You have unsaved changes. Are you sure you want to leave this page?";
 }
+
+// Refresh app after midnight
+const checkNewDayAndUpdate = () => {
+  const today = new Date().toDateString();
+  const lastCheckedDate = localStorage.getItem("lastCheckedDate");
+
+  if (lastCheckedDate !== today) {
+    console.log("New day detected. Refreshing the page...");
+    localStorage.setItem("lastCheckedDate", today);
+    location.reload();
+  } else {
+    console.log("Same day, no need to refresh.");
+  }
+};
+
+document.addEventListener("DOMContentLoaded", (event) => {
+  checkNewDayAndUpdate();
+});
+
+// Check when the document becomes visible
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "visible") {
+    checkNewDayAndUpdate();
+  }
+});
+
+const setDailyCheck = () => {
+  const now = new Date();
+  const millisTillMidnight =
+    new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 0, 0) -
+    now;
+
+  setTimeout(() => {
+    checkNewDayAndUpdate();
+  }, millisTillMidnight);
+};
+
+setDailyCheck();

@@ -391,6 +391,52 @@ aside .workstation-mobile-hidden {
     animation: spin 1s linear infinite;
 }
 
+#axiom {
+    position: fixed;
+    font-family: "Rubik", sans-serif;
+    color: #e9e5fc;
+    padding: 10px 15px;
+    font-weight: 600;
+    width: 600px;
+    border-radius: 10px;
+    left: 50%;
+    top: 50%;
+    translate: -50% -50px;
+}
+
+.workstation-light-mode #axiom {
+    background-image: linear-gradient(#b703e4, #f3d5f7);
+    color: #000000;
+}
+
+.workstation-dark-mode #axiom {
+    background-image: linear-gradient(#b703e4, #000000);
+}
+
+.axiom-text {
+    font-size: 30px;
+    padding: 10px;
+}
+
+.hide-axiom {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.workstation-light-mode .hide-axiom i {
+    background-color: #f9a7fc;
+}
+
+.hide-axiom i {
+    background-color: #000000;
+    padding: 6px 8px;
+    border-radius: 48%;
+    cursor: pointer;
+}
+
 @keyframes spin {
     to {
         transform: rotate(360deg);

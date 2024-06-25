@@ -393,8 +393,9 @@ aside .workstation-mobile-hidden {
 
 #axiom {
     position: fixed;
+    background-image: linear-gradient(#b703e4, #f3d5f7);
     font-family: "Rubik", sans-serif;
-    color: #e9e5fc;
+    color: #000000;
     padding: 10px 15px;
     font-weight: 600;
     width: 600px;
@@ -404,13 +405,10 @@ aside .workstation-mobile-hidden {
     translate: -50% -50px;
 }
 
-.workstation-light-mode #axiom {
-    background-image: linear-gradient(#b703e4, #f3d5f7);
-    color: #000000;
-}
 
 .workstation-dark-mode #axiom {
     background-image: linear-gradient(#b703e4, #000000);
+    color: #e9e5fc;
 }
 
 .axiom-text {
@@ -430,8 +428,12 @@ aside .workstation-mobile-hidden {
     background-color: #f9a7fc;
 }
 
-.hide-axiom i {
+.workstation-dark-mode .hide-axiom i {
     background-color: #000000;
+}
+
+.hide-axiom i {
+    background-color: #f9a7fc;
     padding: 6px 8px;
     border-radius: 48%;
     cursor: pointer;

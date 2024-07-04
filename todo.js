@@ -83,11 +83,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     listItem.insertBefore(checkbox, listItem.firstChild);
 
-    // let taskList;
-    // if (withDate) {
-    //   taskList = getOrCreateTaskList(taskDate);
-    // }
-
     listItem.querySelector(".startTask").addEventListener("click", () => {
       const taskSpan = listItem.querySelector(".taskText");
       const startButton = listItem.querySelector(".startTask");
@@ -312,4 +307,23 @@ document.addEventListener("DOMContentLoaded", function () {
       taskHeader.textContent = "Add tasks to your task list";
     }
   }
+
+  function showMotivation() {
+    showLoader();
+    setTimeout(() => {
+      document.getElementById("axiom").style.display = "block";
+      hideLoader();
+    }, 500);
+  }
+
+  function hideMotivation() {
+    document.getElementById("axiom").style.display = "none";
+  }
+
+  document
+    .querySelector(".motivation")
+    .addEventListener("click", showMotivation);
+  document
+    .querySelector(".hide-axiom")
+    .addEventListener("click", hideMotivation);
 });

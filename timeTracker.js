@@ -411,7 +411,6 @@ async function releaseWakeLock() {
   }
 }
 
-// Optionally, release the wake lock when the page is unloaded
 window.addEventListener("unload", releaseWakeLock);
 
 function startTracking(taskText) {
@@ -531,13 +530,12 @@ let totalTime = JSON.parse(localStorage.getItem("totalTrackedTime")) || 0;
 let yesterdayTotalTime =
   JSON.parse(localStorage.getItem("yesterdayTotalTrackedTime")) || 0;
 
-// const testDateToday = "2024-05-25";
+// const testDateToday = "2024-07-5";
 // const testDateYesterday = "2024-05-23";
 const dateToday = new Date().toISOString().slice(0, 10);
 
 function checkLastVisitedDate(incrementDays) {
   const today = dateToday;
-
   const lastTrackedDate = JSON.parse(localStorage.getItem("lastTrackedDate"));
   if (!lastTrackedDate || lastTrackedDate !== today) {
     // If it's a new day, update yesterdayTotalTime and reset it
@@ -555,6 +553,7 @@ function checkLastVisitedDate(incrementDays) {
     goalReached = false;
     checkYesterdayStreak(lastTrackedDate, incrementDays);
     setupHydrationReminder();
+    document.getElementById("axiom").style.display = "block";
   }
 }
 
@@ -607,7 +606,9 @@ function stopTimeTracking() {
   if (trackedTime >= goalHour) {
     if (!goalReached) {
       alert(
-        `Congratulations ${wsUser}, you have smashed your goal for today. ${trackedTime} hours of serious work. WOW!`
+        `Congratulations ${wsUser}, you have smashed your goal for today. ${trackedTime.toFixed(
+          2
+        )} hours of serious work. WOW!`
       );
       goalReached = true;
     }

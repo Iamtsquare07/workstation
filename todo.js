@@ -312,6 +312,7 @@ document.addEventListener("DOMContentLoaded", function () {
     showLoader();
     setTimeout(() => {
       document.getElementById("axiom").style.display = "block";
+      alert(generateMotivationalMessages(wsUser))
       hideLoader();
     }, 500);
   }

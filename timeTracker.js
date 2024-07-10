@@ -921,6 +921,7 @@ function beforeUnloadHandler(e) {
 
 // Refresh app after midnight
 const checkNewDayAndUpdate = () => {
+  // const testDateToday = "2024-07-11";
   const today = new Date().toDateString();
   const lastCheckedDate = localStorage.getItem("lastCheckedDate");
 

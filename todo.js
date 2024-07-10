@@ -311,9 +311,11 @@ document.addEventListener("DOMContentLoaded", function () {
   function showMotivation() {
     showLoader();
     setTimeout(() => {
-      document.getElementById("axiom").style.display = "block";
-      alert(generateMotivationalMessages(wsUser))
       hideLoader();
+      setTimeout(() => {
+        document.getElementById("axiom").style.display = "block";
+        alert(generateMotivationalMessages(wsUser));
+      }, 200);
     }, 500);
   }
 

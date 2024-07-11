@@ -313,6 +313,7 @@ document.addEventListener("DOMContentLoaded", function () {
     setTimeout(() => {
       hideLoader();
       setTimeout(() => {
+        closeMenu()
         document.getElementById("axiom").style.display = "block";
         alert(generateMotivationalMessages(wsUser));
       }, 200);
@@ -324,7 +325,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   document
-    .querySelector(".motivation")
+    .querySelector("#motivation")
     .addEventListener("click", showMotivation);
   document
     .querySelector(".hide-axiom")

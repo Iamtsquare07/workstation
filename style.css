@@ -261,7 +261,7 @@ aside .workstation-mobile-hidden {
     display: none;
 }
 
-#wiki-menu {
+.wiki-menu {
     cursor: pointer;
 }
 

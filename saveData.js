@@ -20,7 +20,80 @@ import {
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-
+function _0x56ff() {
+  const _0x6180ec = [
+    "2752692QDvssG",
+    "10bQOBKb",
+    "348lRhzQg",
+    "3377529cgKzKq",
+    "open-source-tsquare.firebaseapp.com",
+    "https://open-source-tsquare-default-rtdb.firebaseio.com",
+    "G-27162N4PPC",
+    "109908yZRuze",
+    "1592541PeTBVi",
+    "open-source-tsquare",
+    "21714zLhdXz",
+    "AIzaSyD-REg91GmdqlgXbPD0fcWE43FOhv5E898",
+    "2vnDaeX",
+    "852914490414",
+    "30480lwxzUY",
+    "85EoHfqk",
+    "1:852914490414:web:4a5d771ed704d7775363bf",
+    "208UUEjod",
+    "633787ZKcphf",
+  ];
+  _0x56ff = function () {
+    return _0x6180ec;
+  };
+  return _0x56ff();
+}
+function _0x17a0(_0x292cf3, _0x16e83a) {
+  const _0x56ff36 = _0x56ff();
+  return (
+    (_0x17a0 = function (_0x17a0b4, _0x3924fa) {
+      _0x17a0b4 = _0x17a0b4 - 0x15e;
+      let _0x2fcd88 = _0x56ff36[_0x17a0b4];
+      return _0x2fcd88;
+    }),
+    _0x17a0(_0x292cf3, _0x16e83a)
+  );
+}
+const _0x2e1e1d = _0x17a0;
+(function (_0x12908e, _0x5441de) {
+  const _0x389c50 = _0x17a0,
+    _0x20ac36 = _0x12908e();
+  while (!![]) {
+    try {
+      const _0x2301df =
+        parseInt(_0x389c50(0x166)) / 0x1 +
+        (parseInt(_0x389c50(0x164)) / 0x2) *
+          (parseInt(_0x389c50(0x160)) / 0x3) +
+        (parseInt(_0x389c50(0x15f)) / 0x4) *
+          (parseInt(_0x389c50(0x167)) / 0x5) +
+        parseInt(_0x389c50(0x16b)) / 0x6 +
+        (-parseInt(_0x389c50(0x162)) / 0x7) *
+          (-parseInt(_0x389c50(0x169)) / 0x8) +
+        (-parseInt(_0x389c50(0x16e)) / 0x9) *
+          (-parseInt(_0x389c50(0x16c)) / 0xa) +
+        (-parseInt(_0x389c50(0x16a)) / 0xb) *
+          (parseInt(_0x389c50(0x16d)) / 0xc);
+      if (_0x2301df === _0x5441de) break;
+      else _0x20ac36["push"](_0x20ac36["shift"]());
+    } catch (_0x59dfd8) {
+      _0x20ac36["push"](_0x20ac36["shift"]());
+    }
+  }
+})(_0x56ff, 0x42782);
+const firebaseConfig = {
+  apiKey: _0x2e1e1d(0x163),
+  authDomain: _0x2e1e1d(0x16f),
+  databaseURL: _0x2e1e1d(0x170),
+  projectId: _0x2e1e1d(0x161),
+  storageBucket: "open-source-tsquare.appspot.com",
+  messagingSenderId: _0x2e1e1d(0x165),
+  appId: _0x2e1e1d(0x168),
+  measurementId: _0x2e1e1d(0x15e),
+};
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
@@ -324,7 +397,7 @@ function saveDataToDB() {
     setData(email, id);
   }, 1000);
 }
-document.querySelector(".save-progress").onclick = saveDataToDB;
+document.querySelector("#save-progress").onclick = saveDataToDB;
 
 async function loadDataFromDB() {
   showLoader();
@@ -367,7 +440,7 @@ async function loadDataFromDB() {
   }
 }
 
-document.querySelector(".load-progress").onclick = loadDataFromDB;
+document.querySelector("#load-progress").onclick = loadDataFromDB;
 
 async function askUserForConfirmation(message, placeholder) {
   let val;

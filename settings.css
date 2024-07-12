@@ -1,0 +1,176 @@
+.settings-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: #04041fb7;
+    display: none;
+}
+
+.settings-screen {
+    font-family: "Rubik", sans-serif;
+    background-color: #fafbfe;
+    width: 100%;
+    min-height: 100vh;
+    margin: auto;
+    margin-top: 0p;
+    border-radius: 10px;
+    padding: 10px;
+    padding-top: 100px;
+    text-align: center;
+}
+
+.workstation-dark-mode .settings-screen {
+    background-color: #000000;
+}
+
+.close-settings-modal {
+    float: right;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+    padding: 8px;
+    box-shadow: .2px .4px 3px .6px #d9dde9fb;
+    cursor: pointer;
+}
+
+.close-settings-modal:hover {
+    background-color: #d9dde9fb;
+}
+
+.workstation-dark-mode .close-settings-modal:hover {
+    background-color: #4c4d52;
+}
+
+.workstation-dark-mode .close-settings-modal {
+    box-shadow: .2px .4px 3px .6px #4c4d52;
+}
+
+
+
+.settings-screen {
+    width: 100%;
+}
+
+
+
+#close-setting {
+    float: right;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 50%;
+    padding: 5px 10px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+#close-setting:hover {
+    background-color: #04AA6D;
+}
+
+.auto-fields {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#auto-save {
+    font-weight: bold;
+    margin-left: 5px;
+}
+
+#warning {
+    margin: 3px;
+}
+
+.user-details {
+    width: 100%;
+    margin: auto;
+    text-align: center;
+}
+
+.details {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#email {
+    display: none;
+    width: 90%;
+}
+
+/* Styles for sliding toggle switch */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 30px;
+    height: 17px;
+}
+
+.switch input {
+    display: none;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 13px;
+    width: 13px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
+}
+
+input:checked+.slider {
+    background-color: #2196F3;
+}
+
+input:focus+.slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked+.slider:before {
+    -webkit-transform: translateX(13px);
+    -ms-transform: translateX(13px);
+    transform: translateX(13px);
+}
+
+/* Rounded sliders */
+.slider.round {
+    border-radius: 17px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+/* End Styles for sliding toggle switch */
+
+@media only screen and (min-width: 1024px) {
+    .settings-screen {
+        width: 400px;
+        min-height: 540px;
+        margin-top: 70px;
+        padding-top: 10px;
+    }
+}

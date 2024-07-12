@@ -491,6 +491,15 @@ function isValidPassword(password) {
   }
 }
 
+window.closeSettingModal = function () {
+  document.querySelector(".settings-modal").style.display = "none";
+};
+
+document.getElementById("setting").addEventListener("click", () => {
+  document.querySelector(".settings-modal").style.display = "block";
+  closeMenu();
+});
+
 window.onload = () => {
   if (JSON.parse(localStorage.getItem("userLoggedIn")) === true) {
     let loginBtn = document.querySelector(".user-login");

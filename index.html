@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="timetracker.css">
     <link rel="stylesheet" href="todo.css">
     <link rel="stylesheet" href="modal.css">
+    <link rel="stylesheet" href="settings.css">
     <script src="https://kit.fontawesome.com/9783530849.js" crossorigin="anonymous"></script>
     <script src="https://www.gstatic.com/firebasejs/ui/6.1.0/firebase-ui-auth.js"></script>
 </head>
@@ -60,6 +61,8 @@
         <a class="wiki-menu" href="#" id="save-progress">Save</a>
         <a class="wiki-menu" href="#" id="load-progress">Load</a>
         <a class="wiki-menu user-login-mobile" href="#"></a>
+        <a class="wiki-menu" href="#" id="setting">Settings</a>
+
     </aside>
 
     <div class="workstation">
@@ -151,6 +154,29 @@
             preload="auto"></audio>
         <div class="share"><a href="https://www.facebook.com/sharer/sharer.php?u=https://shootoutnow.com/workstation/"
                 target="_blank"><i class="fa fa-share-alt"></i> SHARE</a></div>
+    </div>
+    <div class="settings-modal">
+        <div class="settings-screen">
+            <div id="close-setting" onclick="closeSettingModal()">X</div>
+            <h3>Settings</h3>
+            Change your auto save settings
+            <p id="setting-messages"></p>
+            <div class="auto-fields">
+                <h4 style="margin-right: 5px;color:#d8d5d5">Auto Save: </h4>
+                <label class="switch">
+                    <input id="auto-save-to-db" type="checkbox">
+                    <span class="slider round"></span>
+                </label>
+
+                <div id="auto-save"></div>
+            </div>
+            <div class="user-details">
+                <div class="details">
+                    <input type="text" id="email">
+                </div>
+                <button id="change-email">View Email</button>
+            </div>
+        </div>
     </div>
     <div class="login-modal">
         <div class="login-screen">

@@ -442,6 +442,30 @@ async function loadDataFromDB() {
 
 document.querySelector("#load-progress").onclick = loadDataFromDB;
 
+const autoSaveButton = document.getElementById("auto-save-to-db");
+let userToggled = JSON.parse(localStorage.getItem("checked")) || false;
+let autoSave = JSON.parse(localStorage.getItem("autoSave"));
+
+autoSaveButton.addEventListener("change", () => {
+  if (autoSaveButton.checked) {
+    JSON.stringify(localStorage.setItem("autoSave", (autoSave = true)));
+    localStorage.setItem("checked", JSON.stringify((userToggled = true)));
+  } else {
+    localStorage.setItem("checked", JSON.stringify((userToggled = false)));
+    JSON.stringify(localStorage.setItem("autoSave", (autoSave = false)));
+  }
+});
+
+if (!userToggled) {
+  autoSaveButton.checked = false;
+} else {
+  autoSaveButton.checked = true;
+}
+
+if (autoSave) {
+  autoSaveButton.checked = true;
+}
+
 async function askUserForConfirmation(message, placeholder) {
   let val;
   if (!message.length > 0) {

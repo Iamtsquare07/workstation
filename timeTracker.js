@@ -1,3 +1,5 @@
+import { saveDataToDB, setData, autoSave } from "./saveData.js";
+
 let startTime;
 let intervalId;
 let restIntervalId;
@@ -476,6 +478,10 @@ function stopTracking(taskText) {
   restCounter = 30000 * 60;
   clearTimeout(alarmTimeoutId);
   releaseWakeLock();
+
+  if(autoSave) {
+    saveDataToDB()
+  }
 }
 
 let hydrationTimeoutId;
@@ -532,7 +538,7 @@ let yesterdayTotalTime =
 
 // const testDateToday = "2024-07-5";
 // const testDateYesterday = "2024-05-23";
-const dateToday = new Date().toLocaleDateString('en-CA');
+const dateToday = new Date().toLocaleDateString("en-CA");
 
 function checkLastVisitedDate(incrementDays) {
   const today = dateToday;
@@ -567,7 +573,7 @@ function trackTime() {
 function checkYesterdayStreak(lastTrackedDate, incrementDays) {
   const yesterday = new Date();
   yesterday.setDate(yesterday.getDate() - 1);
-  const yesterdayDateString = yesterday.toLocaleDateString('en-CA');
+  const yesterdayDateString = yesterday.toLocaleDateString("en-CA");
 
   if (lastTrackedDate === yesterdayDateString) {
     // Increment streak only if last tracked date was yesterday
@@ -957,3 +963,15 @@ const setDailyCheck = () => {
 };
 
 setDailyCheck();
+
+export {
+  printDailyGoalHours,
+  retrieveTrackedTime,
+  checkLastVisitedDate,
+  startTracking,
+  stopTracking,
+  capitalizeFirstLetter,
+  wsUser,
+  userWorkLocation,
+  isRunning,
+};

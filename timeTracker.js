@@ -532,7 +532,7 @@ let yesterdayTotalTime =
 
 // const testDateToday = "2024-07-5";
 // const testDateYesterday = "2024-05-23";
-const dateToday = new Date().toISOString().slice(0, 10);
+const dateToday = new Date().toLocaleDateString('en-CA');
 
 function checkLastVisitedDate(incrementDays) {
   const today = dateToday;

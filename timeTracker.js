@@ -567,7 +567,7 @@ function trackTime() {
 function checkYesterdayStreak(lastTrackedDate, incrementDays) {
   const yesterday = new Date();
   yesterday.setDate(yesterday.getDate() - 1);
-  const yesterdayDateString = yesterday.toISOString().slice(0, 10);
+  const yesterdayDateString = yesterday.toLocaleDateString('en-CA');
 
   if (lastTrackedDate === yesterdayDateString) {
     // Increment streak only if last tracked date was yesterday

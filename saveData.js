@@ -447,6 +447,12 @@ let userToggled = JSON.parse(localStorage.getItem("checked")) || false;
 let autoSave = JSON.parse(localStorage.getItem("autoSave"));
 
 autoSaveButton.addEventListener("change", () => {
+  const id = localStorage.getItem("currentUserId");
+  if (!id) {
+    alert("You are not logged in. Login and try again");
+    autoSaveButton.checked = false;
+    return;
+  }
   if (autoSaveButton.checked) {
     JSON.stringify(localStorage.setItem("autoSave", (autoSave = true)));
     localStorage.setItem("checked", JSON.stringify((userToggled = true)));
@@ -541,3 +547,5 @@ window.onload = () => {
     });
   }
 };
+
+export {saveDataToDB, setData, autoSave} 

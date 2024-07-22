@@ -836,7 +836,7 @@ function formatTime(timeInSeconds) {
   }
 }
 
-function clearLogs() {
+window.clearLogs = function () {
   if (!logged) {
     alert("No logs to clear");
     return;
@@ -971,6 +971,7 @@ export {
   startTracking,
   stopTracking,
   capitalizeFirstLetter,
+  generateMotivationalMessages,
   wsUser,
   userWorkLocation,
   isRunning,

@@ -1,3 +1,16 @@
+import {
+  printDailyGoalHours,
+  retrieveTrackedTime,
+  checkLastVisitedDate,
+  startTracking,
+  stopTracking,
+  capitalizeFirstLetter,
+  generateMotivationalMessages,
+  wsUser,
+  userWorkLocation,
+  isRunning
+} from "./timeTracker.js";
+
 document.addEventListener("DOMContentLoaded", function () {
   const taskDateInput = document.getElementById("taskDate");
   const submitButton = document.getElementById("smbtn");
@@ -21,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Set the value of the date input to the current date (formatted as "YYYY-MM-DD")
   function renderDate() {
     const currentDate = new Date();
-    const formattedDate = currentDate.toISOString().split("T")[0];
+    const formattedDate = currentDate.toLocaleDateString("en-CA").split("T")[0];
     taskDateInput.value = formattedDate;
   }
 
@@ -313,7 +326,7 @@ document.addEventListener("DOMContentLoaded", function () {
     setTimeout(() => {
       hideLoader();
       setTimeout(() => {
-        closeMenu()
+        closeMenu();
         document.getElementById("axiom").style.display = "block";
         alert(generateMotivationalMessages(wsUser));
       }, 200);

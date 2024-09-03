@@ -146,62 +146,66 @@
                 </p>
             </div>
         </div>
-        <div class="text-editor-root">
-            <div class="options">
-                <ul id="top-menu">
-                    <li id="file-menu">File</li>
-                    <li id="edit">Edit</li>
-                    <li id="code">Code</li>
-                </ul>
-    
-                <ul id="drop-down-menu">
-                    <li id="export">Export</li>
-                    <li>Format</li>
-                    <li id="save-as-submenu">Save As ▾
-                        <ul id="save-as-options">
-                            <li><a id="download-link-plain" download="text-editor-file-js-plain.txt">Plain Text</a></li>
-                            <li><a id="download-link-html" download="text-editor-file-js.txt">HTML</a></li>
-                        </ul>
-                    </li>
-                    <li id="save">Save</li>
-                    <li id="auto">Auto Save <input id="auto-save" type="checkbox" checked></li>
-                    <li id="exit-button">Exit</li>
-                </ul>
-    
-                <ul id="edit-menu">
-                    <li id="copy">Copy</li>
-                    <li id="paste">Paste</li>
-                </ul>
-            </div>
-    
-    
-            <div id="commands">
-                <button id="undo"><i class="fa-solid fa-arrow-rotate-left"></i></button>
-                <button id="redo"><i class="fa-solid fa-arrow-rotate-right"></i></button>
-                <button id="bold-text" style="font-weight: bold;">B</button>
-                <button id="underline-text" style="text-decoration: underline;">U</button>
-                <button id="italic-text" style="font-style: italic;">I</button>
-                <button id="strike-through"><i class="fa-solid fa-strikethrough"></i></button>
-                <button id="superscript"><i class="fa-solid fa-superscript"></i></button>
-                <button id="subscript"><i class="fa-solid fa-subscript"></i></button>
-                <button id="align-left"><i class="fa-solid fa-align-left"></i></button>
-                <button id="align-center"><i class="fa-solid fa-align-center"></i></button>
-                <button id="align-right"><i class="fa-solid fa-align-right"></i></button>
-                <button id="emoji-button">😀</button>
-                <button id="heading"><i class="fa-solid fa-heading"></i></button>
-                <button id="ordered-list"><i class="fa-solid fa-list-ol"></i></button>
-                <button id="unordered-list"><i class="fa-solid fa-list"></i></button>
-                <select id="font-size">
-                    <option value="1">8pt</option>
-                    <option value="2">10pt</option>
-                    <option value="3">12pt</option>
-                    <option value="4">14pt</option>
-                    <option value="5">18pt</option>
-                    <option value="6">24pt</option>
-                    <option value="7">36pt</option>
-                </select>
-            </div>
-            <div contenteditable="true" id="editor" style="min-height: 200px;">
+        <div class="notes-container">
+            <div class="text-editor-root">
+                <div class="options">
+                    <ul id="top-menu">
+                        <li id="file-menu">File</li>
+                        <li id="edit">Edit</li>
+                        <li id="code">Code</li>
+                    </ul>
+
+                    <ul id="drop-down-menu">
+                        <li id="export">Export</li>
+                        <li>Format</li>
+                        <li id="save-as-submenu">Save As ▾
+                            <ul id="save-as-options">
+                                <li><a id="download-link-plain" download="text-editor-file-js-plain.txt">Plain Text</a>
+                                </li>
+                                <li><a id="download-link-html" download="text-editor-file-js.txt">HTML</a></li>
+                            </ul>
+                        </li>
+                        <li id="save">Save</li>
+                        <li id="auto">Auto Save <input id="auto-save" type="checkbox" checked></li>
+                        <li id="exit-button">Exit</li>
+                    </ul>
+
+                    <ul id="edit-menu">
+                        <li id="copy">Copy</li>
+                        <li id="paste">Paste</li>
+                    </ul>
+                </div>
+
+
+                <div id="commands">
+                    <button id="undo"><i class="fa-solid fa-arrow-rotate-left"></i></button>
+                    <button id="redo"><i class="fa-solid fa-arrow-rotate-right"></i></button>
+                    <button id="bold-text" style="font-weight: bold;">B</button>
+                    <button id="underline-text" style="text-decoration: underline;">U</button>
+                    <button id="italic-text" style="font-style: italic;">I</button>
+                    <button id="strike-through"><i class="fa-solid fa-strikethrough"></i></button>
+                    <button id="superscript"><i class="fa-solid fa-superscript"></i></button>
+                    <button id="subscript"><i class="fa-solid fa-subscript"></i></button>
+                    <button id="align-left"><i class="fa-solid fa-align-left"></i></button>
+                    <button id="align-center"><i class="fa-solid fa-align-center"></i></button>
+                    <button id="align-right"><i class="fa-solid fa-align-right"></i></button>
+                    <button id="emoji-button">😀</button>
+                    <button id="heading"><i class="fa-solid fa-heading"></i></button>
+                    <button id="ordered-list"><i class="fa-solid fa-list-ol"></i></button>
+                    <button id="unordered-list"><i class="fa-solid fa-list"></i></button>
+                    <select id="font-size">
+                        <option value="1">8pt</option>
+                        <option value="2">10pt</option>
+                        <option value="3">12pt</option>
+                        <option value="4">14pt</option>
+                        <option value="5">18pt</option>
+                        <option value="6">24pt</option>
+                        <option value="7">36pt</option>
+                    </select>
+                </div>
+                <div contenteditable="true" id="editor" style="min-height: 200px;">
+                </div>
+                <div class="close-notes"><button id="close-notes">Close Notes</button></div>
             </div>
         </div>
         <audio id="alarmSound" src="https://www.shootoutnow.com/wp-content/uploads/2024/04/alarm.mp3"

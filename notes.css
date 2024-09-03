@@ -1,0 +1,194 @@
+.notes-container {
+  width: 100%;
+  height: 100vh;
+  background-color: inherit;
+  position: fixed;
+  padding-top: 100px;
+  top: 100px;
+  left: 0;
+  display: none;
+}
+
+.text-editor-root {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  color: inherit;
+  margin: auto;
+  width: 100%;
+  min-height: 450px;
+  margin-top: 0px;
+  background-color: inherit;
+  padding: 5px;
+  border-radius: 10px;
+  box-shadow: 1px 1px 5px 1px #1b37b4;
+}
+
+#commands {
+  background-color: inherit;
+  border-radius: 2px 2px 0 0;
+  padding: 5px;
+  padding-top: 10px;
+}
+
+#editor {
+  background-color: inherit;
+  border-radius: 0 0 10px 10px;
+  border: 1px solid #e1e1e2;
+  padding: 5px 10px 5px 10px;
+  color: inherit;
+  height: 350px;
+  overflow-y: auto;
+}
+
+.workstation-dark-mode #editor {
+  border: 1px solid #03031b;
+}
+
+#editor h1 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  margin-bottom: 10px;
+  color: black;
+  text-align: auto;
+}
+
+#editor:focus {
+  outline: none;
+}
+
+.text-editor-root select {
+  min-width: fit-content;
+  width: fit-content;
+  padding: 10px;
+  background-color: #1b37b4;
+  border: 1px solid #1b37b4;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.text-editor-root select {
+  outline: none;
+}
+
+.text-editor-root button:hover,
+.text-editor-root select:hover {
+  background-color: #d1d5fc;
+}
+
+.options {
+  background-color: #d9d8f5;
+  display: flex;
+  justify-content: left;
+  position: relative;
+  width: 100%;
+  color: black;
+  border-radius: 10px 10px 0px 0px;
+}
+
+.options a {
+  text-decoration: none;
+}
+
+.options ul {
+  padding: 5px;
+  margin: 5px;
+}
+
+.options li {
+  display: inline-block;
+  margin-right: 10px;
+  cursor: pointer;
+  padding: 3px 6px 3px 6px;
+  border-radius: 5px;
+  background-color: #c4c4c58f;
+}
+
+.options li:hover {
+  background-color: #a9a9aae1;
+}
+
+#drop-down-menu,
+#edit-menu {
+  position: absolute;
+  margin-top: 40px;
+  background-color: #f9f9f9;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  width: fit-content;
+  margin-left: 3px;
+  border-radius: 3px;
+  padding: 10px;
+  display: none;
+}
+
+#drop-down-menu > li,
+#edit-menu > li {
+  display: block;
+  padding: 7px 25px 7px 25px;
+  border-radius: 5px;
+  cursor: pointer;
+  color: #000014;
+  background-color: transparent;
+}
+
+#drop-down-menu > li:hover,
+#edit-menu > li:hover {
+  background-color: #00006e;
+  color: #fff;
+}
+
+#edit:hover + #edit-menu {
+  display: block;
+  /* Show the content when hovering over the trigger */
+}
+
+#save-as-options {
+  display: none;
+  margin: 0px;
+  padding: 3px;
+}
+
+#save-as-options {
+  padding: 3px;
+  margin: 0px;
+}
+
+#save-as-submenu:hover #save-as-options {
+  display: block;
+}
+
+#emoji-button {
+  font-size: 13px;
+}
+
+.text-editor-root .active,
+.options li.active {
+  background-color: #a1a4c2;
+}
+
+.close-notes {
+  display: flex;
+  justify-content: center;
+  background: none;
+}
+
+@media only screen and (min-width: 1024px) {
+  .notes-container {
+    width: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding-top: 250px;
+  }
+  .text-editor-root {
+    min-width: 500px;
+    width: 60%;
+    margin-left: auto;
+    padding: 25px 20px 10px 20px;
+  }
+
+  #commands {
+    text-align: center;
+  }
+}

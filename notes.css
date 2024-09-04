@@ -62,6 +62,7 @@
   padding: 10px;
   background-color: #1b37b4;
   border: 1px solid #1b37b4;
+  color: #ffffff;
   border-radius: 50px;
   cursor: pointer;
   font-size: 16px;
@@ -83,7 +84,7 @@
   justify-content: left;
   position: relative;
   width: 100%;
-  color: black;
+  color: #0f0f0f;
   border-radius: 10px 10px 0px 0px;
 }
 
@@ -128,7 +129,7 @@
   padding: 7px 25px 7px 25px;
   border-radius: 5px;
   cursor: pointer;
-  color: #000014;
+  color: inherit;
   background-color: transparent;
 }
 

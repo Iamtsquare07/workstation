@@ -390,7 +390,6 @@ function removeNonLettersAndHyphens(inputString) {
   return cleanedString;
 }
 
-
 let codeInitiated = false;
 const codeButton = document.getElementById("code");
 codeButton.addEventListener("click", () => {
@@ -416,3 +415,20 @@ function formatHTMLWithLineBreaks(html) {
 
   return formattedHTML;
 }
+
+const notesScreen = document.querySelector(".notes-container");
+
+document.getElementById("notes").addEventListener("click", () => {
+  notesScreen.style.display = "block";
+  showLoader();
+
+  setTimeout(() => {
+    closeMenu();
+    hideLoader();
+    document.getElementById("editor").focus();
+  }, 400);
+});
+
+document.getElementById("close-notes").addEventListener("click", () => {
+  notesScreen.style.display = "none";
+});

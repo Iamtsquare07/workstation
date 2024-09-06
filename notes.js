@@ -1,3 +1,5 @@
+import { saveDataToDB } from "./saveData.js";
+
 const editor = document.getElementById("editor");
 const save = document.getElementById("save");
 const bold = document.getElementById("bold-text");
@@ -18,8 +20,10 @@ let selectedText = "";
 
 function execCommandDependencies() {
   if (!document.execCommand) {
-    alert(
-      `You're fucked! Your browser decided to choose voilence, so it stopped supporting the only API that enable almost all the features of this app. If anything work, thank your God.`
+    displayFlashMessage(
+      `You're fucked! Your browser decided to choose voilence, so it stopped supporting the only API that enable almost all the features of this app. If anything work, thank your God.`,
+      "red",
+      7000
     );
   }
 
@@ -149,13 +153,14 @@ document.getElementById("exit-button").addEventListener("click", function () {
 
     setTimeout(() => {
       if (!window.close()) {
-        alert(
-          "Your browser decline the exit request. Please close the tab to exit."
+        displayFlashMessage(
+          "Your browser decline the exit request. Please close the tab to exit.",
+          "red",
+          4000
         );
       }
     }, 500);
   } catch (e) {
-    alert("Error: " + e.message);
     console.log(e);
   }
 });
@@ -238,7 +243,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const startContainer = range.startContainer;
     const parentElement = startContainer.parentElement;
     if (editor.textContent.length < 1) {
-      alert("Enter some text first");
+      displayFlashMessage("Enter some text first", "#04aa12", 2000);
       return;
     }
     if (parentElement === editor) {
@@ -278,8 +283,10 @@ if (savedContent) {
 // Event listener to handle manual save
 save.addEventListener("click", function () {
   saveEditorContent();
-  alert(
-    "Content has been saved to your browsers' storage. You can use auto save to automatically save progress. Use Save As to download."
+  displayFlashMessage(
+    "Content has been saved to your browsers' storage. You can use auto save to automatically save progress. Use Save As to download.",
+    "#04aa12",
+    5000
   );
 });
 
@@ -295,10 +302,21 @@ editor.addEventListener("input", function () {
   }
 });
 
+let saveTimeout = null;
 // Function to save the editor content to localStorage
 function saveEditorContent() {
   const editorContent = editor.innerHTML;
   localStorage.setItem("editorContent", editorContent);
+
+  if (saveTimeout) {
+    clearTimeout(saveTimeout);
+  }
+
+  // Set a new timeout for 30 seconds to save data to the database
+  saveTimeout = setTimeout(() => {
+    saveDataToDB();
+  }, 30000);
+
   dropDown.style.display = "none";
   removeBeforeUnloadWarning();
   saved = true;
@@ -310,7 +328,7 @@ function copyToClipboard() {
   const text = selectedText;
   console.log(text);
   if (!text) {
-    alert("You have not selected any text");
+    displayFlashMessage("You have not selected any text", "red", 3000);
     return;
   }
   navigator.clipboard.writeText(text);
@@ -340,8 +358,10 @@ downloadTextLink.addEventListener("click", saveTextFile);
 
 document.getElementById("export").addEventListener("click", () => {
   savePlainFile();
-  alert(
-    "Your file has been exported successfully, click Save As to download to your device."
+  displayFlashMessage(
+    "Your file has been exported successfully, click Save As to download to your device.",
+    "#04aa12",
+    5000
   );
   downloadPlainLink.style.fontWeight = "bold";
 });

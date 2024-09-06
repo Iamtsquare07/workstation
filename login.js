@@ -60,3 +60,14 @@ document.getElementById("login").addEventListener("click", () => {
     document.querySelector(".signup-container").style.display = "none";
   }, 1000);
 });
+
+function displayFlashMessage(message, color, duration) {
+  document.getElementById("flash-content").textContent = message;
+  document.querySelector(".flash-modal").style.display = "block";
+  document.getElementById("flash-content").style.color = color;
+
+  setTimeout(() => {
+    document.getElementById("flash-content").textContent = "";
+    document.querySelector(".flash-modal").style.display = "none";
+  }, duration);
+}

@@ -67,8 +67,10 @@ if (
     );
     localStorage.setItem("userWorkLocation", userWorkLocation);
     if (userWorkLocation.toLowerCase() === "home") {
-      alert(
-        "I see you chilling at home! Your app is now renamed to Homestation"
+      displayFlashMessage(
+        "I see you chilling at home! Your app is now renamed to Homestation",
+        "#04aa12",
+        3000
       );
     }
 
@@ -355,11 +357,23 @@ function generateMotivationalMessages(userName) {
 setTimeout(() => {
   if (isNewDay() && wsUser.length > 2) {
     if (wsUser.toLowerCase() === "victor") {
-      alert(`Hello inventor ${generateMotivationalMessages(wsUser)}`);
+      displayFlashMessage(
+        `Hello inventor ${generateMotivationalMessages(wsUser)}`,
+        "inherit",
+        7000
+      );
     } else if (wsUser.toLowerCase() === "lilian") {
-      alert(`Hello my ${generateMotivationalMessages(wsUser)}`);
+      displayFlashMessage(
+        `Hello my ${generateMotivationalMessages(wsUser)}`,
+        "inherit",
+        7000
+      );
     } else {
-      alert(`${generateMotivationalMessages(wsUser)}`);
+      displayFlashMessage(
+        `${generateMotivationalMessages(wsUser)}`,
+        "inherit",
+        5000
+      );
     }
   }
 }, 12000);
@@ -419,14 +433,14 @@ function startTracking(taskText) {
   if (!isRunning) {
     isRunning = true;
   } else {
-    alert("Your current task is still running");
+    displayFlashMessage("Your current task is still running", "red", 2000);
     return;
   }
 
   document.getElementById("notracking").style.display = "none";
   document.querySelector(".workstation").scrollIntoView();
   if (!taskText) {
-    alert("Please enter a task name.");
+    displayFlashMessage("Please enter a task name.", "inherit", 2000);
     return;
   }
 
@@ -446,11 +460,10 @@ function startTracking(taskText) {
 
 function stopTracking(taskText) {
   if (!startTime) {
-    alert("No task is currently being tracked.");
+    displayFlashMessage("No task is currently being tracked.", "inherit", 2000);
     return;
   }
 
-  document.querySelector("#logList").scrollIntoView();
   clearInterval(intervalId);
   clearInterval(restIntervalId);
   const endTime = Date.now();
@@ -479,8 +492,8 @@ function stopTracking(taskText) {
   clearTimeout(alarmTimeoutId);
   releaseWakeLock();
 
-  if(autoSave) {
-    saveDataToDB()
+  if (autoSave) {
+    saveDataToDB("Your tasks have been saved successfully");
   }
 }
 
@@ -509,7 +522,11 @@ function setupHydrationReminder() {
       1000 * 60 * 60 * 2 * (Math.floor(elapsedHours / 2) + 1) -
       (Date.now() - hydrationStartTime);
     hydrationTimeoutId = setTimeout(remindToDrinkWater, nextReminderInMs);
-    alert("Woohoo! It's time to drink some water.");
+    displayFlashMessage(
+      "Woohoo! It's time to drink some water.",
+      "#04aa12",
+      5000
+    );
   }
 
   // Cancel any existing timeout
@@ -611,10 +628,12 @@ function stopTimeTracking() {
 
   if (trackedTime >= goalHour) {
     if (!goalReached) {
-      alert(
+      displayFlashMessage(
         `Congratulations ${wsUser}, you have smashed your goal for today. ${trackedTime.toFixed(
           2
-        )} hours of serious work. WOW!`
+        )} hours of serious work. WOW!`,
+        "#04aa12",
+        7000
       );
       goalReached = true;
     }
@@ -838,7 +857,7 @@ function formatTime(timeInSeconds) {
 
 window.clearLogs = function () {
   if (!logged) {
-    alert("No logs to clear");
+    displayFlashMessage("No logs to clear", "inherit", 1000);
     return;
   }
   logList.innerHTML = "";
@@ -849,7 +868,7 @@ window.clearLogs = function () {
     localStorage.removeItem("lastAutoSave");
   }
   logField.style.display = "none";
-}
+};
 
 function startRestTimer() {
   restCounter -= ten;

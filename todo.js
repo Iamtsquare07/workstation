@@ -8,7 +8,7 @@ import {
   generateMotivationalMessages,
   wsUser,
   userWorkLocation,
-  isRunning
+  isRunning,
 } from "./timeTracker.js";
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const input = document.getElementById("toDo");
     const taskDate = taskDateInput.value;
     if (input.value.length === 0 || taskDate === "") {
-      alert("Please enter a task");
+      displayFlashMessage("Please enter a task", "red", 2000);
       input.focus();
       return;
     }
@@ -56,8 +56,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Compare the selected date with the current date
     if (selectedDate < currentDate && selectedDate !== currentDate) {
-      alert(
-        "Oops! It seems like you've discovered the secret to time travel, but our services are strictly for the present and future. Best of luck with your journey to the past! 🕰️🚀😍"
+      displayFlashMessage(
+        "Oops! It seems like you've discovered the secret to time travel, but our services are strictly for the present and future. Best of luck with your journey to the past! 🕰️🚀😍",
+        "inherit",
+        7000
       );
       return;
     }
@@ -101,7 +103,11 @@ document.addEventListener("DOMContentLoaded", function () {
       const startButton = listItem.querySelector(".startTask");
       if (startButton.textContent === "Start") {
         if (isRunning) {
-          alert("Your current task is still running");
+          displayFlashMessage(
+            "Your current task is still running",
+            "red",
+            3000
+          );
           return;
         }
         startButton.textContent = "Stop";
@@ -151,9 +157,9 @@ document.addEventListener("DOMContentLoaded", function () {
           askUserForConfirmation === "yes" ||
           askUserForConfirmation === "y"
         ) {
-          alert("Task moved to completed");
+          displayFlashMessage("Task moved to completed", "#04aa12", 2000);
         } else {
-          alert("Task not moved to completed");
+          displayFlashMessage("Task not moved to completed", "red", 2000);
           return;
         }
       }
@@ -328,7 +334,11 @@ document.addEventListener("DOMContentLoaded", function () {
       setTimeout(() => {
         closeMenu();
         document.getElementById("axiom").style.display = "block";
-        alert(generateMotivationalMessages(wsUser));
+        displayFlashMessage(
+          generateMotivationalMessages(wsUser),
+          "#04aa12",
+          10000
+        );
       }, 200);
     }, 500);
   }

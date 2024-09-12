@@ -4,9 +4,14 @@
   background-color: inherit;
   position: fixed;
   padding-top: 100px;
-  top: 100px;
+  top: 5px;
   left: 0;
   display: none;
+  overflow-y: auto;
+}
+
+.notes-container button {
+  padding:12px 15px;
 }
 
 .text-editor-root {
@@ -36,7 +41,7 @@
   border: 1px solid #e1e1e2;
   padding: 5px 10px 5px 10px;
   color: inherit;
-  height: 350px;
+  height: 325px;
   overflow-y: auto;
 }
 
@@ -174,6 +179,34 @@
   background: none;
 }
 
+@media only screen and (max-width: 370px) {
+  .notes-container {
+    font-size: 14px !important;
+    margin-top: 0;
+  }
+
+  #editor {
+    height: 200px;
+  }
+
+  button {
+    padding: 10px !important;
+  }
+
+  select {
+    padding: 8px !important;
+  }
+
+  .options ul {
+    padding: 3px;
+    margin: 3px;
+  }
+  
+  .options li {
+    padding: 3px 5px;
+  }
+}
+
 @media only screen and (min-width: 1024px) {
   .notes-container {
     width: 100%;
@@ -182,11 +215,16 @@
     transform: translate(-50%, -50%);
     padding-top: 250px;
   }
+
   .text-editor-root {
     min-width: 500px;
     width: 60%;
     margin-left: auto;
     padding: 25px 20px 10px 20px;
+  }
+
+  #editor {
+    height: 350px;
   }
 
   #commands {

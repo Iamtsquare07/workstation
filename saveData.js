@@ -107,7 +107,7 @@ function signUp() {
   let password = document.getElementById("password").value;
 
   if (!isValidPassword(password) || !isValidEmail(email)) {
-    alert("Please enter a valid email and password");
+    displayFlashMessage("Please enter a valid email and password", "red", 3000);
     hideLoader();
     return;
   }
@@ -128,7 +128,11 @@ function signUp() {
       }, 2000);
     })
     .then(() => {
-      alert("Check your email to verify your account");
+      displayFlashMessage(
+        "Check your email to verify your account",
+        "#04aa12",
+        5000
+      );
     })
     .catch((error) => {
       const errorCode = error.code;
@@ -150,13 +154,17 @@ async function logIn() {
 
   if (!isValidEmail(email)) {
     hideLoader();
-    alert("Please enter a valid email and password");
+    displayFlashMessage("Please enter a valid email and password", "red", 3000);
     return;
   }
 
   if (JSON.parse(localStorage.getItem("userLoggedIn")) === true) {
     hideLoader();
-    alert(`You are already logged in as ${wsUser}`);
+    displayFlashMessage(
+      `You are already logged in as ${wsUser}`,
+      "#04aa12",
+      4000
+    );
     return;
   }
 
@@ -169,8 +177,10 @@ async function logIn() {
     const user = userCredential.user;
 
     if (!user.emailVerified) {
-      alert(
-        "Please check your email and click the verify link we sent to continue."
+      displayFlashMessage(
+        "Please check your email and click the verify link we sent to continue.",
+        "inherit",
+        5000
       );
       hideLoader();
       return;
@@ -197,7 +207,11 @@ async function logIn() {
       errorText = errorCode;
     }
 
-    alert(`${errorText}, please check your login details and try again.`);
+    displayFlashMessage(
+      `${errorText}, please check your login details and try again.`,
+      "red",
+      3000
+    );
     console.error(errorCode);
     console.error(errorMessage);
   } finally {
@@ -219,7 +233,7 @@ async function logOut() {
     "Y"
   );
   if (userChoice.toLowerCase() === "n" || userChoice.toLowerCase() === "no") {
-    alert("Aborted");
+    displayFlashMessage("Aborted", "inherit", 1000);
     hideLoader();
     return;
   }
@@ -235,7 +249,7 @@ async function logOut() {
     location.reload(true);
   } catch (error) {
     console.error("Failed to log out:", error);
-    alert("Failed to log out. Please try again.");
+    displayFlashMessage("Failed to log out. Please try again.", "red", 3000);
   } finally {
     hideLoader();
   }
@@ -259,7 +273,7 @@ async function validateUser(id, email, retrieve) {
   }
 }
 
-async function setData(email, id) {
+async function setData(email, id, message) {
   let userdata = await validateUser(id, email, false);
 
   if (
@@ -272,7 +286,7 @@ async function setData(email, id) {
     );
 
     if (userChoice.toLowerCase() === "n" || userChoice.toLowerCase() === "no") {
-      alert("Aborted");
+      displayFlashMessage("Aborted", "red", 1000);
       hideLoader();
       return;
     }
@@ -298,6 +312,7 @@ async function setData(email, id) {
     JSON.parse(localStorage.getItem("motivationalMessages")) || null;
   const yesterdayTotalTrackedTime =
     JSON.parse(localStorage.getItem("yesterdayTotalTrackedTime")) || 0;
+  const notesContent = localStorage.getItem("editorContent");
 
   const userData = {
     userEmail: email,
@@ -316,12 +331,18 @@ async function setData(email, id) {
     lastTrackedDate: lastTrackedDate,
     motivationalMessages: motivationalMessages,
     yesterdayTotalTrackedTime: yesterdayTotalTrackedTime,
+    notesContent: notesContent,
   };
 
   if (isValidEmail(email)) {
     update(ref(db, "workstation/users/" + id), userData)
       .then(() => {
-        alert(`Your tasks have been saved successfully`);
+        closeMenu();
+        displayFlashMessage(
+          message,
+          "#04aa12",
+          3000
+        );
         hideLoader();
       })
       .catch((err) => {
@@ -330,7 +351,11 @@ async function setData(email, id) {
       });
   } else {
     console.log("Something went wrong");
-    alert("We are having trouble with your email address");
+    displayFlashMessage(
+      "We are having trouble with your email address",
+      "red",
+      3000
+    );
   }
 }
 
@@ -361,6 +386,7 @@ function retriveDataFromDatabase(data) {
       JSON.stringify(data.yesterdayTotalTrackedTime)
     );
   }
+  localStorage.setItem("editorContent", data.notesContent);
 }
 
 function clearLocalStorage() {
@@ -383,21 +409,25 @@ function clearLocalStorage() {
   localStorage.removeItem("yesterdayTotalTrackedTime");
 }
 
-function saveDataToDB() {
+function saveDataToDB(message) {
   showLoader();
   const email = localStorage.getItem("currentUserEmail");
   const id = localStorage.getItem("currentUserId");
   if (!id) {
-    alert("You are not logged in. Login and try again");
+    displayFlashMessage(
+      "You are not logged in. Login and try again",
+      "red",
+      3000
+    );
     hideLoader();
     return;
   }
 
   setTimeout(() => {
-    setData(email, id);
+    setData(email, id, message);
   }, 1000);
 }
-document.querySelector("#save-progress").onclick = saveDataToDB;
+document.querySelector("#save-progress").onclick = () => {saveDataToDB("Your tasks have been saved successfully")}
 
 async function loadDataFromDB() {
   showLoader();
@@ -407,7 +437,11 @@ async function loadDataFromDB() {
     "This action will replace your current data with your last saved data. Continue? Y/N";
   let userChoice = await askUserForConfirmation(message, "Y");
   if (!id) {
-    alert("You are not logged in. Login and try again");
+    displayFlashMessage(
+      "You are not logged in. Login and try again",
+      "red",
+      3000
+    );
     hideLoader();
     return;
   }
@@ -418,13 +452,13 @@ async function loadDataFromDB() {
     userChoice.toLowerCase() !== "yes" &&
     userChoice.toLowerCase() !== "no"
   ) {
-    alert("Aborted");
+    displayFlashMessage("Aborted", "inherit", 1000);
     hideLoader();
     return;
   }
 
   if (userChoice.toLowerCase() === "n" || userChoice.toLowerCase() === "no") {
-    alert("Aborted");
+    displayFlashMessage("Aborted", "inherit", 1000);
     hideLoader();
     return;
   }
@@ -435,7 +469,11 @@ async function loadDataFromDB() {
     location.reload();
   } catch (error) {
     console.error("Failed to validate user:", error);
-    alert("Failed to validate user. Please try again.");
+    displayFlashMessage(
+      "Failed to validate user. Please try again.",
+      "inherit",
+      3000
+    );
     hideLoader();
   }
 }
@@ -449,7 +487,11 @@ let autoSave = JSON.parse(localStorage.getItem("autoSave"));
 autoSaveButton.addEventListener("change", () => {
   const id = localStorage.getItem("currentUserId");
   if (!id) {
-    alert("You are not logged in. Login and try again");
+    displayFlashMessage(
+      "You are not logged in. Login and try again",
+      "red",
+      3000
+    );
     autoSaveButton.checked = false;
     return;
   }
@@ -512,7 +554,11 @@ function isValidPassword(password) {
   if (passwordRegex.test(password)) {
     null;
   } else {
-    alert("Password must contain an uppercase/lowercase letter and a number.");
+    displayFlashMessage(
+      "Password must contain an uppercase/lowercase letter and a number.",
+      "red",
+      5000
+    );
     return;
   }
 
@@ -548,4 +594,4 @@ window.onload = () => {
   }
 };
 
-export {saveDataToDB, setData, autoSave} 
+export { saveDataToDB, setData, autoSave };

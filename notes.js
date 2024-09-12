@@ -284,7 +284,7 @@ if (savedContent) {
 save.addEventListener("click", function () {
   saveEditorContent();
   displayFlashMessage(
-    "Content has been saved to your browsers' storage. You can use auto save to automatically save progress. Use Save As to download.",
+    "Content has been saved to your browsers' storage. You can use auto save to automatically save progress. Use Save As to download to your device.",
     "#04aa12",
     5000
   );
@@ -314,7 +314,7 @@ function saveEditorContent() {
 
   // Set a new timeout for 30 seconds to save data to the database
   saveTimeout = setTimeout(() => {
-    saveDataToDB();
+    saveDataToDB("Your notes entries have been saved to the database.");
   }, 30000);
 
   dropDown.style.display = "none";

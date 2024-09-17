@@ -359,7 +359,7 @@ downloadTextLink.addEventListener("click", saveTextFile);
 document.getElementById("export").addEventListener("click", () => {
   savePlainFile();
   displayFlashMessage(
-    "Your file has been exported successfully, click Save As to download to your device.",
+    "Your file has been exported successfully, click 'Save As' to download to your device.",
     "#04aa12",
     5000
   );

@@ -4,6 +4,7 @@ let loginBtn = document.querySelector(".user-login");
 let mobileLoginBtn = document.querySelector(".user-login-mobile");
 let userLSBool = localStorage.getItem("userLoggedIn");
 let loading = document.querySelector(".loading");
+let delayTrigger;
 
 function hideLoader() {
   loading.style.visibility = "hidden";
@@ -61,7 +62,11 @@ document.getElementById("login").addEventListener("click", () => {
   }, 1000);
 });
 
-function displayFlashMessage(message, color, duration) {
+function displayFlashMessage(message, color, duration, delay = false) {
+  if (delayTrigger) {
+    return;
+  }
+
   document.getElementById("flash-content").textContent = message;
   document.querySelector(".flash-modal").style.display = "block";
   document.getElementById("flash-content").style.color = color;
@@ -70,4 +75,11 @@ function displayFlashMessage(message, color, duration) {
     document.getElementById("flash-content").textContent = "";
     document.querySelector(".flash-modal").style.display = "none";
   }, duration);
+  
+  if (delay) {
+    delayTrigger = true;
+    setTimeout(() => {
+      delayTrigger = false;
+    }, duration);
+  }
 }

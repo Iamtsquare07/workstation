@@ -525,7 +525,7 @@ function setupHydrationReminder() {
     displayFlashMessage(
       "Woohoo! It's time to drink some water.",
       "#04aa12",
-      5000
+      30000
     );
   }
 
@@ -633,7 +633,8 @@ function stopTimeTracking() {
           2
         )} hours of serious work. WOW!`,
         "#04aa12",
-        7000
+        7000, 
+        true
       );
       goalReached = true;
     }

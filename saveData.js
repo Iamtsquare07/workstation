@@ -341,7 +341,7 @@ async function setData(email, id, message) {
         displayFlashMessage(
           message,
           "#04aa12",
-          3000
+          1500
         );
         hideLoader();
       })

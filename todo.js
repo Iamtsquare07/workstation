@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const taskText = input.value.trim();
 
     const listItem = createTaskListItem(taskText, taskDate, true);
-    const taskList = getOrCreateTaskList(taskDate); // Get or create the task list
+    const taskList = getOrCreateTaskList(taskDate);
     taskList.appendChild(listItem);
 
     input.value = "";
@@ -106,7 +106,7 @@ document.addEventListener("DOMContentLoaded", function () {
           displayFlashMessage(
             "Your current task is still running",
             "red",
-            3000
+            2000
           );
           return;
         }
@@ -132,7 +132,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const editedText = prompt("Edit the task:", taskSpan.textContent);
       if (editedText !== null) {
         taskSpan.textContent = editedText;
-        saveTasksToStorage(); // Update local storage after editing
+        saveTasksToStorage();
       }
     });
 
@@ -164,7 +164,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       }
 
-      // Retrieve the task list associated with the task's date
       let taskList;
       if (withDate) {
         taskList = getOrCreateTaskList(taskDate);
@@ -173,7 +172,6 @@ document.addEventListener("DOMContentLoaded", function () {
       if (checkbox.checked) {
         listItem.querySelector(".taskText").style.textDecoration =
           "line-through";
-        // Check if taskList is defined before attempting to remove listItem
         if (taskList) {
           taskList.removeChild(listItem);
         }
@@ -182,7 +180,6 @@ document.addEventListener("DOMContentLoaded", function () {
       } else {
         listItem.querySelector(".taskText").style.textDecoration = "none";
         removeFromCompleted(listItem);
-        // Check if taskList is defined before attempting to append listItem
         if (taskList) {
           taskList.appendChild(listItem);
         }

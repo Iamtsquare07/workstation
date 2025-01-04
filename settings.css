@@ -1,4 +1,4 @@
-.settings-modal {
+.settings-modal, .goal-tracking-modal {
   position: fixed;
   top: 0;
   left: 0;
@@ -7,6 +7,10 @@
   background-color: #04041fb7;
   display: none;
   margin: auto;
+}
+
+.goal-tracking-modal {
+  display: block !important;
 }
 
 .flash-modal {
@@ -25,7 +29,7 @@
   background-color: #04041fde;
 }
 
-.settings-screen {
+.settings-screen, .goal-tracking-screen {
   font-family: "Rubik", sans-serif;
   width: 100%;
   min-height: 100vh;
@@ -58,7 +62,8 @@
   color: inherit;
 }
 
-.workstation-dark-mode .settings-screen {
+.workstation-dark-mode .settings-screen,
+.workstation-dark-mode .goal-tracking-screen {
   background-color: #000000;
 }
 
@@ -87,11 +92,11 @@
   box-shadow: 0.2px 0.4px 3px 0.6px #4c4d52;
 }
 
-.settings-screen {
+.settings-screen, .goal-tracking-screen {
   width: 100%;
 }
 
-#close-setting {
+#close-setting, #goal-tracking-setting {
   float: right;
   font-size: 20px;
   font-weight: bold;
@@ -102,7 +107,8 @@
   cursor: pointer;
 }
 
-#close-setting:hover {
+#close-setting:hover, 
+#goal-tracking-setting:hover {
   background-color: #04aa6d;
 }
 
@@ -200,7 +206,7 @@ input:checked + .slider:before {
 /* End Styles for sliding toggle switch */
 
 @media only screen and (min-width: 1024px) {
-  .settings-screen {
+  .settings-screen, .goal-tracking-screen {
     width: 400px;
     min-height: 540px;
     margin-top: 70px;

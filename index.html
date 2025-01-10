@@ -56,14 +56,14 @@
     <aside id="workstation-menu-items">
         <button class="workstation-close"><i class="fa fa-times-circle" aria-hidden="true"></i></button>
         <a class="wiki-menu workstation-mobile" href="/">Home</a>
-        <a class="wiki-menu workstation-mobile" href="#log">Logs</a>
-        <a class="wiki-menu" href="https://www.github.com/iamtsquare07">Projects</a>
-        <a class="wiki-menu" href="#" id="motivation">Motivation</a>
+        <a class="wiki-menu" href="#" id="add-aspects">Aspects</a>
         <a class="wiki-menu" href="#" id="notes">Notes</a>
-        <a class="wiki-menu" href="#" id="save-progress">Save</a>
+        <a class="wiki-menu" href="#" id="motivation">Motivation</a>
+        <a class="wiki-menu workstation-mobile" href="#log">Logs</a>
         <a class="wiki-menu" href="#" id="load-progress">Load</a>
-        <a class="wiki-menu user-login-mobile" href="#"></a>
+        <a class="wiki-menu" href="#" id="save-progress">Save</a>
         <a class="wiki-menu" href="#" id="setting">Settings</a>
+        <a class="wiki-menu user-login-mobile" href="#"></a>
 
     </aside>
 
@@ -242,16 +242,14 @@
     </div>
     <div class="goal-tracking-modal">
         <div class="goal-tracking-screen">
-            <div id="goal-tracking-setting" onclick="closeSettingModal()">X</div>
-            <h3>My Life</h3>
+            <div id="goal-tracking-setting" onclick="closeGoalSettingModal()">X</div>
+            <h3>Areas of My Life</h3>
             <div class="tracking-body">
                 <div class="tracking-inputs">
-                    <label for="goal">Goal:
-                        <div class="inputs">
-                            <input type="text" id="daily-goal-input" placeholder="Enter your goal" required>
-                        </div>
-                    </label>
-                    <button>Save</button>
+                    <div>
+                        <input type="text" id="daily-goal-input" placeholder="Eg: Physical fitness" required>
+                    </div>
+                    <button>Add</button>
                 </div>
             </div>
         </div>
@@ -259,7 +257,7 @@
     <div class="flash-modal">
         <div class="flash-screen">
             <div id="flash-content">
-            
+
             </div>
         </div>
     </div>
@@ -343,6 +341,7 @@
     <script src="./nav.js"></script>
     <script src="./darkMode.js"></script>
     <script src="./login.js"></script>
+    <script src="./goalTracking.js"></script>
     <script type="module" src="./notes.js"></script>
     <script type="module" src="./timeTracker.js"></script>
     <script type="module" src="./todo.js"></script>

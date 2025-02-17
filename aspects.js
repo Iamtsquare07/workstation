@@ -16,3 +16,9 @@ function addAspectGoal() {
 }
 
 addAspectBtn.addEventListener("click", addAspectGoal);
+
+goalInput.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    addAspectGoal();
+  }
+});

@@ -83,3 +83,4 @@ function displayFlashMessage(message, color, duration, delay = false) {
     }, duration);
   }
 }
+

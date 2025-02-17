@@ -11,7 +11,7 @@
 }
 
 .notes-container button {
-  padding:12px 15px;
+  padding: 12px 15px;
 }
 
 .text-editor-root {
@@ -201,7 +201,7 @@
     padding: 3px;
     margin: 3px;
   }
-  
+
   .options li {
     padding: 3px 5px;
   }

@@ -2,509 +2,526 @@
 @import url("https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap");
 
 body {
-    padding: 0;
-    margin: 0;
-    width: 100%;
-    height: 100vh;
-    overflow: hidden;
-    overflow-y: auto;
-    background-color: #fafbfe;
-    scroll-behavior: smooth;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  overflow-y: auto;
+  background-color: #fafbfe;
+  scroll-behavior: smooth;
 }
 
 h1 {
-    font-size: 5vw;
+  font-size: 5vw;
 }
 
 .workstation {
-    font-family: "Rubik", sans-serif;
-    width: 100%;
-    background-color: inherit;
-    border-radius: 10px;
-    margin-top: 100px;
-    overflow-x: hidden;
+  font-family: "Rubik", sans-serif;
+  width: 100%;
+  background-color: inherit;
+  border-radius: 10px;
+  margin-top: 100px;
+  overflow-x: hidden;
 }
 
 .workstation h4 {
-    text-align: center;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    color: #000000;
+  text-align: center;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  color: #000000;
 }
 
 a {
-    font-family: "Rubik", sans-serif;
-    color: #000025;
+  font-family: "Rubik", sans-serif;
+  color: #000025;
 }
 
 button {
-    cursor: pointer;
-    padding: 15px 25px;
-    background-color: #1b37b4;
-    border: 1px solid #1b37b4;
-    border-radius: 25px;
-    color: #ffffff;
-    font-family: "Rubik", sans-serif;
+  cursor: pointer;
+  padding: 15px 25px;
+  background-color: #1b37b4;
+  border: 1px solid #1b37b4;
+  border-radius: 25px;
+  color: #ffffff;
+  font-family: "Rubik", sans-serif;
 }
 
 button:hover {
-    border: 1px solid #0530f1;
-    background-color: #0530f1;
+  border: 1px solid #0530f1;
+  background-color: #0530f1;
 }
 
 .workstation-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 50px;
-    padding: 10px 15px;
-    position: fixed;
-    padding-top: 20px;
-    width: 100%;
-    z-index: 999;
-    font-weight: 600;
-    text-align: center;
-    color: inherit;
-    background-color: #00006e;
-    top: 0;
-    left: 0;
-    color: #e9e5fc;
-    box-shadow: 1px 2px 10px #6b6b79;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 50px;
+  padding: 10px 15px;
+  position: fixed;
+  padding-top: 20px;
+  width: 100%;
+  z-index: 999;
+  font-weight: 600;
+  text-align: center;
+  color: inherit;
+  background-color: #00006e;
+  top: 0;
+  left: 0;
+  color: #e9e5fc;
+  box-shadow: 1px 2px 10px #6b6b79;
 }
 
 .workstation-header h1 {
-    height: auto;
-    width: 110px;
-    padding-left: 15px;
+  height: auto;
+  width: 110px;
+  padding-left: 15px;
 }
 
-.workstation-header h1>a {
-    color: white;
-    text-decoration: none;
+.workstation-header h1 > a {
+  color: white;
+  text-decoration: none;
 }
 
 .workstation-dark-mode .workstation-header {
-    background-color: #000025;
-    color: #c6c6c9;
+  background-color: #000025;
+  color: #c6c6c9;
 }
 
 .workstation-dark-mode h4 {
-    color: #c6c6c9;
+  color: #c6c6c9;
 }
 
-.workstation-dark-mode .workstation-header h1>a {
-    color: #c3c6e0;
+.workstation-dark-mode .workstation-header h1 > a {
+  color: #c3c6e0;
 }
 
 .workstation-header .workstation-nav.workstation-center {
-    color: inherit;
-    text-align: center;
+  color: inherit;
+  text-align: center;
 }
 
 .workstation-header .workstation-nav a {
-    text-decoration: none;
-    padding: 5px 10px;
-    font-weight: 500;
-    color: inherit;
-    font-weight: 600;
+  text-decoration: none;
+  padding: 5px 10px;
+  font-weight: 500;
+  color: inherit;
+  font-weight: 600;
 }
 
 .workstation-nav ul {
-    display: inline-block;
-    font-family: "Rubik", sans-serif;
+  display: inline-block;
+  font-family: "Rubik", sans-serif;
 }
 
 .account-menu {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    cursor: pointer;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
 }
 
 .account-menu li {
-    position: relative;
+  position: relative;
 }
 
 .account-menu li:hover .submenu {
-    display: block;
+  display: block;
 }
 
 .submenu {
-    display: none;
-    position: absolute;
-    background-color: #00006e;
-    top: 100%;
-    left: 0;
-    padding: 10px;
-    border-radius: 4px;
+  display: none;
+  position: absolute;
+  background-color: #00006e;
+  top: 100%;
+  left: 0;
+  padding: 10px;
+  border-radius: 4px;
 }
 
 .workstation-light-mode .submenu {
-    background-color: #080455;
+  background-color: #080455;
 }
 
 .workstation-dark-mode .submenu {
-    background-color: #000025;
+  background-color: #000025;
 }
 
 #account-btn {
-    display: none;
+  display: none;
 }
 
 .account-menu:hover #account-btn {
-    display: block;
+  display: block;
 }
 
-
 .workstation-header .workstation-nav.workstation-right {
-    text-align: right;
+  text-align: right;
 }
 
 .workstation-header button {
-    border: none;
+  border: none;
 }
 
 .workstation-header i {
-    color: white;
-    font-size: 18px;
+  color: white;
+  font-size: 18px;
 }
 
 .workstation-header i:hover {
-    color: #585d88;
+  color: #585d88;
 }
 
 .workstation-nav a:hover {
-    background-color: rgba(106, 106, 107, 0.185);
-    border-radius: 5px;
-    transition: 0.5s;
+  background-color: rgba(106, 106, 107, 0.185);
+  border-radius: 5px;
+  transition: 0.5s;
 }
 
 .workstation-nav .workstation-mode {
-    background-color: transparent;
+  background-color: transparent;
 }
 
 .workstation-dt {
-    display: none;
+  display: none;
 }
 
 #workstation-menu {
-    background-color: rgba(106, 106, 107, 0.267);
-    border-radius: 5px;
-    padding: 7px 15px 7px 15px;
-    cursor: pointer;
-    margin-right: 20px;
-    font-family: "Rubik", sans-serif;
+  background-color: rgba(106, 106, 107, 0.267);
+  border-radius: 5px;
+  padding: 7px 15px 7px 15px;
+  cursor: pointer;
+  margin-right: 20px;
+  font-family: "Rubik", sans-serif;
 }
 
 #workstation-menu:hover {
-    background-color: rgba(137, 137, 139, 0.096);
+  background-color: rgba(137, 137, 139, 0.096);
 }
 
 aside {
-    position: fixed;
-    top: 0;
-    right: -400px;
-    width: 295px;
-    background-color: white;
-    z-index: 999 !important;
-    padding: 85px 45px;
-    height: 100vh;
-    transition: 0.5s;
-    max-height: 100%;
-    overflow-y: scroll;
+  position: fixed;
+  top: 0;
+  right: -400px;
+  width: 295px;
+  background-color: white;
+  z-index: 999 !important;
+  padding: 85px 45px;
+  height: 100vh;
+  transition: 0.5s;
+  max-height: 100%;
+  overflow-y: scroll;
 }
 
 aside a {
-    display: block;
-    background-color: #fff;
-    padding: 5px 5px;
-    text-decoration: none;
-    font-size: 14.7px;
-    font-weight: 400;
-    color: #000025;
+  display: block;
+  background-color: #fff;
+  padding: 5px 5px;
+  text-decoration: none;
+  font-size: 14.7px;
+  font-weight: 400;
+  color: #000025;
 }
 
 aside a:visited {
-    color: #000025;
+  color: #000025;
 }
 
 aside button.workstation-close {
-    background-color: transparent;
-    font-size: 25px;
-    position: absolute;
-    top: 28px;
-    right: 28px;
-    cursor: pointer;
-    border: 0;
-    color: rgb(20, 20, 20);
+  background-color: transparent;
+  font-size: 25px;
+  position: absolute;
+  top: 28px;
+  right: 28px;
+  cursor: pointer;
+  border: 0;
+  color: rgb(20, 20, 20);
 }
 
 aside.workstation-active {
-    right: 0;
+  right: 0;
 }
 
 aside a:hover {
-    background-color: rgba(106, 106, 107, 0.185);
-    border-radius: 5px;
-    transition: 0.5s;
+  background-color: rgba(106, 106, 107, 0.185);
+  border-radius: 5px;
+  transition: 0.5s;
 }
 
 .workstation-shadow {
-    position: fixed;
-    inset: 0;
-    background-color: rgba(0, 0, 0, 0.35);
-    backdrop-filter: blur(5px);
-    z-index: 999;
-    display: none;
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(5px);
+  z-index: 999;
+  display: none;
 }
 
 aside .workstation-mobile-hidden {
-    display: none;
+  display: none;
 }
 
 .wiki-menu {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .workstation-shadow.workstation-active {
-    display: block;
+  display: block;
 }
 
 .workstation-dark-mode {
-    background-color: #000000;
-    color: #d3d5d6 !important;
+  background-color: #000000;
+  color: #d3d5d6 !important;
 }
 
 .workstation-light-mode {
-    background-color: #fafbfe;
-    color: black;
+  background-color: #fafbfe;
+  color: black;
 }
 
 .workstation-light-mode .workstation-header {
-    background-color: #080455;
-    color: rgb(199, 197, 212);
-    box-shadow: 1px 7px 10px #acaad4;
+  background-color: #080455;
+  color: rgb(199, 197, 212);
+  box-shadow: 1px 7px 10px #acaad4;
 }
 
 .workstation-dark-mode aside {
-    background-color: #1d2a35;
-    color: white;
+  background-color: #1d2a35;
+  color: white;
 }
 
 .workstation-dark-mode aside a {
-    background-color: #1d2a35;
-    color: white;
+  background-color: #1d2a35;
+  color: white;
 }
 
 .workstation-dark-mode aside a:hover {
-    background-color: #758da1;
+  background-color: #758da1;
 }
 
 .share {
-    box-shadow: .2px .4px 3px .6px #d9dde9fb;
-    width: fit-content;
-    padding: 10px;
-    border-radius: 10px;
-    margin: auto;
-    margin-top: 50px;
+  box-shadow: 0.2px 0.4px 3px 0.6px #d9dde9fb;
+  width: fit-content;
+  padding: 10px;
+  border-radius: 10px;
+  margin: auto;
+  margin-top: 50px;
 }
 
 .workstation-dark-mode .share {
-    box-shadow: .2px .4px 3px .6px #4c4d52;
+  box-shadow: 0.2px 0.4px 3px 0.6px #4c4d52;
 }
 
 .share a,
 .share a:visited {
-    color: blue;
+  color: blue;
 }
 
 .share:hover {
-    background-color: #d9dde9fb;
+  background-color: #d9dde9fb;
 }
 
 .workstation-dark-mode .share:hover {
-    background-color: #4c4d52;
+  background-color: #4c4d52;
 }
 
 .workstation-dark-mode .share:hover a {
-    color: #fafbfe;
+  color: #fafbfe;
 }
 
-.share>a {
-    text-decoration: none;
+.share > a {
+  text-decoration: none;
 }
 
 .back-to-top {
-    position: fixed;
-    bottom: 10px;
-    right: 25px;
-    background-color: #0216cae7;
-    color: #fafbfe;
-    padding: 10px;
-    border-radius: 50%;
-    cursor: pointer;
-    width: 20px;
-    height: 20px;
-    display: flex;
-    align-items: center;
-    font-family: "Rubik", sans-serif;
-    font-size: 18px;
-    justify-content: center;
+  position: fixed;
+  bottom: 10px;
+  right: 25px;
+  background-color: #0216cae7;
+  color: #fafbfe;
+  padding: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  font-family: "Rubik", sans-serif;
+  font-size: 18px;
+  justify-content: center;
 }
 
 .workstation-dark-mode .login-screen a {
-    color: green
+  color: green;
 }
 
 .back-to-top:hover {
-    background-color: #03118be7;
+  background-color: #03118be7;
 }
 
 /* Loading screen */
 
 .loading {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    visibility: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: auto;
-    margin: 0;
-    background-color: #f0f0f0;
-    border-radius: 50px;
-    z-index: 9999 !important;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  visibility: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: auto;
+  margin: 0;
+  background-color: #f0f0f0;
+  border-radius: 50px;
+  z-index: 9999 !important;
 }
 
 .loading-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .loading-spinner {
-    border: 4px solid rgba(0, 0, 0, 0.1);
-    border-left-color: #333;
-    border-radius: 50%;
-    width: 24px;
-    height: 24px;
-    animation: spin 1s linear infinite;
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-left-color: #333;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  animation: spin 1s linear infinite;
 }
 
 #axiom {
-    display: none;
-    position: fixed;
-    background-image: linear-gradient(#5203e4, #f3d5f7);
-    font-family: "Rubik", sans-serif;
-    color: #000000;
-    padding: 30px 15px;
-    font-weight: 600;
-    width: 100%;
-    border-radius: 10px;
-    left: 50%;
-    bottom: -60px;
-    translate: -50% -50px;
-
+  display: none;
+  position: fixed;
+  background-image: linear-gradient(#5203e4, #f3d5f7);
+  font-family: "Rubik", sans-serif;
+  color: #000000;
+  padding: 30px 15px;
+  font-weight: 600;
+  width: 100%;
+  border-radius: 10px;
+  left: 50%;
+  bottom: -60px;
+  translate: -50% -50px;
 }
 
-
 .workstation-dark-mode #axiom {
-    background-image: linear-gradient(#5203e4, #000000);
-    color: #e9e5fc;
+  background-image: linear-gradient(#5203e4, #000000);
+  color: #e9e5fc;
 }
 
 .axiom-text {
-    font-size: 30px;
-    padding: 10px;
+  font-size: 25px;
+  padding: 10px;
 }
 
 .hide-axiom {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 10px;
-    width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+  width: 100%;
 }
 
-
-
 .hide-axiom {
-    color: red;
-    cursor: pointer;
-    width: fit-content;
-    margin: auto;
-    font-weight: bold;
-    font-size: 12px;
+  color: red;
+  cursor: pointer;
+  width: fit-content;
+  margin: auto;
+  font-weight: bold;
+  font-size: 12px;
 }
 
 .hide-axiom:hover {
-    color: #0530f1;
+  color: #0530f1;
 }
 
 .hide-message {
-    font-size: 9px;
-    margin: auto;
-    width: 100%;
-    text-align: center;
-    margin-top: 5px;
-    color: #313131;
+  font-size: 9px;
+  margin: auto;
+  width: 100%;
+  text-align: center;
+  margin-top: 5px;
+  color: #313131;
 }
 
 @keyframes spin {
-    to {
-        transform: rotate(360deg);
-    }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* Loading scren end */
 
 @keyframes fadeIn {
-    0% {
-        opacity: 1;
-    }
+  0% {
+    opacity: 1;
+  }
 
-    100% {
-        opacity: 0;
-    }
+  100% {
+    opacity: 0;
+  }
 }
 
 .fadein {
-    animation: fadeIn 1s ease-out;
+  animation: fadeIn 1s ease-out;
 }
 
-
 .back-to-top.fadein {
-    opacity: 0;
+  opacity: 0;
 }
 
 .workstation-dark-mode .back-to-top {
-    background-color: #030f7afd;
+  background-color: #030f7afd;
 }
 
 .workstation-dark-mode .back-to-top:hover {
-    background-color: #0217cffd;
+  background-color: #0217cffd;
+}
+
+@media only screen and (max-width: 370px) {
+  aside {
+    width: 270px;
+  }
+
+  .axiom-text {
+    font-size: 20px;
+    padding: 5px;
+  }
+}
+
+@media only screen and (min-width: 390px) and (max-width: 450px) {
+  aside {
+    width: 330px;
+    right: -450px;
+  }
 }
 
 @media only screen and (min-width: 1000px) {
-    .workstation {
-        min-width: 500px;
-        width: 85%;
-        margin-bottom: 50px;
-        padding: 5px 20px 50px 20px;
-        margin: auto;
-    }
+  .workstation {
+    min-width: 500px;
+    width: 85%;
+    margin-bottom: 50px;
+    padding: 5px 20px 50px 20px;
+    margin: auto;
+  }
 
-    .workstation-header {
-        padding: 5px 10px;
-    }
+  .workstation-header {
+    padding: 5px 10px;
+  }
 
-    .workstation-dt {
-        display: block;
-    }
+  .workstation-dt {
+    display: block;
+  }
 
-    #axiom {
-        width: 600px;
-        border-radius: 10px;
-        bottom: 1%;
-    }
+  #axiom {
+    width: 600px;
+    border-radius: 10px;
+    bottom: 1%;
+  }
+
+  .axiom-text {
+    font-size: 30px;
+    padding: 10px;
+  }
 }

@@ -1,52 +1,53 @@
 .goal-tracking-modal {
-    background-color: #04041fb7;
+  background-color: #04041fb7;
 }
 
 .goal-tracking-screen {
-    background-color:#fafbfe;
+  background-color: #fafbfe;
 }
 
 #info-text {
-    padding: 5px 20px;
+  padding: 5px 20px;
 }
 #tracking-container {
-    width: 100%;
-    margin:auto;
-    text-align: left;
-    padding: 10px;
+  width: 100%;
+  margin: auto;
+  text-align: left;
+  padding: 10px;
 }
 
 .aspect-alert {
-    width: 100%;
-    margin: auto;
-    text-align:left;
-    margin-top: 20px;
-    display: none;
+  width: 100%;
+  margin: auto;
+  text-align: left;
+  margin-top: 20px;
+  display: none;
+  font-size: 14px;
 }
 
 #alert-span {
-    font-size: 10px;
+  font-size: 10px;
+  cursor: pointer;
 }
 
 .aspect-item {
-    margin:10px 20px;
+  margin: 10px 20px;
 }
 
 .aspect-item button {
-    padding:4px 12px;
-    border-radius:5px;
-    margin-left: 5px;
+  padding: 4px 12px;
+  border-radius: 5px;
+  margin-left: 5px;
 }
 
 @media only screen and (min-width: 1024px) {
-    #tracking-container {
-        width: 100%;
-        margin:auto;
-        text-align: left;
-        padding: 20px;
-    }
-    #alert-span {
-        font-size: 14px;
-    }
-    
+  #tracking-container {
+    width: 100%;
+    margin: auto;
+    text-align: left;
+    padding: 20px;
+  }
+  #alert-span {
+    font-size: 12px;
+  }
 }

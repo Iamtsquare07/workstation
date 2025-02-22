@@ -7,30 +7,41 @@ const alertBox = document.querySelector(".aspect-alert");
 function loadGoals() {
   trackingContainer.innerHTML = "";
   const goals = JSON.parse(localStorage.getItem("aspectGoals")) || [];
+  resetCompletedGoalsIfNewDay(goals);
   goals.forEach((goal) => createAspectGoalElement(goal.text, goal.completed));
   toggleAlert();
 }
 
 // Save goals to localStorage
 function saveGoals() {
-  const goals = Array.from(document.querySelectorAll(".aspect-item")).map(item => ({
-    text: item.querySelector(".goal-text").textContent,
-    completed: item.querySelector(".goal-checkbox").checked
-  }));
+  const goals = Array.from(document.querySelectorAll(".aspect-item")).map(
+    (item) => ({
+      text: item.querySelector(".goal-text").textContent,
+      completed: item.querySelector(".goal-checkbox").checked,
+    })
+  );
   localStorage.setItem("aspectGoals", JSON.stringify(goals));
+  localStorage.setItem("lastSavedDate", new Date().toDateString());
   toggleAlert();
 }
 
 // Toggle alert based on aspect items
 function toggleAlert() {
   const hasGoals = document.querySelectorAll(".aspect-item").length > 0;
-    
-  if (hasGoals) {
-    alertBox.style.display = "block"; 
-    alertBox.style.display = "none";
-  }
+  alertBox.style.display = hasGoals ? "block" : "none";
 }
 
+// Reset completed goals if a new day starts
+function resetCompletedGoalsIfNewDay(goals) {
+  const lastSavedDate = localStorage.getItem("lastSavedDate");
+  const today = new Date().toDateString();
+
+  if (lastSavedDate !== today) {
+    goals.forEach((goal) => (goal.completed = false));
+    localStorage.setItem("aspectGoals", JSON.stringify(goals));
+    localStorage.setItem("lastSavedDate", today);
+  }
+}
 
 // Create aspect goal element
 function createAspectGoalElement(text, completed = false) {

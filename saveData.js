@@ -169,11 +169,7 @@ async function logIn() {
   }
 
   try {
-    const userCredential = await signInWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
 
     if (!user.emailVerified) {
@@ -186,7 +182,14 @@ async function logIn() {
       return;
     }
 
-    await validateUser(user.uid, user.email, true);
+    try {
+      await validateUser(user.uid, user.email, true);
+    } catch (validationError) {
+      console.error("validateUser failed:", validationError);
+      displayFlashMessage("User validation failed. Contact support.", "red", 3000);
+      hideLoader();
+      return;
+    }
 
     localStorage.setItem("userLoggedIn", JSON.stringify(true));
     localStorage.setItem("currentUser", JSON.stringify(user));
@@ -194,11 +197,13 @@ async function logIn() {
     localStorage.setItem("currentUserId", user.uid);
 
     location.reload(true);
+
   } catch (error) {
     const errorCode = error.code;
     const errorMessage = error.message;
     let errorText;
     hideLoader();
+
     if (errorCode === "auth/invalid-login-credentials") {
       errorText = "Invalid login credentials";
     } else if (errorCode === "auth/invalid-password-credentials") {
@@ -212,12 +217,12 @@ async function logIn() {
       "red",
       3000
     );
-    console.error(errorCode);
-    console.error(errorMessage);
+    console.error("Auth error:", errorCode, errorMessage);
   } finally {
     hideLoader();
   }
 }
+
 
 document.getElementById("login-btn").addEventListener("click", logIn);
 document
@@ -259,12 +264,13 @@ async function validateUser(id, email, retrieve) {
   const dbref = ref(db);
   let data;
   try {
+
     const snapshot = await get(child(dbref, "workstation/users/" + id));
     if (snapshot.exists()) {
       data = snapshot.val();
       retrieve ? retriveDataFromDatabase(data) : null;
     } else {
-      await setData(email, id);
+      await setData(email, id, "Your data has been saved successfully", true);
     }
     return data;
   } catch (error) {
@@ -273,25 +279,28 @@ async function validateUser(id, email, retrieve) {
   }
 }
 
-async function setData(email, id, message) {
-  let userdata = await validateUser(id, email, false);
+async function setData(email, id, message, skipValidation = false) {
+  let userdata;
 
-  if (
-    userdata.totalTrackedTime >
-    JSON.parse(localStorage.getItem("totalTrackedTime"))
-  ) {
-    let userChoice = await askUserForConfirmation(
-      "Warning: The data in your database seem to be more updated than this version you want to save. Do you want to continue? Y/N",
-      "Y"
-    );
+  if (!skipValidation) {
+    userdata = await validateUser(id, email, false);
+    
+    if (
+      userdata?.totalTrackedTime >
+      JSON.parse(localStorage.getItem("totalTrackedTime"))
+    ) {
+      let userChoice = await askUserForConfirmation(
+        "Warning: The data in your database seem to be more updated than this version you want to save. Do you want to continue? Y/N",
+        "Y"
+      );
 
-    if (userChoice.toLowerCase() === "n" || userChoice.toLowerCase() === "no") {
-      displayFlashMessage("Aborted", "red", 1000);
-      hideLoader();
-      return;
+      if (userChoice.toLowerCase() === "n" || userChoice.toLowerCase() === "no") {
+        displayFlashMessage("Aborted", "red", 1000);
+        hideLoader();
+        return;
+      }
     }
   }
-
   const user = localStorage.getItem("wsUser") || "";
   const userWorkLocation = localStorage.getItem("userWorkLocation") || "";
   const lastVisitDate = localStorage.getItem("lastVisitDate") || 0;

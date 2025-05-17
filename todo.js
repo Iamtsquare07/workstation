@@ -290,39 +290,51 @@ document.addEventListener("DOMContentLoaded", function () {
     localStorage.setItem("tasks", JSON.stringify(tasks));
   }
 
-  // Function to load tasks from local storage
-  function loadTasksFromStorage() {
-    printDailyGoalHours();
-    retrieveTrackedTime();
-    checkLastVisitedDate(false);
 
-    document.getElementById("username").textContent = wsUser + "'s";
-    document.getElementById("userLocation").textContent = `${
-      userWorkLocation.length > 3
-        ? capitalizeFirstLetter(userWorkLocation)
-        : "Work"
-    }`;
-    const storedTasks = localStorage.getItem("tasks");
-    if (storedTasks) {
-      const tasks = JSON.parse(storedTasks);
-      tasks.forEach((task) => {
-        const listItem = createTaskListItem(task.text, task.date, false);
-        if (task.completed) {
-          listItem.querySelector(".taskText").style.textDecoration =
-            "line-through";
-          listItem.querySelector(".taskCheckbox").checked = true;
-          addToCompleted(listItem);
-          completedHeader.style.display = "block";
-        } else {
-          const taskList = getOrCreateTaskList(task.date);
-          taskList.appendChild(listItem);
-        }
-      });
-      clearBtn.style.display = "block";
-    } else {
-      taskHeader.textContent = "Add tasks to your task list";
+  // Function to load tasks from local storage
+function loadTasksFromStorage() {
+  printDailyGoalHours();
+  retrieveTrackedTime();
+  checkLastVisitedDate(false);
+
+  document.getElementById("username").textContent = wsUser + "'s";
+  document.getElementById("userLocation").textContent =
+    userWorkLocation.length > 3
+      ? capitalizeFirstLetter(userWorkLocation)
+      : "Work";
+
+  const storedTasks = localStorage.getItem("tasks");
+
+  let tasks = [];
+  try {
+    if (storedTasks && storedTasks !== "undefined" && storedTasks !== "null") {
+      tasks = JSON.parse(storedTasks);
     }
+  } catch (e) {
+    console.error("Failed to parse tasks from localStorage:", e);
+    tasks = [];
   }
+
+  if (tasks.length > 0) {
+    tasks.forEach((task) => {
+      const listItem = createTaskListItem(task.text, task.date, false);
+      if (task.completed) {
+        listItem.querySelector(".taskText").style.textDecoration =
+          "line-through";
+        listItem.querySelector(".taskCheckbox").checked = true;
+        addToCompleted(listItem);
+        completedHeader.style.display = "block";
+      } else {
+        const taskList = getOrCreateTaskList(task.date);
+        taskList.appendChild(listItem);
+      }
+    });
+    clearBtn.style.display = "block";
+  } else {
+    taskHeader.textContent = "Add tasks to your task list";
+  }
+}
+
 
   function showMotivation() {
     showLoader();

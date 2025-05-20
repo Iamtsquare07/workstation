@@ -56,15 +56,25 @@
     <div class="workstation-shadow"></div>
     <aside id="workstation-menu-items">
         <button class="workstation-close"><i class="fa fa-times-circle" aria-hidden="true"></i></button>
-        <a class="wiki-menu workstation-mobile" href="/">Home</a>
-        <a class="wiki-menu" href="#" id="add-aspects">Aspects</a>
-        <a class="wiki-menu" href="#" id="notes">Notes</a>
-        <a class="wiki-menu" href="#" id="motivation">Motivation</a>
-        <a class="wiki-menu workstation-mobile" href="#log">Logs</a>
-        <a class="wiki-menu" href="#" id="load-progress">Load</a>
-        <a class="wiki-menu" href="#" id="save-progress">Save</a>
-        <a class="wiki-menu" href="#" id="setting">Settings</a>
-        <a class="wiki-menu user-login-mobile" href="#"></a>
+        <div class="aside-container">
+            <div class="aside-item"><i class="fa-solid fa-house-chimney"></i> <a class="wiki-menu workstation-mobile"
+                    href="/">Home</a></div>
+            <div class="aside-item"><i class="fa-solid fa-book"></i><a class="wiki-menu" href="#" id="notes">Notes</a>
+            </div>
+            <div class="aside-item"><i class="fa-solid fa-bolt"></i><a class="wiki-menu" href="#"
+                    id="motivation">Motivation</a></div>
+            <div class="aside-item"><i class="fa-solid fa-table-list"></i><a class="wiki-menu workstation-mobile"
+                    href="#log">Logs</a></div>
+            <div class="aside-item"><i class="fa-solid fa-circle-nodes"></i><a class="wiki-menu" href="#"
+                    id="add-aspects">Aspects</a></div>
+            <div class="aside-item"><i class="fa-solid fa-cloud-arrow-down"></i><a class="wiki-menu" href="#"
+                    id="load-progress">Load</a></div>
+            <div class="aside-item"><i class="fa-solid fa-cloud-arrow-up"></i><a class="wiki-menu" href="#"
+                    id="save-progress">Save</a></div>
+            <div class="aside-item"><i class="fa-solid fa-gear"></i><a class="wiki-menu" href="#"
+                    id="setting">Settings</a></div>
+            <div class="aside-item"><a class="wiki-menu user-login-mobile" href="#"></a></div>
+        </div>
 
     </aside>
 
@@ -120,9 +130,9 @@
                 <div id="lists"></div>
 
 
+                <h3 id="completedHeader"><i class="fa-solid fa-check"></i> <span id="username"></span> Completed Tasks
+                </h3>
                 <div id='completedList'>
-                    <h3 id="completedHeader"><i class="fa-solid fa-check"></i> <span id="username"></span> Completed
-                        Tasks</h3>
                     <ul id="completedbody"></ul>
                 </div>
 

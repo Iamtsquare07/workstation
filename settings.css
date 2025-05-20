@@ -28,6 +28,8 @@
 .settings-screen,
 .goal-tracking-screen {
   font-family: "Rubik", sans-serif;
+  background-color: #fafbfe;
+  box-shadow: 1px 1px 2px 2px #d9dde9fb;
   width: 100%;
   min-height: 100vh;
   margin: auto;
@@ -62,6 +64,7 @@
 .workstation-dark-mode .settings-screen,
 .workstation-dark-mode .goal-tracking-screen {
   background-color: #000000;
+  box-shadow: 1px 1px 2px 2px #7d7f86fb;
 }
 
 .close-settings-modal {

@@ -160,6 +160,7 @@ li>i {
     text-align: center;
     text-align: left;
     font-size: 20px;
+    margin-top: 25px;
 }
 
 ::-webkit-scrollbar {
@@ -177,7 +178,7 @@ li>i {
 
 #completedList {
     margin: auto;
-    margin-top: 40px;
+    margin-top: 10px;
 }
 
 #completedList li {

@@ -21,43 +21,41 @@ document.addEventListener("DOMContentLoaded", function () {
   const clearBtn = document.getElementById("clear");
   const taskHeader = document.querySelector(".taskHeader");
 
-  // Load tasks from local storage when the page loads
-  loadTasksFromStorage();
-  if (listsContainer.textContent == "") {
-    clearList();
-  }
   submitButton.addEventListener("click", addTask);
   document.getElementById("toDo").addEventListener("keypress", function (e) {
     if (e.key === "Enter") addTask();
   });
-
-  // Set the value of the date input to the current date (formatted as "YYYY-MM-DD")
-  function renderDate() {
-    const currentDate = new Date();
-    const formattedDate = currentDate.toLocaleDateString("en-CA").split("T")[0];
-    taskDateInput.value = formattedDate;
-  }
+  clearBtn.addEventListener("click", clearList);
 
   renderDate();
+  loadTasksFromStorage();
+  if (!listsContainer.hasChildNodes() && !completedContainer.hasChildNodes()) {
+    clearList();
+  }
+
+  function renderDate() {
+    const currentDate = new Date();
+    const formattedDate = currentDate.toISOString().split("T")[0];
+    taskDateInput.value = formattedDate;
+  }
 
   function addTask() {
     const input = document.getElementById("toDo");
     const taskDate = taskDateInput.value;
-    if (input.value.length === 0 || taskDate === "") {
+    if (input.value.trim() === "" || taskDate === "") {
       displayFlashMessage("Please enter a task", "red", 2000);
       input.focus();
       return;
     }
-    // Parse the selected date and the current date
+
     const selectedDate = new Date(taskDate);
     const currentDate = new Date();
-    selectedDate.setHours(0, 0, 0, 0); // Set time part to midnight
+    selectedDate.setHours(0, 0, 0, 0);
     currentDate.setHours(0, 0, 0, 0);
 
-    // Compare the selected date with the current date
-    if (selectedDate < currentDate && selectedDate !== currentDate) {
+    if (selectedDate < currentDate) {
       displayFlashMessage(
-        "Oops! It seems like you've discovered the secret to time travel, but our services are strictly for the present and future. Best of luck with your journey to the past! 🕰️🚀😍",
+        "Oops! It seems like you've discovered the secret to time travel, but our services are strictly for the present and future. Best of luck with your journey to the past!",
         "inherit",
         7000
       );
@@ -73,11 +71,8 @@ document.addEventListener("DOMContentLoaded", function () {
     taskList.appendChild(listItem);
 
     input.value = "";
-    taskDateInput.value = "";
     message.textContent = "Added!";
-    setTimeout(() => {
-      message.textContent = "";
-    }, 2000);
+    setTimeout(() => (message.textContent = ""), 2000);
 
     renderDate();
     saveTasksToStorage();
@@ -90,17 +85,17 @@ document.addEventListener("DOMContentLoaded", function () {
     checkbox.className = "taskCheckbox";
 
     listItem.innerHTML = `
-              <span class="taskText">${taskText}</span>
-              <button class="startTask">Start</button>
-              <button class="editToDo"><i class="fas fa-pen-square"></i> Edit</button>
-              <button class="deleteToDo"><i class="fas fa-trash-alt"></i> Delete</button>
-          `;
-
+      <span class="taskText">${taskText}</span>
+      <button class="startTask">Start</button>
+      <button class="editToDo"><i class="fas fa-pen-square"></i> Edit</button>
+      <button class="deleteToDo"><i class="fas fa-trash-alt"></i> Delete</button>
+    `;
     listItem.insertBefore(checkbox, listItem.firstChild);
 
-    listItem.querySelector(".startTask").addEventListener("click", () => {
-      const taskSpan = listItem.querySelector(".taskText");
-      const startButton = listItem.querySelector(".startTask");
+    const startButton = listItem.querySelector(".startTask");
+    const taskSpan = listItem.querySelector(".taskText");
+
+    startButton.addEventListener("click", () => {
       if (startButton.textContent === "Start") {
         if (isRunning) {
           displayFlashMessage(
@@ -117,21 +112,39 @@ document.addEventListener("DOMContentLoaded", function () {
         checkbox.checked = true;
         stopTracking(taskSpan.textContent);
         runTaskUpdate(true);
-        saveTasksToStorage();
       }
     });
 
     listItem.querySelector(".deleteToDo").addEventListener("click", () => {
+      const parent = listItem.parentElement;
+      const isInCompleted = completedContainer.contains(listItem);
+
       listItem.remove();
+
+      if (
+        parent &&
+        parent.querySelectorAll("li").length === 0 &&
+        parent !== completedContainer
+      ) {
+        parent.remove();
+      }
+
       saveTasksToStorage();
-      location.reload();
+
+      // Reset UI only if user manually deletes all completed tasks
+      if (
+        isInCompleted &&
+        completedContainer.querySelectorAll("li").length === 0 &&
+        listsContainer.querySelectorAll("li").length === 0
+      ) {
+        resetToInitialState();
+      }
     });
 
     listItem.querySelector(".editToDo").addEventListener("click", () => {
-      const taskSpan = listItem.querySelector(".taskText");
       const editedText = prompt("Edit the task:", taskSpan.textContent);
-      if (editedText !== null) {
-        taskSpan.textContent = editedText;
+      if (editedText !== null && editedText.trim() !== "") {
+        taskSpan.textContent = editedText.trim();
         saveTasksToStorage();
       }
     });
@@ -143,57 +156,50 @@ document.addEventListener("DOMContentLoaded", function () {
           askUserForConfirmation = prompt(
             "Task not started yet! Are you sure you want to mark this task as completed? Y/N",
             "Yes"
-          ).toLocaleLowerCase();
-        } while (
-          !(
-            askUserForConfirmation === "yes" ||
-            askUserForConfirmation === "y" ||
-            askUserForConfirmation === "no" ||
-            askUserForConfirmation === "n"
-          )
-        );
+          )?.toLowerCase();
+        } while (!["yes", "y", "no", "n"].includes(askUserForConfirmation));
 
-        if (
-          askUserForConfirmation === "yes" ||
-          askUserForConfirmation === "y"
-        ) {
-          displayFlashMessage("Task moved to completed", "#04aa12", 2000);
-        } else {
+        if (["no", "n"].includes(askUserForConfirmation)) {
           displayFlashMessage("Task not moved to completed", "red", 2000);
           return;
         }
+        displayFlashMessage("Task moved to completed", "#04aa12", 2000);
       }
 
-      let taskList;
-      if (withDate) {
-        taskList = getOrCreateTaskList(taskDate);
-      }
+      const taskList = withDate ? getOrCreateTaskList(taskDate) : null;
 
       if (checkbox.checked) {
-        listItem.querySelector(".taskText").style.textDecoration =
-          "line-through";
-        if (taskList) {
-          taskList.removeChild(listItem);
+        if (completedHeader) completedHeader.style.display = "block";
+        taskSpan.style.textDecoration = "line-through";
+        if (taskList?.contains(listItem)) taskList.removeChild(listItem);
+
+        // ✅ Remove the task group if it's now empty
+        if (taskList && taskList.querySelectorAll("li").length === 0) {
+          taskList.remove();
         }
+
+        const startButton = listItem.querySelector(".startTask");
+        if (startButton) {
+          startButton.disabled = true;
+          startButton.classList.add("disabled");
+        }
+
         addToCompleted(listItem);
-        completedHeader.style.display = "block";
       } else {
-        listItem.querySelector(".taskText").style.textDecoration = "none";
+        taskSpan.style.textDecoration = "none";
         removeFromCompleted(listItem);
-        if (taskList) {
+        if (taskList && !taskList.contains(listItem)) {
           taskList.appendChild(listItem);
         }
-        if (completedContainer.childElementCount === 0) {
+        if (completedHeader && completedContainer.childElementCount === 0) {
           completedHeader.style.display = "none";
         }
       }
+
       saveTasksToStorage();
     }
 
-    checkbox.addEventListener("change", () => {
-      runTaskUpdate();
-      saveTasksToStorage();
-    });
+    checkbox.addEventListener("change", () => runTaskUpdate(false));
 
     return listItem;
   }
@@ -202,40 +208,40 @@ document.addEventListener("DOMContentLoaded", function () {
     listsContainer.innerHTML = "";
     completedContainer.innerHTML = "";
     taskHeader.textContent = "Add to your tasklist";
-    completedHeader.style.display = "none";
+    if (completedHeader) completedHeader.style.display = "none";
     clearBtn.style.display = "none";
     localStorage.removeItem("tasks");
   }
 
-  clearBtn.addEventListener("click", clearList);
+  function resetToInitialState() {
+    listsContainer.innerHTML = "";
+    completedContainer.innerHTML = "";
+    clearBtn.style.display = "none";
+    if (completedHeader) completedHeader.style.display = "none";
+    taskHeader.textContent = "Add to your tasklist";
+    document.getElementById("notracking").style.display = "block";
+    localStorage.removeItem("tasks");
+  }
 
-  // Get or create a task list based on the date
   function getOrCreateTaskList(dateString) {
     const formattedDate = formatDate(dateString);
     const listId = `list-${formattedDate}`;
-
-    // Check if a list with this date already exists
     let taskList = document.getElementById(listId);
 
     if (!taskList) {
-      // Create a new list if it doesn't exist
       taskList = document.createElement("ul");
       taskList.id = listId;
       taskList.className = "taskList";
 
-      // Create a heading for the list with the selected date
       const listHeading = document.createElement("h2");
       listHeading.textContent = formattedDate;
       taskList.appendChild(listHeading);
-
-      // Append the list to the lists container
       listsContainer.appendChild(taskList);
     }
 
     return taskList;
   }
 
-  // Function to format the date
   function formatDate(dateString) {
     const options = {
       weekday: "long",
@@ -243,22 +249,19 @@ document.addEventListener("DOMContentLoaded", function () {
       month: "long",
       day: "numeric",
     };
-    const date = new Date(dateString);
-    return date.toLocaleDateString(undefined, options);
+    return new Date(dateString).toLocaleDateString(undefined, options);
   }
 
-  // Function to add completed task to the completed list
   function addToCompleted(taskItem) {
     completedContainer.appendChild(taskItem);
     saveTasksToStorage();
   }
 
-  // Function to remove completed task from the completed list
   function removeFromCompleted(taskItem) {
-    completedContainer.removeChild(taskItem);
+    if (completedContainer.contains(taskItem)) {
+      completedContainer.removeChild(taskItem);
+    }
   }
-
-  // Function to save tasks to local storage
 
   function saveTasksToStorage() {
     const allTasks = listsContainer.querySelectorAll("li");
@@ -268,73 +271,80 @@ document.addEventListener("DOMContentLoaded", function () {
     allTasks.forEach((task) => {
       const taskText = task.querySelector(".taskText").textContent;
       const taskDate = task.closest("ul").querySelector("h2").textContent;
-      const isCompleted = task.closest("#completedList") !== null;
-
+      const startButton = task.querySelector(".startTask");
       tasks.push({
         text: taskText,
         date: taskDate,
-        completed: isCompleted,
+        completed: false,
+        startDisabled: startButton?.disabled || false,
       });
     });
 
     allCompletedTasks.forEach((task) => {
       const taskText = task.querySelector(".taskText").textContent;
-      const isCompleted = task.closest("#completedList") !== null;
-
       tasks.push({
         text: taskText,
-        completed: isCompleted,
+        completed: true,
+        startDisabled: true,
       });
     });
 
     localStorage.setItem("tasks", JSON.stringify(tasks));
   }
 
+  function loadTasksFromStorage() {
+    printDailyGoalHours();
+    retrieveTrackedTime();
+    checkLastVisitedDate(false);
 
-  // Function to load tasks from local storage
-function loadTasksFromStorage() {
-  printDailyGoalHours();
-  retrieveTrackedTime();
-  checkLastVisitedDate(false);
+    document.getElementById("username").textContent = wsUser + "'s";
+    document.getElementById("userLocation").textContent =
+      userWorkLocation.length > 3
+        ? capitalizeFirstLetter(userWorkLocation)
+        : "Work";
 
-  document.getElementById("username").textContent = wsUser + "'s";
-  document.getElementById("userLocation").textContent =
-    userWorkLocation.length > 3
-      ? capitalizeFirstLetter(userWorkLocation)
-      : "Work";
-
-  const storedTasks = localStorage.getItem("tasks");
-
-  let tasks = [];
-  try {
-    if (storedTasks && storedTasks !== "undefined" && storedTasks !== "null") {
-      tasks = JSON.parse(storedTasks);
-    }
-  } catch (e) {
-    console.error("Failed to parse tasks from localStorage:", e);
-    tasks = [];
-  }
-
-  if (tasks.length > 0) {
-    tasks.forEach((task) => {
-      const listItem = createTaskListItem(task.text, task.date, false);
-      if (task.completed) {
-        listItem.querySelector(".taskText").style.textDecoration =
-          "line-through";
-        listItem.querySelector(".taskCheckbox").checked = true;
-        addToCompleted(listItem);
-        completedHeader.style.display = "block";
-      } else {
-        const taskList = getOrCreateTaskList(task.date);
-        taskList.appendChild(listItem);
+    const storedTasks = localStorage.getItem("tasks");
+    let tasks = [];
+    try {
+      if (
+        storedTasks &&
+        storedTasks !== "undefined" &&
+        storedTasks !== "null"
+      ) {
+        tasks = JSON.parse(storedTasks);
       }
-    });
-    clearBtn.style.display = "block";
-  } else {
-    taskHeader.textContent = "Add tasks to your task list";
-  }
-}
+    } catch (e) {
+      console.error("Failed to parse tasks from localStorage:", e);
+    }
 
+    if (Array.isArray(tasks) && tasks.length > 0) {
+      tasks.forEach((task) => {
+        const listItem = createTaskListItem(task.text, task.date, false);
+        const taskCheckbox = listItem.querySelector(".taskCheckbox");
+        const taskTextSpan = listItem.querySelector(".taskText");
+        const startButton = listItem.querySelector(".startTask");
+
+        if (task.completed) {
+          taskTextSpan.style.textDecoration = "line-through";
+          taskCheckbox.checked = true;
+          addToCompleted(listItem);
+          if (completedHeader) completedHeader.style.display = "block";
+        } else {
+          const taskList = getOrCreateTaskList(task.date);
+          taskList.appendChild(listItem);
+        }
+
+        // ✅ Restore disabled state of Start button
+        if (task.startDisabled) {
+          startButton.disabled = true;
+          startButton.classList.add("disabled");
+        }
+      });
+      clearBtn.style.display = "block";
+    } else {
+      taskHeader.textContent = "Add tasks to your task list";
+    }
+  }
 
   function showMotivation() {
     showLoader();

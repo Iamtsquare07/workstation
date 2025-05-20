@@ -450,7 +450,7 @@ function startTracking(taskText) {
   }, 1000);
   restIntervalId = setInterval(startRestTimer, ten);
   logging.style.visibility = "visible";
-  restMessage.innerText = `Break time in 30 minutes`;
+  restMessage.innerText = `Break time starts in ≈30 minutes`;
   addAutoSave(taskText);
   addBeforeUnloadWarning();
   trackTime();
@@ -480,7 +480,17 @@ function stopTracking(taskText) {
   logging.style.visibility = "hidden";
   restMessage.style.display = "none";
   isRunning = false;
-  const lastAutoSave = JSON.parse(localStorage.getItem("lastAutoSave"));
+  const lastAutoSaveStr = localStorage.getItem("lastAutoSave");
+  let lastAutoSave = null;
+
+  if (lastAutoSaveStr && lastAutoSaveStr !== "undefined") {
+    try {
+      lastAutoSave = JSON.parse(lastAutoSaveStr);
+    } catch (e) {
+      console.warn("Invalid JSON in lastAutoSave:", lastAutoSaveStr, e);
+    }
+  }
+
   if (lastAutoSave) {
     localStorage.removeItem("lastAutoSave");
   }
@@ -624,6 +634,7 @@ function stopTimeTracking() {
   localStorage.setItem("totalTrackedTime", JSON.stringify(totalTime));
 
   retrieveTrackedTime();
+  
   const trackedTime = totalTime / (1000 * 60 * 60);
 
   if (trackedTime >= goalHour) {
@@ -633,7 +644,7 @@ function stopTimeTracking() {
           2
         )} hours of serious work. WOW!`,
         "#04aa12",
-        7000, 
+        7000,
         true
       );
       goalReached = true;
@@ -779,81 +790,44 @@ function updateTimer(taskText) {
   const elapsedMilliseconds = currentTime - startTime;
   const hours = Math.floor(elapsedMilliseconds / 3600000);
   const minutes = Math.floor((elapsedMilliseconds % 3600000) / 60000);
-  const seconds = ((elapsedMilliseconds % 3600000) % 60000) / 1000;
-  let formattedTime;
-  if (hours <= 1 && minutes <= 1) {
-    formattedTime = `${hours} hour, ${minutes} minute, ${seconds.toFixed(
-      0
-    )} seconds`;
-  } else if (minutes <= 1) {
-    formattedTime = `${hours} hours, ${minutes} minute, ${seconds.toFixed(
-      0
-    )} seconds`;
-  } else if (hours <= 1) {
-    formattedTime = `${hours} hour, ${minutes} minutes, ${seconds.toFixed(
-      0
-    )} seconds`;
-  } else {
-    formattedTime = `${hours} hours, ${minutes} minutes, ${seconds.toFixed(
-      0
-    )} seconds`;
-  }
+  const seconds = Math.floor((elapsedMilliseconds % 60000) / 1000);
+
+  const formattedTime = formatElapsedTime(hours, minutes, seconds);
 
   logging.innerHTML = capitalizeFirstLetter(
     `You're tracking <span class="taskId">“${taskText}”</span>:<br /> ${formattedTime}`
   );
 }
 
+function formatElapsedTime(hours, minutes, seconds) {
+  const hStr = hours === 1 ? "hour" : "hours";
+  const mStr = minutes === 1 ? "minute" : "minutes";
+  const sStr = "seconds";
+  return `${hours} ${hStr}, ${minutes} ${mStr}, ${seconds} ${sStr}`;
+}
+
+function formatTime(timeInSeconds) {
+  const hours = Math.floor(timeInSeconds / 3600);
+  const minutes = Math.floor((timeInSeconds % 3600) / 60);
+  const seconds = Math.floor(timeInSeconds % 60);
+
+  return formatElapsedTime(hours, minutes, seconds);
+}
+
 function displayTimeLog() {
   const logTable = document.getElementById("logList");
   logged = true;
-
-  // Clear existing rows
   logTable.innerHTML = "";
 
-  if (!timeLog.length) {
-    return;
-  }
+  if (!timeLog.length) return;
 
   timeLog.forEach((entry, index) => {
     const row = logTable.insertRow(index);
-    const cell1 = row.insertCell(0);
-    const cell2 = row.insertCell(1);
-
-    cell1.innerHTML = capitalizeFirstLetter(entry.taskName);
-    cell2.innerHTML = formatTime(entry.elapsedTime);
+    row.insertCell(0).innerHTML = capitalizeFirstLetter(entry.taskName);
+    row.insertCell(1).innerHTML = formatTime(entry.elapsedTime);
   });
 
   logField.style.display = "block";
-}
-
-displayTimeLog();
-
-function formatTime(timeInSeconds) {
-  if (timeInSeconds >= 3600) {
-    const hours = Math.floor(timeInSeconds / 3600);
-    const minutes = Math.floor((timeInSeconds % 3600) / 60);
-    const seconds = Math.floor(timeInSeconds % 60);
-    if (hours <= 1 && minutes <= 1) {
-      return `${hours} hour, ${minutes} minute, ${seconds} seconds`;
-    } else if (minutes <= 1) {
-      return `${hours} hours, ${minutes} minute, ${seconds} seconds`;
-    } else if (hours <= 1) {
-      return `${hours} hour, ${minutes} minutes, ${seconds} seconds`;
-    } else {
-      return `${hours} hours, ${minutes} minutes, ${seconds} seconds`;
-    }
-  } else if (timeInSeconds >= 60) {
-    const minutes = Math.floor(timeInSeconds / 60);
-    const seconds = Math.floor(timeInSeconds % 60);
-    if (minutes <= 1) {
-      return `${minutes} minute, ${seconds} seconds`;
-    } else {
-      return `${minutes} minutes, ${seconds} seconds`;
-    }
-  } else {
-    return `${timeInSeconds} seconds`;
-  }
 }
 
 window.clearLogs = function () {
@@ -864,55 +838,48 @@ window.clearLogs = function () {
   logList.innerHTML = "";
   timeLog.length = 0;
   localStorage.removeItem("timeLog");
-  const lastAutoSave = JSON.parse(localStorage.getItem("lastAutoSave"));
-  if (lastAutoSave) {
-    localStorage.removeItem("lastAutoSave");
-  }
+  localStorage.removeItem("lastAutoSave");
   logField.style.display = "none";
 };
 
+let restInProgress = false;
+
 function startRestTimer() {
+  if (restInProgress) return;
+
   restCounter -= ten;
 
-  if (restCounter === 0) {
+  if (restCounter <= 0) {
+    restInProgress = true;
     restMessage.style.display = "block";
     restMessage.textContent = "Time to rest! Please take a 5 minutes break.";
-
+    
     playAlarm("");
-    setTimeout(() => {
-      stopAlarm("");
-    }, 10000);
+    setTimeout(() => stopAlarm(""), 10000);
+
+    const messages = [
+      "Resting time remaining: 4 minutes.",
+      "Resting time remaining: 3 minutes.",
+      "Resting time remaining: 2 minutes.",
+      "Get ready! You are now refreshed."
+    ];
+
+    messages.forEach((msg, i) => {
+      setTimeout(() => {
+        restMessage.textContent = msg;
+      }, (i + 1) * 60 * 1000);
+    });
 
     setTimeout(() => {
-      restMessage.textContent = "Resting time remaining: 4 minutes.";
-    }, 60 * 1000);
-
-    setTimeout(() => {
-      restMessage.textContent = "Resting time remaining: 3 minutes.";
-    }, 2 * 60 * 1000);
-
-    setTimeout(() => {
-      restMessage.textContent = "Resting time remaining: 2 minutes.";
-    }, 3 * 60 * 1000);
-
-    setTimeout(() => {
-      restMessage.textContent = "Get ready! You are now refreshed.";
-    }, 4 * 60 * 1000);
-
-    setTimeout(() => {
-      restMessage.innerText = `Break time in 30 minutes.`;
+      restMessage.innerText = `Next break starts in ≈30 minutes.`;
       restCounter = 30 * 60 * 1000;
+      restInProgress = false;
       playAlarm("2");
-      alarmTimeoutId = setTimeout(() => {
-        stopAlarm("2");
-      }, 10000);
+      alarmTimeoutId = setTimeout(() => stopAlarm("2"), 10000);
     }, 5 * 60 * 1000);
-
-    return;
-  } else if (restCounter <= ten) {
-    restMessage.innerText = `Break time is in ${restCounter / 60000} minutes.`;
-  } else if (restCounter <= twenty) {
-    restMessage.innerText = `Break time is in ${restCounter / 60000} minutes.`;
+  } else {
+    const minutesLeft = Math.floor(restCounter / 60000);
+    restMessage.innerText = `Break time coming soon. Only ${minutesLeft} minutes left.`;
   }
 }
 

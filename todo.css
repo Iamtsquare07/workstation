@@ -151,6 +151,10 @@ li>button {
     margin-left: 5px;
 }
 
+#toggleCompletedTasks {
+    padding: 7px 10px;
+}
+
 li>i {
     font-size: 17px;
 }

@@ -60,6 +60,11 @@
     margin-top: 10px;
 }
 
+#toggleLogRows {
+    margin-top: 10px;
+    padding: 7px 10px;
+}
+
 table {
     border-radius: 10px;
     box-shadow: 1px 2px 4px 3px #d9dde9fb;
@@ -253,7 +258,7 @@ td {
     }
 
     th {
-        padding: 35px 45px;
+        padding: 35px 200px;
     }
 
     td {

@@ -169,7 +169,11 @@ async function logIn() {
   }
 
   try {
-    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
     const user = userCredential.user;
 
     if (!user.emailVerified) {
@@ -186,7 +190,11 @@ async function logIn() {
       await validateUser(user.uid, user.email, true);
     } catch (validationError) {
       console.error("validateUser failed:", validationError);
-      displayFlashMessage("User validation failed. Contact support.", "red", 3000);
+      displayFlashMessage(
+        "User validation failed. Contact support.",
+        "red",
+        3000
+      );
       hideLoader();
       return;
     }
@@ -197,7 +205,6 @@ async function logIn() {
     localStorage.setItem("currentUserId", user.uid);
 
     location.reload(true);
-
   } catch (error) {
     const errorCode = error.code;
     const errorMessage = error.message;
@@ -222,7 +229,6 @@ async function logIn() {
     hideLoader();
   }
 }
-
 
 document.getElementById("login-btn").addEventListener("click", logIn);
 document
@@ -264,7 +270,6 @@ async function validateUser(id, email, retrieve) {
   const dbref = ref(db);
   let data;
   try {
-
     const snapshot = await get(child(dbref, "workstation/users/" + id));
     if (snapshot.exists()) {
       data = snapshot.val();
@@ -284,17 +289,22 @@ async function setData(email, id, message, skipValidation = false) {
 
   if (!skipValidation) {
     userdata = await validateUser(id, email, false);
-    
-    if (
-      userdata?.totalTrackedTime >
-      JSON.parse(localStorage.getItem("totalTrackedTime"))
-    ) {
-      let userChoice = await askUserForConfirmation(
-        "Warning: The data in your database seem to be more updated than this version you want to save. Do you want to continue? Y/N",
+
+    const localLastModified = parseInt(
+      localStorage.getItem("lastModified") || "0",
+      10
+    );
+    const remoteLastModified = userdata?.lastModified || 0;
+
+    if (remoteLastModified > localLastModified) {
+      const userChoice = await askUserForConfirmation(
+        "Warning: Newer tasks were found, possibly from another device. Continue to overwrite, or use 'load' to retrieve the latest version. Y/N",
         "Y"
       );
-
-      if (userChoice.toLowerCase() === "n" || userChoice.toLowerCase() === "no") {
+      if (
+        userChoice.toLowerCase() === "n" ||
+        userChoice.toLowerCase() === "no"
+      ) {
         displayFlashMessage("Aborted", "red", 1000);
         hideLoader();
         return;
@@ -323,6 +333,9 @@ async function setData(email, id, message, skipValidation = false) {
     JSON.parse(localStorage.getItem("yesterdayTotalTrackedTime")) || 0;
   const notesContent = localStorage.getItem("editorContent");
 
+  const now = Date.now();
+  localStorage.setItem("lastModified", now);
+
   const userData = {
     userEmail: email,
     userName: user,
@@ -341,17 +354,14 @@ async function setData(email, id, message, skipValidation = false) {
     motivationalMessages: motivationalMessages,
     yesterdayTotalTrackedTime: yesterdayTotalTrackedTime,
     notesContent: notesContent,
+    lastModified: now,
   };
 
   if (isValidEmail(email)) {
     update(ref(db, "workstation/users/" + id), userData)
       .then(() => {
         closeMenu();
-        displayFlashMessage(
-          message,
-          "#04aa12",
-          1500
-        );
+        displayFlashMessage(message, "#04aa12", 1500);
         hideLoader();
       })
       .catch((err) => {
@@ -407,7 +417,6 @@ function clearLocalStorage() {
   localStorage.removeItem("lastVisitDate");
   localStorage.removeItem("lastLogin");
   localStorage.removeItem("goalHour");
-  localStorage.removeItem("streak");
   localStorage.removeItem("mode");
   localStorage.removeItem("tasks");
   localStorage.removeItem("timeLog");
@@ -436,7 +445,9 @@ function saveDataToDB(message) {
     setData(email, id, message);
   }, 1000);
 }
-document.querySelector("#save-progress").onclick = () => {saveDataToDB("Your tasks have been saved successfully")}
+document.querySelector("#save-progress").onclick = () => {
+  saveDataToDB("Your tasks have been saved successfully");
+};
 
 async function loadDataFromDB() {
   showLoader();

@@ -20,12 +20,25 @@ document.addEventListener("DOMContentLoaded", function () {
   const completedHeader = document.getElementById("completedHeader");
   const clearBtn = document.getElementById("clear");
   const taskHeader = document.querySelector(".taskHeader");
+  const completedToggleBtn = document.getElementById("toggleCompletedTasks");
+
+  let completedVisibleCount = 10;
 
   submitButton.addEventListener("click", addTask);
   document.getElementById("toDo").addEventListener("keypress", function (e) {
     if (e.key === "Enter") addTask();
   });
   clearBtn.addEventListener("click", clearList);
+
+  completedToggleBtn.addEventListener("click", () => {
+    const completedTasks = completedContainer.querySelectorAll("li");
+    if (completedVisibleCount < completedTasks.length) {
+      completedVisibleCount += 10;
+    } else {
+      completedVisibleCount = 10;
+    }
+    updateCompletedVisibility();
+  });
 
   renderDate();
   loadTasksFromStorage();
@@ -131,7 +144,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
       saveTasksToStorage();
 
-      // Reset UI only if user manually deletes all completed tasks
       if (
         isInCompleted &&
         completedContainer.querySelectorAll("li").length === 0 &&
@@ -139,6 +151,8 @@ document.addEventListener("DOMContentLoaded", function () {
       ) {
         resetToInitialState();
       }
+
+      updateCompletedVisibility();
     });
 
     listItem.querySelector(".editToDo").addEventListener("click", () => {
@@ -163,6 +177,7 @@ document.addEventListener("DOMContentLoaded", function () {
           displayFlashMessage("Task not moved to completed", "red", 2000);
           return;
         }
+
         displayFlashMessage("Task moved to completed", "#04aa12", 2000);
       }
 
@@ -172,8 +187,6 @@ document.addEventListener("DOMContentLoaded", function () {
         if (completedHeader) completedHeader.style.display = "block";
         taskSpan.style.textDecoration = "line-through";
         if (taskList?.contains(listItem)) taskList.removeChild(listItem);
-
-        // ✅ Remove the task group if it's now empty
         if (taskList && taskList.querySelectorAll("li").length === 0) {
           taskList.remove();
         }
@@ -211,6 +224,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (completedHeader) completedHeader.style.display = "none";
     clearBtn.style.display = "none";
     localStorage.removeItem("tasks");
+    updateCompletedVisibility();
   }
 
   function resetToInitialState() {
@@ -221,6 +235,7 @@ document.addEventListener("DOMContentLoaded", function () {
     taskHeader.textContent = "Add to your tasklist";
     document.getElementById("notracking").style.display = "block";
     localStorage.removeItem("tasks");
+    updateCompletedVisibility();
   }
 
   function getOrCreateTaskList(dateString) {
@@ -255,11 +270,13 @@ document.addEventListener("DOMContentLoaded", function () {
   function addToCompleted(taskItem) {
     completedContainer.appendChild(taskItem);
     saveTasksToStorage();
+    updateCompletedVisibility();
   }
 
   function removeFromCompleted(taskItem) {
     if (completedContainer.contains(taskItem)) {
       completedContainer.removeChild(taskItem);
+      updateCompletedVisibility();
     }
   }
 
@@ -334,15 +351,32 @@ document.addEventListener("DOMContentLoaded", function () {
           taskList.appendChild(listItem);
         }
 
-        // ✅ Restore disabled state of Start button
         if (task.startDisabled) {
           startButton.disabled = true;
           startButton.classList.add("disabled");
         }
       });
       clearBtn.style.display = "block";
+      updateCompletedVisibility();
     } else {
       taskHeader.textContent = "Add tasks to your task list";
+    }
+  }
+
+  function updateCompletedVisibility() {
+    const completedTasks = completedContainer.querySelectorAll("li");
+    completedTasks.forEach((task, index) => {
+      task.style.display = index < completedVisibleCount ? "list-item" : "none";
+    });
+
+    if (completedTasks.length > 10) {
+      completedToggleBtn.style.display = "block";
+      completedToggleBtn.textContent =
+        completedVisibleCount < completedTasks.length
+          ? "Load more"
+          : "Show less";
+    } else {
+      completedToggleBtn.style.display = "none";
     }
   }
 

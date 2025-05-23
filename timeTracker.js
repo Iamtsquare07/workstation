@@ -634,7 +634,7 @@ function stopTimeTracking() {
   localStorage.setItem("totalTrackedTime", JSON.stringify(totalTime));
 
   retrieveTrackedTime();
-  
+
   const trackedTime = totalTime / (1000 * 60 * 60);
 
   if (trackedTime >= goalHour) {
@@ -720,18 +720,6 @@ function displayYesterdayTime(yesterdayTrackedTime) {
   }
 }
 
-function getFormattedTime(milliseconds) {
-  const seconds = Math.floor(milliseconds / 1000);
-  const minutes = Math.floor(seconds / 60);
-  const hours = Math.floor(minutes / 60);
-
-  if (hours > 0) {
-    return hours === 1 ? "hour" : `hours`;
-  } else if (minutes > 0) {
-    return minutes === 1 ? "minute" : `minutes`;
-  }
-}
-
 function addAutoSave(taskText) {
   // Set up an interval to periodically save the state
   autoIntervalId = setInterval(() => {
@@ -814,21 +802,48 @@ function formatTime(timeInSeconds) {
   return formatElapsedTime(hours, minutes, seconds);
 }
 
+let visibleLogCount = 10;
+
 function displayTimeLog() {
   const logTable = document.getElementById("logList");
+  const toggleButton = document.getElementById("toggleLogRows");
   logged = true;
   logTable.innerHTML = "";
 
-  if (!timeLog.length) return;
+  if (!timeLog.length) {
+    toggleButton.style.display = "none";
+    return;
+  }
 
-  timeLog.forEach((entry, index) => {
-    const row = logTable.insertRow(index);
+  // Only show the visible rows
+  const rowsToShow = timeLog.slice(0, visibleLogCount);
+  rowsToShow.forEach((entry) => {
+    const row = logTable.insertRow();
     row.insertCell(0).innerHTML = capitalizeFirstLetter(entry.taskName);
     row.insertCell(1).innerHTML = formatTime(entry.elapsedTime);
   });
 
+  // Show or hide toggle button
+  if (timeLog.length > 10) {
+    toggleButton.style.display = "block";
+    toggleButton.textContent =
+      visibleLogCount < timeLog.length ? "Load more" : "Show less";
+  } else {
+    toggleButton.style.display = "none";
+  }
+
   logField.style.display = "block";
 }
+
+// Button click event
+document.getElementById("toggleLogRows").addEventListener("click", () => {
+  if (visibleLogCount < timeLog.length) {
+    visibleLogCount += 10;
+  } else {
+    visibleLogCount = 10;
+  }
+  displayTimeLog();
+});
 
 window.clearLogs = function () {
   if (!logged) {
@@ -853,7 +868,7 @@ function startRestTimer() {
     restInProgress = true;
     restMessage.style.display = "block";
     restMessage.textContent = "Time to rest! Please take a 5 minutes break.";
-    
+
     playAlarm("");
     setTimeout(() => stopAlarm(""), 10000);
 
@@ -861,7 +876,7 @@ function startRestTimer() {
       "Resting time remaining: 4 minutes.",
       "Resting time remaining: 3 minutes.",
       "Resting time remaining: 2 minutes.",
-      "Get ready! You are now refreshed."
+      "Get ready! You are now refreshed.",
     ];
 
     messages.forEach((msg, i) => {
@@ -950,6 +965,9 @@ const setDailyCheck = () => {
 };
 
 setDailyCheck();
+window.addEventListener("load", () => {
+  displayTimeLog();
+});
 
 export {
   printDailyGoalHours,

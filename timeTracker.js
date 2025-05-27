@@ -456,6 +456,9 @@ function startTracking(taskText) {
   trackTime();
   restMessage.style.display = "block";
   requestWakeLock();
+  if (window.AndroidBridge) {
+    AndroidBridge.startTask();
+  }
 }
 
 function stopTracking(taskText) {
@@ -504,6 +507,10 @@ function stopTracking(taskText) {
 
   if (autoSave) {
     saveDataToDB("Your tasks have been saved successfully");
+  }
+
+  if (window.AndroidBridge) {
+    AndroidBridge.stopTask();
   }
 }
 

@@ -46,6 +46,110 @@ document.addEventListener("DOMContentLoaded", function () {
     clearList();
   }
 
+  // -------------------------------------------------------------
+  // DAILY DEFAULT TASKS (FULLY PATCHED + SAFE)
+  // -------------------------------------------------------------
+
+  // Editable default task labels
+  const DEFAULT_TASKS = [
+    "Take Vitamins and Drink Water",
+    "Morning workout / Stretching",
+    "Play brain games / Puzzles",
+    "Get Sunlight Exposure",
+    "Create or Edit Content",
+    "Plan The Day's Tasks",
+  ];
+
+  // --- Validate & repair dates loaded from storage ---
+  function sanitizeTaskDate(dateString) {
+    const d = new Date(dateString);
+    if (isNaN(d)) {
+      // Autorepair corrupted date
+      return new Date().toISOString().split("T")[0];
+    }
+    return dateString;
+  }
+
+  // --- Create today’s default tasks if not already created ---
+  function createDefaultTasksForToday() {
+    const today = new Date().toISOString().split("T")[0];
+    const flag = localStorage.getItem("defaultsCreatedFor");
+
+    if (flag === today) {
+      return; // Already created
+    }
+
+    const taskList = getOrCreateTaskList(today);
+
+    DEFAULT_TASKS.forEach((taskText) => {
+      const timestamp = Date.now() + Math.floor(Math.random() * 1000);
+
+      const li = createTaskListItem(taskText, today, true, timestamp);
+      taskList.appendChild(li);
+    });
+
+    // Save the success flag safely
+    try {
+      localStorage.setItem("defaultsCreatedFor", today);
+    } catch (e) {
+      console.warn("Could not save default-task flag to storage:", e);
+    }
+
+    saveTasksToStorage();
+  }
+
+  // --- Automatically regenerate every midnight ---
+  function scheduleMidnightCheck() {
+    const now = new Date();
+    const nextMidnight = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate() + 1,
+      0,
+      0,
+      0,
+      100
+    );
+
+    const msUntilMidnight = nextMidnight - now;
+
+    setTimeout(() => {
+      createDefaultTasksForToday();
+      scheduleMidnightCheck(); // Re-arm for next midnight
+    }, msUntilMidnight);
+  }
+
+  // --- Ensure corrupted tasks never break the grouping ---
+  function repairLoadedTask(task) {
+    if (!task.created) {
+      // Recover missing timestamps
+      task.created = Date.now();
+    }
+
+    if (!task.date || isNaN(new Date(task.date))) {
+      // Repair invalid dates
+      task.date = new Date().toISOString().split("T")[0];
+    }
+
+    return task;
+  }
+
+  // OPTIONAL: If you load tasks manually,
+  // run repairLoadedTask() for each task before using them.
+  // Example (if needed):
+  //
+  // tasks = tasks.map(t => repairLoadedTask(t));
+
+  // -------------------------------------------------------------
+  // INITIALIZATION — CALL THESE AFTER loadTasksFromStorage()
+  // -------------------------------------------------------------
+
+  // Create today's defaults if needed
+  createDefaultTasksForToday();
+
+  // Schedule tomorrow’s default creation
+  scheduleMidnightCheck();
+
   function renderDate() {
     const currentDate = new Date();
     const formattedDate = currentDate.toISOString().split("T")[0];
@@ -79,7 +183,8 @@ document.addEventListener("DOMContentLoaded", function () {
     taskHeader.textContent = "";
     const taskText = input.value.trim();
 
-    const listItem = createTaskListItem(taskText, taskDate, true);
+    const timestamp = Date.now(); // Add this line
+    const listItem = createTaskListItem(taskText, taskDate, true, timestamp);
     const taskList = getOrCreateTaskList(taskDate);
     taskList.appendChild(listItem);
 
@@ -91,8 +196,14 @@ document.addEventListener("DOMContentLoaded", function () {
     saveTasksToStorage();
   }
 
-  function createTaskListItem(taskText, taskDate, withDate) {
+  function createTaskListItem(
+    taskText,
+    taskDate,
+    withDate,
+    timestamp = Date.now()
+  ) {
     const listItem = document.createElement("li");
+    listItem.dataset.created = timestamp;
     const checkbox = document.createElement("input");
     checkbox.type = "checkbox";
     checkbox.className = "taskCheckbox";
@@ -269,8 +380,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function addToCompleted(taskItem) {
     completedContainer.appendChild(taskItem);
+    sortContainerByTimestamp(completedContainer);
     saveTasksToStorage();
     updateCompletedVisibility();
+  }
+
+  function sortContainerByTimestamp(container) {
+    const tasks = Array.from(container.querySelectorAll("li"));
+    tasks.sort((a, b) => {
+      return (
+        parseInt(b.dataset.created || "0") - parseInt(a.dataset.created || "0")
+      );
+    });
+    tasks.forEach((task) => container.appendChild(task));
   }
 
   function removeFromCompleted(taskItem) {
@@ -286,23 +408,34 @@ document.addEventListener("DOMContentLoaded", function () {
     const tasks = [];
 
     allTasks.forEach((task) => {
-      const taskText = task.querySelector(".taskText").textContent;
-      const taskDate = task.closest("ul").querySelector("h2").textContent;
+      const taskText = task.querySelector(".taskText")?.textContent || "";
+      const taskDate =
+        task.closest("ul")?.querySelector("h2")?.textContent || "";
       const startButton = task.querySelector(".startTask");
+      const timestamp = task.dataset?.created
+        ? parseInt(task.dataset.created)
+        : Date.now(); // 🛡️ Defensive check
+
       tasks.push({
         text: taskText,
         date: taskDate,
         completed: false,
         startDisabled: startButton?.disabled || false,
+        created: timestamp,
       });
     });
 
     allCompletedTasks.forEach((task) => {
-      const taskText = task.querySelector(".taskText").textContent;
+      const taskText = task.querySelector(".taskText")?.textContent || "";
+      const timestamp = task.dataset?.created
+        ? parseInt(task.dataset.created)
+        : Date.now(); // 🛡️ Defensive check
+
       tasks.push({
         text: taskText,
         completed: true,
         startDisabled: true,
+        created: timestamp,
       });
     });
 
@@ -335,8 +468,28 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     if (Array.isArray(tasks) && tasks.length > 0) {
+      // ✅ Add timestamps to tasks that don’t have one
+      tasks.forEach((task, index) => {
+        if (!task.created) {
+          // Spread out timestamps to preserve visual order
+          task.created = Date.now() - (tasks.length - index) * 1000;
+        }
+      });
+
+      // ✅ Sort tasks by most recently created first
+      tasks.sort((a, b) => b.created - a.created);
+
+      // ✅ Optional: Save updated timestamps back to storage
+      localStorage.setItem("tasks", JSON.stringify(tasks));
+
+      // ✅ Render tasks
       tasks.forEach((task) => {
-        const listItem = createTaskListItem(task.text, task.date, false);
+        const listItem = createTaskListItem(
+          task.text,
+          task.date,
+          false,
+          task.created
+        );
         const taskCheckbox = listItem.querySelector(".taskCheckbox");
         const taskTextSpan = listItem.querySelector(".taskText");
         const startButton = listItem.querySelector(".startTask");
@@ -356,6 +509,7 @@ document.addEventListener("DOMContentLoaded", function () {
           startButton.classList.add("disabled");
         }
       });
+
       clearBtn.style.display = "block";
       updateCompletedVisibility();
     } else {

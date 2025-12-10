@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // DAILY DEFAULT TASKS (FULLY PATCHED + SAFE)
   // -------------------------------------------------------------
 
-  // Editable default task labels
+  // Default task labels
   const DEFAULT_TASKS = [
     "Take Vitamins and Drink Water",
     "Morning workout / Stretching",

@@ -53,11 +53,12 @@ document.addEventListener("DOMContentLoaded", function () {
   // Default task labels
   const DEFAULT_TASKS = [
     "Take Vitamins and Drink Water",
-    "Morning workout / Stretching",
+    "Connect with Friends, Colleagues or Family",
     "Play brain games / Puzzles",
     "Get Sunlight Exposure",
-    "Create or Edit Content",
+    "Create, Edit, or Post Content",
     "Plan The Day's Tasks",
+    "Work on Digital Nigeria Goals"
   ];
 
   // --- Validate & repair dates loaded from storage ---

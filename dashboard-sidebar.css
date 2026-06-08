@@ -1,0 +1,330 @@
+/* =============================================================================
+   dashboard-sidebar.css
+   Collapsible left-side dashboard panel for the Time Tracker app.
+   Import this stylesheet alongside your existing CSS.
+   ============================================================================= */
+ 
+/* ── Variables ────────────────────────────────────────────────────────────── */
+:root {
+  --ws-sidebar-width: 270px;
+  --ws-toggle-width: 40px;
+ 
+  /* Panel colors – adapts to light / dark contexts */
+  --ws-panel-bg:        #ffffff;
+  --ws-panel-border:    #e5e7eb;
+  --ws-panel-shadow:    0 8px 32px rgba(0, 0, 0, 0.10), 0 2px 8px rgba(0, 0, 0, 0.06);
+ 
+  --ws-toggle-bg:       #1e293b;
+  --ws-toggle-color:    #f8fafc;
+  --ws-toggle-hover-bg: #334155;
+  --ws-toggle-radius:   0 10px 10px 0;
+ 
+  --ws-header-bg:       #1e293b;
+  --ws-header-color:    #f8fafc;
+ 
+  --ws-text-primary:    #0f172a;
+  --ws-text-muted:      #64748b;
+  --ws-text-label:      #94a3b8;
+ 
+  --ws-card-bg:         #f8fafc;
+  --ws-card-radius:     10px;
+  --ws-card-border:     #e2e8f0;
+ 
+  /* Progress bar accent colors */
+  --ws-fill-week:       #3b82f6;   /* blue */
+  --ws-fill-month:      #10b981;   /* emerald */
+  --ws-fill-year:       #8b5cf6;   /* violet */
+ 
+  --ws-divider:         #e2e8f0;
+ 
+  /* Transitions */
+  --ws-ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --ws-duration: 280ms;
+ 
+  /* Z-index layering */
+  --ws-z-sidebar: 1000;
+}
+ 
+/* Dark-mode overrides (matches prefers-color-scheme) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ws-panel-bg:      #0f172a;
+    --ws-panel-border:  #1e293b;
+    --ws-panel-shadow:  0 8px 32px rgba(0, 0, 0, 0.50);
+ 
+    --ws-toggle-bg:     #1e293b;
+    --ws-toggle-hover-bg: #334155;
+ 
+    --ws-header-bg:     #0f172a;
+ 
+    --ws-text-primary:  #f1f5f9;
+    --ws-text-muted:    #94a3b8;
+    --ws-text-label:    #64748b;
+ 
+    --ws-card-bg:       #1e293b;
+    --ws-card-border:   #334155;
+ 
+    --ws-divider:       #1e293b;
+  }
+}
+ 
+/* ── Sidebar host element ─────────────────────────────────────────────────── */
+#ws-dashboard-sidebar {
+  position: fixed;
+  top: 50%;
+  left: -50px; /* Start mostly off-screen, with just the toggle tab peeking out */
+  transform: translateY(-50%);
+  z-index: var(--ws-z-sidebar);
+  display: flex;
+  align-items: stretch;
+  background: transparent;
+  /* No width set — only the toggle tab is visible by default */
+}
+ 
+/* ── Toggle tab (always visible) ─────────────────────────────────────────── */
+.ws-sidebar-toggle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+ 
+  width: 30px;
+  padding: 14px 0;
+ 
+  background: var(--ws-toggle-bg);
+  color: var(--ws-toggle-color);
+  border: none;
+  border-radius: var(--ws-toggle-radius);
+  cursor: pointer;
+ 
+  transition:
+    background var(--ws-duration) var(--ws-ease),
+    box-shadow var(--ws-duration) var(--ws-ease);
+ 
+  box-shadow: 2px 0 12px rgba(0,0,0,0.15);
+  z-index: calc(var(--ws-z-sidebar) + 1);
+ 
+  /* Prevent text selection on rapid clicks */
+  user-select: none;
+  -webkit-user-select: none;
+}
+ 
+.ws-sidebar-toggle:hover {
+  background: var(--ws-toggle-hover-bg);
+  box-shadow: 3px 0 16px rgba(0,0,0,0.22);
+}
+ 
+.ws-sidebar-toggle:focus-visible {
+  outline: 2px solid var(--ws-fill-week);
+  outline-offset: 2px;
+}
+ 
+.ws-toggle-label {
+  font-family: 'DM Sans', 'Nunito', system-ui, sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  writing-mode: vertical-lr;
+  transform: rotate(180deg);
+  opacity: 0.85;
+  line-height: 1;
+}
+ 
+/* ── Slide-out panel ──────────────────────────────────────────────────────── */
+.ws-sidebar-panel {
+  position: absolute;
+  left: 70px;
+  top: 50%;
+  transform: translateY(-50%) translateX(-8px);
+  width: var(--ws-sidebar-width);
+ 
+  background: var(--ws-panel-bg);
+  border: 1px solid var(--ws-panel-border);
+  border-left: none;
+  border-radius: 0 14px 14px 0;
+  box-shadow: var(--ws-panel-shadow);
+ 
+  /* Hidden by default */
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+  transition:
+    opacity var(--ws-duration) var(--ws-ease),
+    transform var(--ws-duration) var(--ws-ease),
+    visibility 0ms var(--ws-duration);
+ 
+  overflow: hidden;
+}
+ 
+/* Open state */
+#ws-dashboard-sidebar.ws-sidebar--open .ws-sidebar-panel {
+  opacity: 1;
+  pointer-events: auto;
+  visibility: visible;
+  transform: translateY(-50%) translateX(0);
+  transition:
+    opacity var(--ws-duration) var(--ws-ease),
+    transform var(--ws-duration) var(--ws-ease),
+    visibility 0ms 0ms;
+}
+ 
+/* ── Panel header ─────────────────────────────────────────────────────────── */
+.ws-sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  background: var(--ws-header-bg);
+  color: var(--ws-header-color);
+}
+ 
+.ws-sidebar-title {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-family: 'DM Sans', 'Nunito', system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  opacity: 0.9;
+}
+ 
+.ws-sidebar-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  background: rgba(255,255,255,0.1);
+  border: none;
+  border-radius: 6px;
+  color: var(--ws-header-color);
+  cursor: pointer;
+  transition: background var(--ws-duration) var(--ws-ease);
+}
+ 
+.ws-sidebar-close:hover {
+  background: rgba(255,255,255,0.2);
+}
+ 
+.ws-sidebar-close:focus-visible {
+  outline: 2px solid var(--ws-fill-week);
+  outline-offset: 2px;
+}
+ 
+/* ── Panel body ───────────────────────────────────────────────────────────── */
+.ws-sidebar-content {
+  padding: 16px;
+}
+ 
+.ws-sidebar-subtitle {
+  font-family: 'DM Sans', 'Nunito', system-ui, sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ws-text-label);
+  margin: 0 0 12px;
+}
+ 
+/* ── Stat cards ───────────────────────────────────────────────────────────── */
+.ws-stat-card {
+  background: var(--ws-card-bg);
+  border: 1px solid var(--ws-card-border);
+  border-radius: var(--ws-card-radius);
+  padding: 12px 14px;
+  margin-bottom: 10px;
+}
+ 
+.ws-stat-card:last-of-type {
+  margin-bottom: 0;
+}
+ 
+.ws-stat-meta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 9px;
+}
+ 
+.ws-stat-period {
+  font-family: 'DM Sans', 'Nunito', system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ws-text-muted);
+  letter-spacing: 0.01em;
+}
+ 
+.ws-stat-value {
+  font-family: 'DM Mono', 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ws-text-primary);
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+ 
+/* ── Progress bars ────────────────────────────────────────────────────────── */
+.ws-progress-track {
+  height: 5px;
+  background: var(--ws-card-border);
+  border-radius: 99px;
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+ 
+.ws-progress-fill {
+  height: 100%;
+  border-radius: 99px;
+  transition: width 600ms var(--ws-ease);
+}
+ 
+.ws-fill--week  { background: var(--ws-fill-week);  }
+.ws-fill--month { background: var(--ws-fill-month); }
+.ws-fill--year  { background: var(--ws-fill-year);  }
+ 
+.ws-progress-label {
+  font-family: 'DM Sans', 'Nunito', system-ui, sans-serif;
+  font-size: 10px;
+  color: var(--ws-text-label);
+  letter-spacing: 0.02em;
+}
+ 
+/* ── Divider and note ─────────────────────────────────────────────────────── */
+.ws-divider {
+  border: none;
+  border-top: 1px solid var(--ws-divider);
+  margin: 14px 0 10px;
+}
+ 
+.ws-sidebar-note {
+  font-family: 'DM Sans', 'Nunito', system-ui, sans-serif;
+  font-size: 10px;
+  color: var(--ws-text-label);
+  line-height: 1.5;
+  margin: 0;
+  letter-spacing: 0.01em;
+}
+ 
+/* ── Nudge body content right when sidebar is open ───────────────────────── */
+/* Optional: uncomment if your layout supports it and you want content to shift */
+/*
+body {
+  transition: padding-left var(--ws-duration) var(--ws-ease);
+}
+body.ws-sidebar-pushed {
+  padding-left: calc(var(--ws-toggle-width) + var(--ws-sidebar-width) + 12px);
+}
+*/
+ 
+/* ── Accessibility: motion-safe guard ────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .ws-sidebar-panel,
+  .ws-progress-fill,
+  .ws-sidebar-toggle {
+    transition: none;
+  }
+}
